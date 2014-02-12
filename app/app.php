@@ -5,31 +5,21 @@ if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }
 
-if (!defined('SILEX_ENV')) {
-    define('SILEX_ENV', 'dev');
+if (!defined('UMASK')) {
+    define('UMASK', 0002);
 }
 
-if (!defined('SILEX_DEBUG')) {
-    define('SILEX_DEBUG', false);
-}
+require_once __DIR__.DS.'..'.DS.'vendor'.DS.'autoload.php';
 
-require_once __DIR__.DS.'bootstrap.php';
-
-$app = createDefaultSilexApp(__DIR__, SILEX_ENV, SILEX_DEBUG);
-
-/*
- * add custom service providers
+/**
+ * @var \Silex\Application Silex application
  */
+$app = require_once __DIR__.DS.'bootstrap_app.php';
 
-/*
- * mount or define custom controllers
- */
+// customize or add silex providers
 
-$app->mount('/', new \Spyrit\Datalea\Controller\MainControllerProvider());
+// mount application controllers 
+require __DIR__.DS.'controllers.php';
 
-/*
- * run silex application
- */
+//run silex application
 $app->run();
-
-//var_dump($app);

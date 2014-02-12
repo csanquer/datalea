@@ -1,59 +1,74 @@
 {
-    "name": "spyrit/datalea",
-    "description": "Spyrit Datalea Random Test Data Generator",
-    "keywords": ["data", "generator", "random"],
+    "name": "csanquer/fakery-generator",
+    "description": "Random Test Fixtures Data Generator",
+    "keywords": ["data", "generator", "random", "test", "fixtures", "faker"],
     "authors": [
         {
             "name": "Charles Sanquer",
-            "email": "charles.sanquer@gmail.com",
-            "role": "developer"
-        },
-        {
-            "name": "Maxime Corson",
-            "email": "maxime.corson@spyrit.net",
-            "role": "developer"
+            "email": "charles.sanquer@gmail.com"
         }
     ],
+    "repositories": [
+    ],
     "license": "GPL-3.0+",
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "require": {
         "php": ">=5.3.3",
         "ext-mbstring": "*",
         "ext-SimpleXML": "*",
         "silex/silex": "~1.1",
         "silex/web-profiler": "~1.0",
-        "symfony/web-profiler-bundle": "~2.3",
-        "twig/twig": "~1.13",
-        "twig/extensions": "~1.0",
-        "symfony/twig-bridge": "~2.3",
-        "symfony/form": "~2.3",
-        "symfony/validator": "~2.3",
-        "symfony/finder": "~2.3",
-        "symfony/filesystem": "~2.3",
-        "symfony/translation": "~2.3",
-        "symfony/locale": "~2.3",
+        "swiftmailer/swiftmailer": "~5.0",
         "symfony/browser-kit": "~2.3",
         "symfony/class-loader": "~2.3",
-        "symfony/css-selector": "~2.3",
-        "symfony/console": "~2.3",
         "symfony/config": "~2.3",
-        "symfony/yaml": "~2.3",
+        "symfony/console": "~2.3",
+        "symfony/css-selector": "~2.3",
+        "symfony/finder": "~2.3",
+        "symfony/filesystem": "~2.3",
+        "symfony/form": "~2.3",
+        "symfony/monolog-bridge": "~2.3",
         "symfony/process": "~2.3",
         "symfony/security": "~2.3",
-        "symfony/monolog-bridge": "~2.3",
-        "spyrit/silex-utils": "dev-master",
-        "fzaninotto/faker": "~1.1",
-        "spyrit/light-csv": "~0.1",
+        "symfony/locale": "~2.3",
+        "symfony/translation": "~2.3",
+        "symfony/twig-bridge": "~2.3",
+        "twig/extensions": "dev-master",
+        "symfony/validator": "~2.3",
+        "symfony/security": "~2.3",
+        "symfony/yaml": "~2.3",
+        "mheap/Silex-Assetic": "*",
+        "incenteev/composer-parameter-handler": "~2.1",
+        "leafo/lessphp": "~0.4",
+        "natxet/CssMin": "dev-master",
+        "mrclay/minify": "~2.1",
+        "chh/cache-service-provider": "~1.0",
+        "herrera-io/silex-wise": "~2.2",
+        "herrera-io/json": "~1.0",
+        "csanquer/silex-tools": "~0.2",
+        "csanquer/pdo-service-provider": "~0.1",
+        "fzaninotto/faker": "~1.3",
+        "csanquer/colibri-csv": "~1.0",
         "CodePlex/PHPExcel": "~1.7"
     },
-    "suggest": {
-        "php": ">=5.4.0"
-    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
-        "psr-0": {"": "src/"}
+        "psr-0": { "": "src/" }
     },
     "config": {
         "bin-dir": "bin"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
+        ],
+        "post-update-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
+        ]
+    },
+    "extra": {
+        "incenteev-parameters": {
+            "file": "app/config/parameters.yml"
+        }
     }
 }

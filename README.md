@@ -1,5 +1,5 @@
-Datalea - a Random Test Data Generator
-======================================
+Fakery Generator - a Random Test Fixtures Data Generator
+========================================================
 
 Install
 -------
@@ -7,7 +7,7 @@ Install
 * copy config sample file and edit the copy with your environment values
 
 ```bash
-cp app/config/config.php.dist app/config/config.php
+cp app/config/parameters.yml.dist app/config/parameters.yml
 ```
 
 * get composer http://getcomposer.org/ and install dependencies
@@ -36,21 +36,22 @@ Licensing
 License GPL 3
 
 * Copyright (C) 2012-2013 Spyrit Systeme
+* Copyright (C) 2014      Charles Sanquer <charles.sanquer@gmail.com>
 
-This file is part of Datalea.
+This file is part of Fakery Generator.
 
-Datalea is free software: you can redistribute it and/or modify
+Fakery Generator is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-Datalea is distributed in the hope that it will be useful,
+Fakery Generator is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with Datalea.  If not, see <http://www.gnu.org/licenses/>.
+along with Fakery Generator.  If not, see <http://www.gnu.org/licenses/>.
 
 FAMFAMFAM flags icons
 ---------------------

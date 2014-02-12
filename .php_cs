@@ -7,14 +7,6 @@ $finder = Symfony\CS\Finder\DefaultFinder::create()
       'model/map',
       'vendor',
       'web/images',
-      'Symfony/Tests/Component/ClassLoader/ClassCollectionLoaderTest.php',
-      'Symfony/Tests/Component/DependencyInjection/Fixtures/containers/container9.php',
-      'Symfony/Tests/Component/DependencyInjection/Fixtures/includes/foo.php',
-      'Symfony/Tests/Component/DependencyInjection/Fixtures/php/services9.php',
-      'Symfony/Tests/Component/DependencyInjection/Fixtures/yaml/services9.yml',
-      'Symfony/Tests/Component/Routing/Fixtures/dumper/url_matcher1.php',
-      'Symfony/Tests/Component/Routing/Fixtures/dumper/url_matcher2.php',
-      'Symfony/Tests/Component/Yaml/Fixtures/sfTests.yml',
     ))
     ->notName('/.*\.(ico|gif|png|jpeg|jpg|bmp|zip|gz|tar|7z|tiff|log|phar|jar)/')
     ->in(array(

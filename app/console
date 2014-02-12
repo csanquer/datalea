@@ -1,49 +1,33 @@
 #!/usr/bin/env php
 <?php
 
+// get environment constants or set default
 if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }
 
-if (!defined('SILEX_ENV')) {
-    define('SILEX_ENV', 'dev');
+if (!defined('UMASK')) {
+    define('UMASK', 0002);
 }
 
-if (!defined('SILEX_DEBUG')) {
-    define('SILEX_DEBUG', false);
-}
+set_time_limit(0);
 
-require_once __DIR__.DS.'bootstrap.php';
+require_once __DIR__.DS.'..'.DS.'vendor'.DS.'autoload.php';
 
-$app = createDefaultSilexApp(__DIR__, SILEX_ENV, SILEX_DEBUG);
+use Symfony\Component\Console\Input\ArgvInput;
 
-use Spyrit\Silex\Utils\Command\CacheClearCommand;
-use Symfony\Component\Console\Application as BaseApplication;
+$input = new ArgvInput();
+define('SILEX_ENV', $input->getParameterOption(array('--env', '-e'), getenv('SYMFONY_ENV') ?: 'dev'));
+define('SILEX_DEBUG', !$input->hasParameterOption(array('--no-debug')));
 
-class Application extends BaseApplication
-{
-    const NAME = 'Silex Console Tool';
-    const VERSION = '0.1';
+/**
+ * @var \Silex\Application Silex application
+ */
+$app = require_once __DIR__.DS.'bootstrap_app.php';
+$app->boot();
 
-    protected $projectDir;
-
-    public function __construct()
-    {
-        parent::__construct(static::NAME, static::VERSION);
-        $this->add(new CacheClearCommand());
-        $this->projectDir = realpath(__DIR__.DS.'..');
-    }
-
-    public function getProjectDir()
-    {
-        return $this->projectDir;
-    }
-
-    public function getBinDir()
-    {
-        return $this->projectDir.DS.'bin';
-    }
-}
-
-$console = new Application();
+/**
+ * @var \Symfony\Component\Console\Application Console application
+ */
+$console = require __DIR__.DS.'bootstrap_console.php';
 $console->run();
