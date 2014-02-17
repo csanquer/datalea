@@ -1,0 +1,398 @@
+faker: 
+    cultures:
+        - bg_BG
+        - cs_CZ
+        - da_DK
+        - de_AT
+        - de_DE
+        - el_GR
+        - en_AU
+        - en_CA
+        - en_GB
+        - en_PH
+        - en_US
+        - en_ZA
+        - es_AR
+        - es_ES
+        - es_PE
+        - fi_FI
+        - fr_BE
+        - fr_FR
+        - hy_AM
+        - is_IS
+        - it_IT
+        - ja_JP
+        - lv_LV
+        - nl_BE
+        - nl_NL
+        - pl_PL
+        - pt_BR
+        - ro_MD
+        - ro_RO
+        - ru_RU
+        - sk_SK
+        - sr_Cyrl_RS
+        - sr_Latn_RS
+        - sr_RS
+        - tr_TR
+        - uk_UA
+        - zh_CN
+        
+    providers:
+        fr_FR:
+            Address:
+                departmentName:
+                    example: '''Haut-Rhin'''
+                departmentNumber:
+                    example: '''2B'''
+                department:
+                    example: 'array(''18'' => ''Cher'')'
+                region:
+                    example: '''Saint-Pierre-et-Miquelon'''
+            Company    :
+                siren:
+                    example: '''082 250 104'''
+                siret:
+                    arguments:
+                        sequential_digits: 2
+                    example: '''347 355 708 00224\'''', ''\''438 472 611 01513'''
+                
+        da_DK:
+            Person:
+                cpr:
+                    example: '''051280-2387'''
+                
+            Address:
+                region:
+                    example: '''Region Sjælland'''
+                kommune:
+                    example: '''Frederiksberg'''
+                    
+            Company:
+                cvr:
+                    example: '''32458723'''
+                p:
+                    example: '''5398237590'''
+                    
+        pl_PL:
+            Person:
+                pesel:
+                    example: '''40061451555'''
+                personalIdentityNumber:
+                    example: '''AKX383360'''
+                taxpayerIdentificationNumber:
+                    example: '''8211575109'''
+            Company:
+                regon:
+                    example: '''714676680'''
+                regonLocal:
+                    example: '''15346111382836'''
+            Payment:
+                bank:
+                    example: '''Narodowy Bank Polski'''
+                bankAccountNumber:
+                    example: '''PL14968907563953822118075816'''
+                    
+        ja_JP:
+            Person:
+                kanaName:
+                    example: '''アオタ ナオコ'''
+                firstKanaName:
+                    example: '''トモミ'''
+                lastKanaName:
+                    example: '''ナギサ'''
+        ro_RO:
+            Person:
+                prefixMale:
+                    example: '''ing.'''
+                prefixFemale:
+                    example: '''d-na.'''
+                firstNameMale:
+                    example: '''Adrian'''
+                firstNameFemale:
+                    example: '''Miruna'''
+                cnp:
+                    arguments:
+                        gender: ~
+                        century: ~
+                        county: ~
+                    example: '''2800523081231'''
+            PhoneNumber:
+                tollFreePhoneNumber:
+                    example: '''0800123456'''
+                premiumRatePhoneNumber:
+                    example: '''0900123456'''
+        
+        en_US:
+            Person:
+                prefix:
+                    example: '''Ms.'''
+                suffix:
+                    example: '''Jr.'''
+                name:
+                    example: '''Dr. Zane Stroman'''
+                firstName:
+                    example: '''Maynard'''
+                lastName:
+                    example: '''Zulauf'''
+            Address:
+                cityPrefix:
+                    example: '''Lake'''
+                secondaryAddress:
+                    example: '''Suite 961'''
+                state:
+                    example: '''NewMexico'''
+                stateAbbr:
+                    example: '''OH'''
+                citySuffix:
+                    example: '''borough'''
+                streetSuffix:
+                    example: '''Keys'''
+                buildingNumber:
+                    example: '''484'''
+                city:
+                    example: '''West Judge'''
+                streetName:
+                    example: '''Keegan Trail'''
+                streetAddress:
+                    example: '''439 Karley Loaf Suite 897'''
+                postcode:
+                    example: '''17916'''
+                address:
+                    example: '''8888 Cummings Vista Apt. 101, Susanbury, NY 95473'''
+                country:
+                    example: '''Falkland Islands (Malvinas)'''
+                latitude:
+                    example: '''77.147489'''
+                longitude:
+                    example: '''86.211205'''
+            PhoneNumber:
+                phoneNumber:
+                    example: '''132-149-0269x3767'''
+            Company:
+                catchPhrase:
+                    example: '''Monitored regional contingency'''
+                bs:
+                    example: '''e-enable robust architectures'''
+                company:
+                    example: '''Bogan-Treutel'''
+                companySuffix:
+                    example: '''and Sons'''
+            Payment:
+                creditCardType:
+                    example: '''MasterCard'''
+                creditCardNumber:        
+                    example: '''4485480221084675'''
+                creditCardExpirationDate: 
+                    example: 04/13
+                creditCardExpirationDateString: 
+                    example: '''04/13'''
+                creditCardDetails:
+                    example: 'array(''MasterCard'', ''4485480221084675'', ''Aleksander Nowak'', ''04/13'')'
+            Lorem:
+                word:
+                    example: '''aut'''
+                words:
+                    arguments:
+                        nb: 3
+                    example: '"porro\nsed\nmagni"'
+                sentence:
+                    arguments:
+                        nbWords: 6
+                    example: '''Sit vitae voluptas sint non voluptates.'''
+                sentences:
+                    arguments:
+                        nb: 3
+                    example: '"Optio quos qui illo error.\nLaborum vero a officia id corporis.\nSaepe provident esse hic eligendi."'
+                paragraph:
+                    arguments:
+                        nbSentences: 3
+                    example: '''Ut ab voluptas sed a nam. Sint autem inventore aut officia aut aut blanditiis. Ducimus eos odit amet et est ut eum.'''
+                paragraphs:
+                    arguments:
+                        nb: 3
+                    example: '"Quidem ut sunt et quidem est accusamus aut. Fuga est placeat rerum ut. Enim ex eveniet facere sunt.\nAut nam et eum architecto fugit repellendus illo. Qui ex esse veritatis.\nPossimus omnis aut incidunt sunt. Asperiores incidunt iure sequi cum culpa rem. Rerum exercitationem est rem."'
+                text:
+                    arguments:
+                        maxNbChars: 200
+                    example: '''Fuga totam reiciendis qui architecto fugiat nemo. Consequatur recusandae qui cupiditate eos quod.'''
+            Internet:
+                email:
+                    example: '''tkshlerin@collins.com'''
+                safeEmail:
+                    example: '''king.alford@example.org'''
+                freeEmail:
+                    example: '''bradley72@gmail.com'''
+                companyEmail:
+                    example: '''russel.durward@mcdermott.org'''
+                freeEmailDomain:
+                    example: '''yahoo.com'''
+                safeEmailDomain:
+                    example: '''example.org'''
+                userName:
+                    example: '''wade55'''
+                domainName:
+                    example: '''wolffdeckow.net'''
+                domainWord:
+                    example: '''feeney'''
+                tld:
+                    example: '''biz'''
+                url:
+                    example: '''http://www.strackeframi.com/'''
+                ipv4:
+                    example: '''109.133.32.252'''
+                ipv6:
+                    example: '''8e65:933d:22ee:a232:f1c1:2741:1f10:117c'''
+            DateTime:
+                unixTime:
+                    example: 58781813
+                dateTime:
+                    arguments:
+                        format: '''Y-m-d H:i:s'''
+                    example: '''2008-04-25 08:37:17'''
+                dateTimeAD:
+                    arguments:
+                        format: '''Y-m-d H:i:s'''
+                    example: '''1800-04-29 20:38:49'''
+                iso8601:
+                    example: '''1978-12-09T10:10:29+0000'''
+                prefix:
+                    arguments:
+                        format: '''H:i:s'''
+                    example: '''20:49:42'''
+                dateTimeBetween:
+                    arguments:
+                        startDate: '''-30 years'''
+                        endDate: '''now'''
+                        format: '''Y-m-d H:i:s'''
+                    example: '''2003-03-15 02:00:49'''
+                dateTimeThisCentury:
+                    arguments:
+                        format: '''Y-m-d H:i:s'''
+                    example: '''1915-05-30 19:28:21'''
+                dateTimeThisDecade:
+                    arguments:
+                        format: '''Y-m-d H:i:s'''
+                    example: '''2007-05-29 22:30:48'''
+                dateTimeThisYear:
+                    arguments:
+                        format: '''Y-m-d H:i:s'''
+                    example: '''2011-02-27 20:52:14'''
+                dateTimeThisMonth:
+                    arguments:
+                        format: '''Y-m-d H:i:s'''
+                    example: '''2011-10-23 13:46:23'''
+                amPm:
+                    example: '''pm'''
+                dayOfMonth:
+                    example: '''04'''
+                dayOfWeek:
+                    example: '''Friday'''
+                month:
+                    example: '''06'''
+                monthName:
+                    example: '''January'''
+                year:
+                    example: '''1993'''
+                century:
+                    example: '''VI'''
+                timezone:
+                    example: '''Europe/Paris'''
+            Miscellaneous:
+                boolean:
+                    arguments:
+                        chanceOfGettingTrue: 50
+                    example: 'true'
+                md5:
+                    example: '''de99a620c50f2990e87144735cd357e7'''
+                sha1:
+                    example: '''f08e7f04ca1a413807ebc47551a40a20a0b4de5c'''
+                sha256:
+                    example: '''0061e4c60dac5c1d82db0135a42e00c89ae3a333e7c26485321f24348c7e98a5'''
+                locale:
+                    example: en_UK
+                countryCode:
+                    example: UK
+                languageCode:
+                    example: en
+            Base:
+                randomDigit:
+                    example: 7
+                randomDigitNotNull:
+                    example: 5
+                randomNumber:
+                    arguments:
+                        nbDigits: 'NULL'
+                    example: 79907610
+                randomFloat:
+                    arguments:
+                        nbMaxDecimals: 'NULL'
+                        min: '0'
+                        max: 'NULL'
+                    example: 48.8932
+                randomLetter:
+                    example: b
+                numerify:
+                    arguments:
+                        string: '''###'''
+                    example: '609'
+                lexify:
+                    arguments:
+                        string: '''???'''
+                    example: 'wgts'
+                bothify:
+                    arguments:
+                        string: '''## ??'''
+                    example: '42 jz'
+            UserAgent:
+                userAgent:
+                    example: 'Mozilla/5.0 (Windows CE) AppleWebKit/5350 (KHTML, like Gecko) Chrome/13.0.888.0 Safari/5350'
+                chrome:
+                    example: 'Mozilla/5.0 (Macintosh; PPC Mac OS X 10_6_5) AppleWebKit/5312 (KHTML, like Gecko) Chrome/14.0.894.0 Safari/5312'
+                firefox:
+                    example: 'Mozilla/5.0 (X11; Linuxi686; rv:7.0) Gecko/20101231 Firefox/3.6'
+                safari:
+                    example: 'Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_7_1 rv:3.0; en-US) AppleWebKit/534.11.3 (KHTML, like Gecko) Version/4.0 Safari/534.11.3'
+                opera:
+                    example: 'Opera/8.25 (Windows NT 5.1; en-US) Presto/2.9.188 Version/10.00'
+                internetExplorer:
+                    example: 'Mozilla/5.0 (compatible; MSIE 7.0; Windows 98; Win 9x 4.90; Trident/3.0)'
+            Uuid:
+                uuid:
+                    example: '''7e57d004-2b97-0e7a-b45f-5387367791cd'''
+            File:
+                fileExtension:
+                    example: '''avi'''
+                mimeType:
+                    example: '''video/x-msvideo'''
+            Color:
+                hexcolor:          
+                    example: '''#fa3cc2'''
+                rgbcolor:
+                    example: '''0,255,122'''
+                rgbColorAsArray:
+                    example: array(0,255,122)
+                rgbCssColor:
+                    example: '''rgb(0,255,122)'''
+                safeColorName:
+                    example: '''fuchsia'''
+                colorName:
+                    example: '''Gainsbor'''
+                    
+            Image:
+                image:
+                    arguments:
+                        dir:
+                        width: 640
+                        height: 480
+                        # One of 'abstract','animals','business','cats','city','food','nightlife','fashion','people','nature','sports','technics', and 'transport'
+                        category: ~
+                            
+                    example: '''/path/to/dir/13b73edae8443990be1aa8f1a483bc27.jpg'''
+                imageUrl:
+                    arguments:
+                        width: 640
+                        height: 480
+                        # One of 'abstract','animals','business','cats','city','food','nightlife','fashion','people','nature','sports','technics', and 'transport'
+                        category: ~
+                    example: '''http://lorempixel.com/640/480/abstract'''

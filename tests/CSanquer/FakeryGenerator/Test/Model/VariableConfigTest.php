@@ -55,27 +55,16 @@ class VariableConfigTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array('firstname', 'firstname'),
-            array('firstname%;', 'firstname'),
+            array('^$fi;:rstname%;', 'firstname'),
         );
     }
     
     /**
      * @covers CSanquer\FakeryGenerator\Model\VariableConfig::getMethod
+     * @covers CSanquer\FakeryGenerator\Model\VariableConfig::setMethod
      * @todo   Implement testGetMethod().
      */
-    public function testGetMethod()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers CSanquer\FakeryGenerator\Model\VariableConfig::setMethod
-     * @todo   Implement testSetMethod().
-     */
-    public function testSetMethod()
+    public function testGetSetMethod()
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -85,6 +74,8 @@ class VariableConfigTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers CSanquer\FakeryGenerator\Model\VariableConfig::getMethodArguments
+     * @covers CSanquer\FakeryGenerator\Model\VariableConfig::setMethodArguments
+     * @covers CSanquer\FakeryGenerator\Model\VariableConfig::hasMethodArguments
      * @todo   Implement testGetMethodArguments().
      */
     public function testGetMethodArguments()
@@ -96,31 +87,11 @@ class VariableConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers CSanquer\FakeryGenerator\Model\VariableConfig::hasMethodArguments
-     * @todo   Implement testHasMethodArguments().
-     */
-    public function testHasMethodArguments()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers CSanquer\FakeryGenerator\Model\VariableConfig::setMethodArguments
-     * @todo   Implement testSetMethodArguments().
-     */
-    public function testSetMethodArguments()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
-    }
-
-    /**
      * @covers CSanquer\FakeryGenerator\Model\VariableConfig::getMethodArgument
+     * @covers CSanquer\FakeryGenerator\Model\VariableConfig::hasMethodArgument
+     * @covers CSanquer\FakeryGenerator\Model\VariableConfig::addMethodArgument
+     * @covers CSanquer\FakeryGenerator\Model\VariableConfig::setMethodArgument
+     * 
      * @todo   Implement testGetMethodArgument().
      */
     public function testGetMethodArgument()
@@ -132,58 +103,11 @@ class VariableConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers CSanquer\FakeryGenerator\Model\VariableConfig::hasMethodArgument
-     * @todo   Implement testHasMethodArgument().
-     */
-    public function testHasMethodArgument()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers CSanquer\FakeryGenerator\Model\VariableConfig::addMethodArgument
-     * @todo   Implement testAddMethodArgument().
-     */
-    public function testAddMethodArgument()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers CSanquer\FakeryGenerator\Model\VariableConfig::setMethodArgument
-     * @todo   Implement testSetMethodArgument().
-     */
-    public function testSetMethodArgument()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
-    }
-
-    /**
      * @covers CSanquer\FakeryGenerator\Model\VariableConfig::isUnique
+     * @covers CSanquer\FakeryGenerator\Model\VariableConfig::setUnique
      * @todo   Implement testIsUnique().
      */
-    public function testIsUnique()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers CSanquer\FakeryGenerator\Model\VariableConfig::setUnique
-     * @todo   Implement testSetUnique().
-     */
-    public function testSetUnique()
+    public function testIsSetUnique()
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(

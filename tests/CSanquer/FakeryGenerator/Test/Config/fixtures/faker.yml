@@ -1,0 +1,31 @@
+faker: 
+    cultures:
+        - en_US
+        - es_ES
+        - fr_FR
+        
+    providers:
+        fr_FR:
+            Address:
+                departmentName:
+                    example: '''Haut-Rhin'''
+                departmentNumber:
+                    example: '''2B'''
+        
+        en_US:
+            Person:
+                firstName:
+                    example: '''Maynard'''
+                lastName:
+                    example: '''Zulauf'''
+            Address:
+                buildingNumber:
+                    example: '''484'''
+                city:
+                    example: '''West Judge'''
+                streetName:
+                    example: '''Keegan Trail'''
+                postcode:
+                    example: '''17916'''
+                country:
+                    example: '''Falkland Islands (Malvinas)'''

@@ -14,7 +14,7 @@
     bootstrap                   = "./tests/bootstrap.php" >
 
     <testsuites>
-        <testsuite name="My silex project test suite">
+        <testsuite name="Fakery Generator test suite">
             <directory suffix="Test.php">./tests</directory>
         </testsuite>
     </testsuites>
@@ -29,11 +29,12 @@
         </whitelist>
     </filter>
 
-<!--    <logging>
-        <log type="coverage-text" target="php://stdout" showUncoveredFiles="false"/>
-        <log type="coverage-clover" target="build/logs/clover.xml"/>
-        <log type="coverage-html" target="build/coverage" charset="UTF-8"
+    <logging>
+        <!--<log type="coverage-text" target="php://stdout" showUncoveredFiles="false"/>-->
+        <!--<log type="coverage-clover" target="build/logs/clover.xml"/>-->
+        <!--<log type="junit" target="build/logs/junit.xml" logIncompleteSkipped="false"/>-->
+<!--        <log type="coverage-html" target="build/coverage" charset="UTF-8"
            yui="true" highlight="true"
-           lowUpperBound="35" highLowerBound="70"/>
-    </logging>-->
+           lowUpperBound="35" highLowerBound="70"/>-->
+    </logging>
 </phpunit>
