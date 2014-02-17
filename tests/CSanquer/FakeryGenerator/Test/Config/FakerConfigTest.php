@@ -50,27 +50,39 @@ class FakerConfigTest extends \PHPUnit_Framework_TestCase
                 'fr_FR',
             ),
             'providers' => array(
+                'Address',
+                'Company',
+                'Person',
+            ),
+            'methods' => array(
                 'departmentName' => array(
-                    'name' => '',
-                    'provider' => '',
-                    'culture' => '',
+                    'name' => 'departmentName',
+                    'provider' => 'Address',
+                    'culture' => 'fr_FR',
                     'arguments' => array(),
-                    'example' => '',
+                    'example' => '\'Haut-Rhin\'',
                 ),
                 'departmentNumber' => array(
-                    'name' => '',
-                    'provider' => '',
-                    'culture' => '',
+                    'name' => 'departmentNumber',
+                    'provider' => 'Address',
+                    'culture' => 'fr_FR',
                     'arguments' => array(),
-                    'example' => '',
+                    'example' => '\'2B\'',
                     
                 ),
+                'siret' => array(
+                    'name' => 'siret',
+                    'provider' => 'Company',
+                    'culture' => 'fr_FR',
+                    'arguments' => array('sequential_digits' => 2),
+                    'example' => '\'347 355 708 00224\''
+                ),
                 'firstName' => array(
-                    'name' => '',
-                    'provider' => '',
-                    'culture' => '',
+                    'name' => 'firstName',
+                    'provider' => 'Person',
+                    'culture' => 'en_US',
                     'arguments' => array(),
-                    'example' => '',
+                    'example' => '\'Maynard\'',
                 ),
                 'lastName' => array(
                     'name' => 'lastName',
@@ -80,42 +92,143 @@ class FakerConfigTest extends \PHPUnit_Framework_TestCase
                     'example' => '\'Zulauf\'',
                 ),
                 'buildingNumber' => array(
-                    'name' => '',
-                    'provider' => '',
-                    'culture' => '',
+                    'name' => 'buildingNumber',
+                    'provider' => 'Address',
+                    'culture' => 'en_US',
                     'arguments' => array(),
-                    'example' => '',
+                    'example' => '\'484\'',
                 ),
                 'city' => array(
-                    'name' => '',
-                    'provider' => '',
-                    'culture' => '',
+                    'name' => 'city',
+                    'provider' => 'Address',
+                    'culture' => 'en_US',
                     'arguments' => array(),
-                    'example' => '',
+                    'example' => '\'West Judge\'',
                 ),
                 'streetName' => array(
-                    'name' => '',
-                    'provider' => '',
-                    'culture' => '',
+                    'name' => 'streetName',
+                    'provider' => 'Address',
+                    'culture' => 'en_US',
                     'arguments' => array(),
-                    'example' => '',
+                    'example' => '\'Keegan Trail\'',
                 ),
                 'postcode' => array(
-                    'name' => '',
-                    'provider' => '',
-                    'culture' => '',
+                    'name' => 'postcode',
+                    'provider' => 'Address',
+                    'culture' => 'en_US',
                     'arguments' => array(),
-                    'example' => '',
+                    'example' => '\'17916\'',
                 ),
                 'country' => array(
-                    'name' => '',
-                    'provider' => '',
-                    'culture' => '',
+                    'name' => 'country',
+                    'provider' => 'Address',
+                    'culture' => 'en_US',
                     'arguments' => array(),
-                    'example' => '',
+                    'example' => '\'Falkland Islands (Malvinas)\'',
                 ),
             ),
         );
         $this->assertEquals($expected, $this->config->getConfig());
+    }
+    
+    public function testGetAvailableCulture()
+    {
+        $expected = array(
+            'en_US',
+            'es_ES',
+            'fr_FR',
+        );
+        
+        $this->assertEquals($expected, $this->config->getAvailableCultures());
+    }
+    
+    public function testGetAvailableProviders()
+    {
+        $expected = array(
+            'Address',
+                'Company',
+                'Person',
+        );
+        
+        $this->assertEquals($expected, $this->config->getAvailableProviders());
+    }
+    
+    public function testGetAvailableMethods()
+    {
+        $expected = array(
+            'departmentName' => array(
+                'name' => 'departmentName',
+                'provider' => 'Address',
+                'culture' => 'fr_FR',
+                'arguments' => array(),
+                'example' => '\'Haut-Rhin\'',
+            ),
+            'departmentNumber' => array(
+                'name' => 'departmentNumber',
+                'provider' => 'Address',
+                'culture' => 'fr_FR',
+                'arguments' => array(),
+                'example' => '\'2B\'',
+
+            ),
+            'siret' => array(
+                'name' => 'siret',
+                'provider' => 'Company',
+                'culture' => 'fr_FR',
+                'arguments' => array('sequential_digits' => 2),
+                'example' => '\'347 355 708 00224\''
+            ),
+            'firstName' => array(
+                'name' => 'firstName',
+                'provider' => 'Person',
+                'culture' => 'en_US',
+                'arguments' => array(),
+                'example' => '\'Maynard\'',
+            ),
+            'lastName' => array(
+                'name' => 'lastName',
+                'provider' => 'Person',
+                'culture' => 'en_US',
+                'arguments' => array(),
+                'example' => '\'Zulauf\'',
+            ),
+            'buildingNumber' => array(
+                'name' => 'buildingNumber',
+                'provider' => 'Address',
+                'culture' => 'en_US',
+                'arguments' => array(),
+                'example' => '\'484\'',
+            ),
+            'city' => array(
+                'name' => 'city',
+                'provider' => 'Address',
+                'culture' => 'en_US',
+                'arguments' => array(),
+                'example' => '\'West Judge\'',
+            ),
+            'streetName' => array(
+                'name' => 'streetName',
+                'provider' => 'Address',
+                'culture' => 'en_US',
+                'arguments' => array(),
+                'example' => '\'Keegan Trail\'',
+            ),
+            'postcode' => array(
+                'name' => 'postcode',
+                'provider' => 'Address',
+                'culture' => 'en_US',
+                'arguments' => array(),
+                'example' => '\'17916\'',
+            ),
+            'country' => array(
+                'name' => 'country',
+                'provider' => 'Address',
+                'culture' => 'en_US',
+                'arguments' => array(),
+                'example' => '\'Falkland Islands (Malvinas)\'',
+            ),
+        );
+        
+        $this->assertEquals($expected, $this->config->getAvailableMethods());
     }
 }

@@ -49,25 +49,23 @@ faker:
                     example: 'array(''18'' => ''Cher'')'
                 region:
                     example: '''Saint-Pierre-et-Miquelon'''
-            Company    :
+            Company:
                 siren:
                     example: '''082 250 104'''
                 siret:
                     arguments:
                         sequential_digits: 2
-                    example: '''347 355 708 00224\'''', ''\''438 472 611 01513'''
+                    example: '''347 355 708 00224'''
                 
         da_DK:
             Person:
                 cpr:
                     example: '''051280-2387'''
-                
             Address:
                 region:
                     example: '''Region Sjælland'''
                 kommune:
                     example: '''Frederiksberg'''
-                    
             Company:
                 cvr:
                     example: '''32458723'''
@@ -123,6 +121,7 @@ faker:
                 premiumRatePhoneNumber:
                     example: '''0900123456'''
         
+        # Default
         en_US:
             Person:
                 prefix:

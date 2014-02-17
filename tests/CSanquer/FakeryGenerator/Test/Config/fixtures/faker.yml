@@ -11,7 +11,11 @@ faker:
                     example: '''Haut-Rhin'''
                 departmentNumber:
                     example: '''2B'''
-        
+            Company:
+                siret:
+                    arguments:
+                        sequential_digits: 2
+                    example: '''347 355 708 00224'''
         en_US:
             Person:
                 firstName:

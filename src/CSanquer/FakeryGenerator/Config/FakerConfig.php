@@ -61,41 +61,71 @@ PHP;
         }
     }
     
-    public function getConfig()
-    {
-        return $this->config;
-    }
-    
     protected function parseRawConfig(array $rawConfig)
     {
         $parsedConfig = array(
             'cultures' => array(),
             'providers' => array(),
+            'methods' => array(),
         );
         
         if (isset($rawConfig['cultures'])) {
-            $parsedConfig['cultures'] = $rawConfig['cultures'];
+            $parsedConfig['cultures'] = array_unique($rawConfig['cultures']);
+            sort($parsedConfig['cultures']);
         }
         
         if (isset($rawConfig['providers'])) {
-            
             foreach ($rawConfig['providers'] as $culture => $providers) {
                 foreach ($providers as $provider => $methods) {
-                   foreach ($methods as $method => $infos) {
-                        $parsedConfig['providers'][$method] = array(
+                    $parsedConfig['providers'][] = $provider;
+                    foreach ($methods as $method => $infos) {
+                        $parsedConfig['methods'][$method] = array(
                             'name' => $method,
                             'provider' => $provider,
                             'culture' => $culture,
                         );
 
-                        $parsedConfig['providers'][$method]['arguments'] = isset($infos['arguments']) ? $infos['arguments'] : array();
-                        $parsedConfig['providers'][$method]['example'] = isset($infos['example']) ? $infos['example'] : null;
+                        $parsedConfig['methods'][$method]['arguments'] = isset($infos['arguments']) ? $infos['arguments'] : array();
+                        $parsedConfig['methods'][$method]['example'] = isset($infos['example']) ? $infos['example'] : null;
                     }
                 }
             }
+            $parsedConfig['providers'] = array_unique($parsedConfig['providers']);
+            sort($parsedConfig['providers']);
         }
+        
+        
         
         return $parsedConfig;
     }
     
+    public function getConfig()
+    {
+        return $this->config;
+    }
+    
+    public function getAvailableCultures()
+    {
+        return $this->config['cultures'];
+    }
+    
+    public function getAvailableMethods()
+    {
+        return $this->config['methods'];
+    }
+    
+    public function getAvailableProviders()
+    {
+        return $this->config['providers'];
+    }
+    
+    public function getMethod($name) 
+    {
+        return isset($this->config['methods'][$name]) ? $this->config['methods'][$name] : array();
+    }
+    
+    public function getMethods($culture, $provider) 
+    {
+        
+    }
 }
