@@ -7,12 +7,10 @@ use Assetic\Filter\LessphpFilter;
 use Assetic\FilterManager;
 use Herrera\Wise\WiseServiceProvider;
 use Silex\Application;
-use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\FormServiceProvider;
 use Silex\Provider\MonologServiceProvider;
 use Silex\Provider\ServiceControllerServiceProvider;
 use Silex\Provider\SessionServiceProvider;
-use Silex\Provider\SwiftmailerServiceProvider;
 use Silex\Provider\TranslationServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\UrlGeneratorServiceProvider;
@@ -295,64 +293,6 @@ $app['assetic.lazy_asset_manager'] = $app->share(
     })
 );  
     
-/**/
-//add swiftmailer 
-if (!empty($config['swiftmailer.transport'])) {
-    $swiftmailerOptions = array(
-        'host'       => 'localhost',
-        'port'       => 25,
-        'username'   => '',
-        'password'   => '',
-        'encryption' => null,
-        'auth_mode'  => null,
-    );
-    
-    foreach ($swiftmailerOptions as $key => $value) {
-        if (isset($config['swiftmailer.'.$key])) {
-            $swiftmailerOptions[$key] = $config['swiftmailer.'.$key];
-        }
-    }
-    
-    $app->register(new SwiftmailerServiceProvider(), array(
-        'swiftmailer.options' => $swiftmailerOptions,
-    ));
-    // custom swiftmailer transport
-    $swiftTransport = in_array($config['swiftmailer.transport'], array('mail', 'sendmail', 'smtp')) ? $config['swiftmailer.transport'] : 'smtp';
-    switch ($swiftTransport) {
-        case 'mail':
-            $app['swiftmailer.transport'] = new \Swift_MailTransport();
-            break;
-        case 'sendmail':
-            $app['swiftmailer.transport'] = new \Swift_SendmailTransport();
-            break;
-        case 'smtp':
-        default:
-            break;
-    }
-}
-
-//Database Doctrine DBAL Connection
-if (!empty($config['doctrine.driver'])) {
-    $doctrineOptions = array(
-        'driver' => '',
-        'host' => '',
-        'port' => null,
-        'dbname' => '',
-        'user' => '',
-        'password' => null,
-    );
-    
-    foreach ($doctrineOptions as $key => $value) {
-        if (isset($config['doctrine.'.$key])) {
-            $doctrineOptions[$key] = $config['doctrine.'.$key];
-        }
-    }
-    
-    $app->register(new DoctrineServiceProvider(), array(
-        'db.options' => $doctrineOptions,
-    ));
-}
-
 if ('dev' == SILEX_ENV) {
     // logs
     $app->register(new MonologServiceProvider(), array(
