@@ -15,6 +15,8 @@ use Symfony\Component\Config\Resource\FileResource;
  */
 class FakerConfig
 {
+    CONST DEFAULT_CULTURE = 'en_US';
+    
     protected $configDirectories;
     
     protected $configFiles;
@@ -40,9 +42,6 @@ class FakerConfig
             $config = array();
             foreach ($this->configFiles as $configFile) {
                 $path = $locator->locate($configFile);
-                if (!file_exists($path)) {
-                    throw new \InvalidArgumentException('The config file '.$configFile.' is missing !');
-                }
                 $config = array_merge($config, $delegatingLoader->load($path));
                 $resources[] = new FileResource($path);
             }
@@ -94,8 +93,6 @@ PHP;
             sort($parsedConfig['providers']);
         }
         
-        
-        
         return $parsedConfig;
     }
     
@@ -104,17 +101,12 @@ PHP;
         return $this->config;
     }
     
-    public function getAvailableCultures()
+    public function getCultures()
     {
         return $this->config['cultures'];
     }
     
-    public function getAvailableMethods()
-    {
-        return $this->config['methods'];
-    }
-    
-    public function getAvailableProviders()
+    public function getProviders()
     {
         return $this->config['providers'];
     }
@@ -124,8 +116,28 @@ PHP;
         return isset($this->config['methods'][$name]) ? $this->config['methods'][$name] : array();
     }
     
-    public function getMethods($culture, $provider) 
+    public function getMethods($culture = null, $provider = null) 
     {
+        if (empty($culture) && empty($provider)) {
+            return $this->config['methods'];
+        }
         
+        if (empty($culture)) {
+            return array_filter($this->config['methods'], function($method) use ($provider) {
+                return $method['provider'] == $provider;
+            });
+        }
+        
+        $cultures = array_unique(array($culture, self::DEFAULT_CULTURE));
+        
+        if (empty($provider)) {
+            return array_filter($this->config['methods'], function($method) use ($cultures) {
+                return in_array($method['culture'], $cultures);
+            });
+        }
+        
+        return array_filter($this->config['methods'], function($method) use ($cultures, $provider) {
+            return in_array($method['culture'], $cultures) && $method['provider'] == $provider;
+        });
     }
 }
