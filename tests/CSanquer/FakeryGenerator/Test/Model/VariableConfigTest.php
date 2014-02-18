@@ -37,6 +37,15 @@ class VariableConfigTest extends \PHPUnit_Framework_TestCase
         
     }
 
+    public function testConstruct()
+    {
+        $variableConfig = new VariableConfig('firstname', 'firstName', array(1), true);
+        $this->assertEquals('firstname', $variableConfig->getName());
+        $this->assertEquals('firstName', $variableConfig->getMethod());
+        $this->assertEquals(array(1), $variableConfig->getMethodArguments());
+        $this->assertEquals(true, $variableConfig->isUnique());
+    }
+    
     /**
      * @covers CSanquer\FakeryGenerator\Model\VariableConfig::getName
      * @covers CSanquer\FakeryGenerator\Model\VariableConfig::getVarName
@@ -62,28 +71,24 @@ class VariableConfigTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers CSanquer\FakeryGenerator\Model\VariableConfig::getMethod
      * @covers CSanquer\FakeryGenerator\Model\VariableConfig::setMethod
-     * @todo   Implement testGetMethod().
      */
     public function testGetSetMethod()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->assertInstanceOf('\\CSanquer\\FakeryGenerator\\Model\\VariableConfig', $this->variableConfig->setMethod('firstName'));
+        $this->assertEquals('firstName', $this->variableConfig->getMethod());
     }
 
     /**
      * @covers CSanquer\FakeryGenerator\Model\VariableConfig::getMethodArguments
      * @covers CSanquer\FakeryGenerator\Model\VariableConfig::setMethodArguments
      * @covers CSanquer\FakeryGenerator\Model\VariableConfig::hasMethodArguments
-     * @todo   Implement testGetMethodArguments().
      */
     public function testGetMethodArguments()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->assertFalse($this->variableConfig->hasMethodArguments());
+        $this->assertInstanceOf('\\CSanquer\\FakeryGenerator\\Model\\VariableConfig', $this->variableConfig->setMethodArguments(array(1,2)));
+        $this->assertTrue($this->variableConfig->hasMethodArguments());
+        $this->assertEquals(array(1,2), $this->variableConfig->getMethodArguments());
     }
 
     /**
@@ -91,29 +96,44 @@ class VariableConfigTest extends \PHPUnit_Framework_TestCase
      * @covers CSanquer\FakeryGenerator\Model\VariableConfig::hasMethodArgument
      * @covers CSanquer\FakeryGenerator\Model\VariableConfig::addMethodArgument
      * @covers CSanquer\FakeryGenerator\Model\VariableConfig::setMethodArgument
-     * 
-     * @todo   Implement testGetMethodArgument().
      */
     public function testGetMethodArgument()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->assertFalse($this->variableConfig->hasMethodArgument(0));
+        $this->assertInstanceOf('\\CSanquer\\FakeryGenerator\\Model\\VariableConfig', $this->variableConfig->setMethodArgument(0, 1));
+        $this->assertTrue($this->variableConfig->hasMethodArguments(0));
+        $this->assertEquals(1, $this->variableConfig->getMethodArgument(0));
+        $this->assertFalse($this->variableConfig->hasMethodArgument(1));
+        $this->assertInstanceOf('\\CSanquer\\FakeryGenerator\\Model\\VariableConfig', $this->variableConfig->addMethodArgument('5'));
+        $this->assertTrue($this->variableConfig->hasMethodArguments(0));
+        $this->assertTrue($this->variableConfig->hasMethodArguments(1));
+        $this->assertEquals(1, $this->variableConfig->getMethodArgument(0));
+        $this->assertEquals('5', $this->variableConfig->getMethodArgument(1));
     }
 
     /**
      * @covers CSanquer\FakeryGenerator\Model\VariableConfig::isUnique
      * @covers CSanquer\FakeryGenerator\Model\VariableConfig::setUnique
-     * @todo   Implement testIsUnique().
+     * @dataProvider providerIsSetUnique
      */
-    public function testIsSetUnique()
+    public function testIsSetUnique($unique, $expected)
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
+        $this->assertInstanceOf('\\CSanquer\\FakeryGenerator\\Model\\VariableConfig', $this->variableConfig->setUnique($unique));
+        $isUnique = $this->variableConfig->isUnique();
+        $this->assertInternalType('bool', $isUnique);
+        $this->assertEquals($expected, $isUnique);
+    }
+    
+    public function providerIsSetUnique() 
+    {
+        return array(
+            array(0, false),
+            array(1, true),
+            array(null, false),
+            array('', false),
+            array(true, true),
+            array(false, false),
         );
     }
 
 }
-

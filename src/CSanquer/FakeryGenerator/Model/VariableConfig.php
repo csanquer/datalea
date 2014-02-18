@@ -132,7 +132,7 @@ class VariableConfig
     
     public function hasMethodArgument($order)
     {
-        return array_key_exists($order, $this->methodArgument) && $this->methodArguments[$order] !== null && $this->methodArguments[$order] !== '';
+        return array_key_exists($order, $this->methodArguments) && $this->methodArguments[$order] !== null && $this->methodArguments[$order] !== '';
     }
     
     public function addMethodArgument($methodArgument)
