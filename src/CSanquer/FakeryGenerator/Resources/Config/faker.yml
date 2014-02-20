@@ -261,9 +261,9 @@ faker:
                     example: '''20:49:42'''
                 dateTimeBetween:
                     arguments:
+                        format: '''Y-m-d H:i:s'''
                         startDate: '''-30 years'''
                         endDate: '''now'''
-                        format: '''Y-m-d H:i:s'''
                     example: '''2003-03-15 02:00:49'''
                 dateTimeThisCentury:
                     arguments:
@@ -331,6 +331,10 @@ faker:
                     example: 48.8932
                 randomLetter:
                     example: b
+                randomElement:
+                    arguments:
+                        comma_separated_list: '''a'',''b'',''c'''
+                    example: '''b'''
                 numerify:
                     arguments:
                         string: '''###'''

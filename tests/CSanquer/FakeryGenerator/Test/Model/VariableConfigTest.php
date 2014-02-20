@@ -135,5 +135,30 @@ class VariableConfigTest extends \PHPUnit_Framework_TestCase
             array(false, false),
         );
     }
+    
+    /**
+     * @covers CSanquer\FakeryGenerator\Model\VariableConfig::isOptional
+     * @covers CSanquer\FakeryGenerator\Model\VariableConfig::setOptional
+     * @dataProvider providerIsSetOptional
+     */
+    public function testIsSetOptional($unique, $expected)
+    {
+        $this->assertInstanceOf('\\CSanquer\\FakeryGenerator\\Model\\VariableConfig', $this->variableConfig->setOptional($unique));
+        $isOptional = $this->variableConfig->isOptional();
+        $this->assertInternalType('bool', $isOptional);
+        $this->assertEquals($expected, $isOptional);
+    }
+    
+    public function providerIsSetOptional() 
+    {
+        return array(
+            array(0, false),
+            array(1, true),
+            array(null, false),
+            array('', false),
+            array(true, true),
+            array(false, false),
+        );
+    }
 
 }

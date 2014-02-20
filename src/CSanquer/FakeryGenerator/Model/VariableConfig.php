@@ -38,6 +38,12 @@ class VariableConfig
 
     /**
      *
+     * @var bool
+     */
+    protected $optional;
+    
+    /**
+     *
      * @var int
      */
     protected $increment = 0;
@@ -49,7 +55,7 @@ class VariableConfig
      * @param array $methodArguments
      * @param bool $unique
      */
-    public function __construct($name = null, $method = null, array $methodArguments = array(), $unique = false)
+    public function __construct($name = null, $method = null, array $methodArguments = array(), $unique = false, $optional = false)
     {
         $this->setName($name);
         $this->setMethod($method);
@@ -161,7 +167,19 @@ class VariableConfig
         return $this;
     }
 
-     /**
+    public function isOptional()
+    {
+        return $this->optional;
+    }
+
+    public function setOptional($optional)
+    {
+        $this->optional = (bool) $optional;
+        
+        return $this;
+    }
+
+    /**
      *
      * @param \Faker\Generator $faker
      * @param array            $values          generated value will be inserted into this array
@@ -195,30 +213,23 @@ class VariableConfig
      */
     protected function generate(Generator $faker, array &$values, array $variableConfigs = array())
     {
-        $method = $this->getFakerMethod();
+        $method = $this->getMethod();
 
+        // prepare arguments , replace variables with generated random values
         $args = array();
-
+        foreach ($this->getMethodArguments() as $methodArgument) {
+            $args[] = $this->replaceVariables($methodArgument, $faker, $values, $variableConfigs);
+        }
+        
+        $dateTimeFormat = 'Y-m-d H:i:s';
+        $arraySeparator = ',';
+        
+        // apply specific process and generate random value
         switch ($method) {
             case 'randomElement':
-                if ($this->hasFakerMethodArg1()) {
-                    $args[] = array_map(
-                        'trim',
-                        explode(
-                            ',',
-                            $this->replaceVariables($this->getFakerMethodArg1(), $faker, $values, $variableConfigs)
-                        )
-                    );
-
-                    if ($this->hasFakerMethodArg2()) {
-                        $args[] = $this->replaceVariables($this->getFakerMethodArg2(), $faker, $values, $variableConfigs);
-                        if ($this->hasFakerMethodArg3()) {
-                            $args[] = $this->replaceVariables($this->getFakerMethodArg3(), $faker, $values, $variableConfigs);
-                        }
-                    }
+                if (isset($args[0])) {
+                    $args[0] = array_map('trim', explode(',', $args[0]));
                 }
-
-                $value = call_user_func_array(array($faker, $method), $args);
                 break;
 
             case 'dateTime':
@@ -227,67 +238,42 @@ class VariableConfig
             case 'dateTimeThisDecade':
             case 'dateTimeThisYear':
             case 'dateTimeThisMonth':
-                if ($this->hasFakerMethodArg1()) {
-                    $format = $this->replaceVariables($this->getFakerMethodArg1(), $faker, $values, $variableConfigs);
-                }
-
-                $format = empty($format) ? 'Y-m-d H:i:s' : $format;
-                $datetime = call_user_func_array(array($faker, $method), $args);
-                $value = $datetime->format($format);
-                break;
-
             case 'dateTimeBetween':
-                if ($this->hasFakerMethodArg1()) {
-                    $args[] = $this->replaceVariables($this->getFakerMethodArg1(), $faker, $values, $variableConfigs);
-                    if ($this->hasFakerMethodArg2()) {
-                        $args[] = $this->replaceVariables($this->getFakerMethodArg2(), $faker, $values, $variableConfigs);
-                        if ($this->hasFakerMethodArg3()) {
-                            $format = $this->replaceVariables($this->getFakerMethodArg3(), $faker, $values, $variableConfigs);
-                        }
-                    }
+                // first arg is the datetime format (not a real Faker method argument)
+                $format = array_shift($args);
+                if (!empty($format)) {
+                    $dateTimeFormat = $format;
                 }
-
-                $format = empty($format) ? 'Y-m-d H:i:s' : $format;
-                $datetime = call_user_func_array(array($faker, $method), $args);
-                $value = $datetime->format($format);
                 break;
 
             case 'words':
-                if ($this->hasFakerMethodArg1()) {
-                    $args[] = $this->replaceVariables($this->getFakerMethodArg1(), $faker, $values, $variableConfigs);
-                }
-
-                $value = implode(' ', call_user_func_array(array($faker, $method), $args));
+                $arraySeparator = ' ';
+                break;
+            case 'creditCardDetails';
+            case 'rgbColorAsArray';
+                $arraySeparator = ',';
                 break;
             case 'sentences':
             case 'paragraphs':
-                if ($this->hasFakerMethodArg1()) {
-                    $args[] = $this->replaceVariables($this->getFakerMethodArg1(), $faker, $values, $variableConfigs);
-                }
-
-                $value = implode("\n", call_user_func_array(array($faker, $method), $args));
+                $arraySeparator = "\n";
                 break;
 
             default:
-                if ($this->hasFakerMethodArg1()) {
-                    $args[] = $this->replaceVariables($this->getFakerMethodArg1(), $faker, $values, $variableConfigs);
-                    if ($this->hasFakerMethodArg2()) {
-                        $args[] = $this->replaceVariables($this->getFakerMethodArg2(), $faker, $values, $variableConfigs);
-                        if ($this->hasFakerMethodArg3()) {
-                            $args[] = $this->replaceVariables($this->getFakerMethodArg3(), $faker, $values, $variableConfigs);
-                        }
-                    }
-                }
-
-                try {
-                    $value = call_user_func_array(array($faker, $method), $args);
-                } catch (\InvalidArgumentException $e) {
-                    // if the method doesn't exists in Faker set an empty string as value
-                    $value = '';
-                }
-                break;
         }
-
+        
+        try {
+            $value = call_user_func_array(array($faker, $method), $args);
+            if ($value instanceof \DateTime) {
+                $value = $value->format($dateTimeFormat);
+            } elseif (is_array($value)) {
+                $value = implode($arraySeparator, $value);
+            }
+        
+        } catch (\InvalidArgumentException $e) {
+            // if the method doesn't exists in Faker set an empty string as value
+            $value = '';
+        }
+        
         return $value;
     }
 
@@ -303,7 +289,7 @@ class VariableConfig
     protected function replaceVariables($str, Generator $faker, array &$values, array $variableConfigs = array())
     {
         return preg_replace_callback('/%([a-zA-Z0-9_]+)%/',
-            function($matches) use (&$values) {
+            function($matches) use (&$values, $faker, $variableConfigs) {
                 if (!isset($values[$matches[1]]) && isset($variableConfigs[$matches[1]])) {
                     $variableConfigs[$matches[1]]->generateValue($faker, $values, $variableConfigs);
                 }
