@@ -262,7 +262,21 @@ class VariableConfig
         }
         
         try {
-            $value = call_user_func_array(array($faker, $method), $args);
+            $generator = $faker;
+            
+            // chain generator modifiers
+            if ($this->isUnique()) {
+                $generator = $generator->unique();
+            }
+            
+            if ($this->isOptional()) {
+                $generator = $generator->optional();
+            }
+            
+            // generate value
+            $value = call_user_func_array(array($generator, $method), $args);
+            
+            // format value
             if ($value instanceof \DateTime) {
                 $value = $value->format($dateTimeFormat);
             } elseif (is_array($value)) {
