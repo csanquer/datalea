@@ -161,4 +161,337 @@ class VariableConfigTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @covers CSanquer\FakeryGenerator\Model\VariableConfig::generateValue
+     * @covers CSanquer\FakeryGenerator\Model\VariableConfig::generate
+     * @covers CSanquer\FakeryGenerator\Model\VariableConfig::replaceVariables
+     * @dataProvider providerGenerateValue
+     */
+    public function testGenerateValue(
+        $expected,
+        $faker,
+        $values,
+        $name, 
+        $method, 
+        $methodArguments, 
+        $variableConfigs = array(),
+        $optional = false, 
+        $unique = false, 
+        $force = false, 
+        $useIncrement = false, 
+        $resetIncrement = false
+    ) 
+    {
+//        $this->markTestIncomplete();
+        
+        $this->variableConfig->setName($name);
+        $this->variableConfig->setMethod($method);
+        $this->variableConfig->setMethodArguments($methodArguments);
+        $this->variableConfig->setOptional($optional);
+        $this->variableConfig->setUnique($unique);
+        
+//        var_dump($values);
+        $this->variableConfig->generateValue($faker, $values, $variableConfigs, $force, $useIncrement, $resetIncrement);
+//        var_dump($values);
+        
+        $this->assertArrayHasKey($name, $values);
+        $this->assertArrayHasKey('raw', $values[$name]);
+        $this->assertArrayHasKey('flat', $values[$name]);
+        
+        foreach ($expected as $key => $rules) {
+            $this->assertArrayHasKey($key, $values);
+            
+            if (!empty($rules['raw_type'])) {
+                $this->assertInternalType($rules['raw_type'], $values[$key]['raw'], 'raw type is not valid for variable '.$key);
+            }
+
+            if (!empty($rules['raw_class'])) {
+                $this->assertInstanceOf($rules['raw_class'], $values[$key]['raw'], 'raw class is not valid for variable '.$key);
+            }
+            
+            if (isset($rules['raw_count']) && !is_null($rules['raw_count'])) {
+                $this->assertCount($rules['raw_count'], $values[$key]['raw'], 'raw count is not valid for variable '.$key);
+            }
+
+            if (!empty($rules['flat_pattern'])) {
+                $this->assertRegExp($rules['flat_pattern'], (string) $values[$key]['flat'], 'flat value does not match for variable '.$key);
+            }
+            
+            if (isset($rules['flat_length']) && !is_null($rules['flat_length'])) {
+                $this->assertEquals($rules['flat_length'], strlen($values[$key]['flat']), 'flat value length is not valid for variable '.$key);
+            }
+        }
+    }
+    
+    public function providerGenerateValue() 
+    {
+        $defaultFaker = \Faker\Factory::create('en_US');
+        
+        return array(
+            // data set #0 simple, no argument
+            array(
+                // expected rules
+                array(
+                    'name_prefix' => array(
+                        'raw_type' => 'string',
+                        'raw_class' => null,
+                        'flat_pattern' => '/^(Mr\.|Mrs\.|Ms\.|Miss|Dr\.)$/',
+                    ),
+                ), 
+                $defaultFaker, // faker 
+                // values
+                array(),  
+                'name_prefix', // name 
+                'prefix', // method 
+                // methodArguments 
+                array(), 
+                // variableConfigs
+                array(),  
+                false, // optional 
+                false, // unique 
+                false, // force 
+                false, // useIncrement 
+                false, // resetIncrement 
+            ),
+            // data set #1 with argument
+            array(
+                // expected rules
+                array(
+                    'letter' => array(
+                        'raw_type' => 'string',
+                        'raw_class' => null,
+                        'flat_pattern' => '/^[abc]$/',
+                    ),
+                ), 
+                $defaultFaker, // faker 
+                // values
+                array(),  
+                'letter', // name 
+                'randomElement', // method 
+                // methodArguments 
+                array('a,b,c'), 
+                // variableConfigs
+                array(
+                ),  
+                false, // optional 
+                false, // unique 
+                false, // force 
+                false, // useIncrement 
+                false, // resetIncrement 
+            ),
+            // data set #2 with a variable as argument
+            array(
+                // expected rules
+                array(
+                    'random_digit' => array(
+                        'raw_type' => 'int',
+                        'raw_class' => null,
+                        'flat_pattern' => '/^\d$/',
+                    ),
+                    'random_number' => array(
+                        'raw_type' => 'int',
+                        'raw_class' => null,
+                        'flat_pattern' => '/^\d*$/',
+                    ),
+                ), 
+                $defaultFaker, // faker 
+                // values
+                array(),  
+                'random_number', // name 
+                'randomNumber', // method 
+                // methodArguments 
+                array('%random_digit%'), 
+                // variableConfigs
+                array(
+                    'random_digit' => new VariableConfig('random_digit', 'randomDigit'),
+                ),  
+                false, // optional 
+                false, // unique 
+                false, // force 
+                false, // useIncrement 
+                false, // resetIncrement 
+            ),
+            // data set #3 non existent faker method
+            array(
+                // expected rules
+                array(
+                    'empty_var' => array(
+                        'raw_type' => 'null',
+                        'raw_class' => null,
+                        'flat_pattern' => '/^$/',
+                    ),
+                ), 
+                $defaultFaker, // faker 
+                // values
+                array(),  
+                'empty_var', // name 
+                'foobar', // method 
+                // methodArguments 
+                array(), 
+                // variableConfigs
+                array(
+                ),  
+                false, // optional 
+                false, // unique 
+                false, // force 
+                false, // useIncrement 
+                false, // resetIncrement 
+            ),
+            // data set #4 words
+            array(
+                // expected rules
+                array(
+                    'wording' => array(
+                        'raw_type' => 'array',
+                        'raw_count' => 4,
+                        'flat_pattern' => '/^\S+\s\S+\s\S+\s\S+$/',
+                    ),
+                ), 
+                $defaultFaker, // faker 
+                // values
+                array(),  
+                'wording', // name 
+                'words', // method 
+                // methodArguments 
+                array(4), 
+                // variableConfigs
+                array(
+                ),  
+                false, // optional 
+                false, // unique 
+                false, // force 
+                false, // useIncrement 
+                false, // resetIncrement 
+            ),
+            // data set #5 rgb
+            array(
+                // expected rules
+                array(
+                    'rgb' => array(
+                        'raw_type' => 'array',
+                        'raw_count' => 3,
+                        'flat_pattern' => '/^\d+,\d+,\d+$/',
+                    ),
+                ), 
+                $defaultFaker, // faker 
+                // values
+                array(),  
+                'rgb', // name 
+                'rgbColorAsArray', // method 
+                // methodArguments 
+                array(), 
+                // variableConfigs
+                array(
+                ),  
+                false, // optional 
+                false, // unique 
+                false, // force 
+                false, // useIncrement 
+                false, // resetIncrement 
+            ),
+            // data set #6 creditCardDetails
+            array(
+                // expected rules
+                array(
+                    'credit_card_details' => array(
+                        'raw_type' => 'array',
+                        'raw_count' => 4,
+                        'flat_pattern' => '/^.+,.+,.+,.+$/',
+                    ),
+                ), 
+                $defaultFaker, // faker 
+                // values
+                array(),  
+                'credit_card_details', // name 
+                'creditCardDetails', // method 
+                // methodArguments 
+                array(), 
+                // variableConfigs
+                array(
+                ),  
+                false, // optional 
+                false, // unique 
+                false, // force 
+                false, // useIncrement 
+                false, // resetIncrement 
+            ),
+            // data set #7 sentences
+            array(
+                // expected rules
+                array(
+                    'sentences' => array(
+                        'raw_type' => 'array',
+                        'raw_count' => 4,
+                        'flat_pattern' => '/^.+\n.+\n.+\n.+$/',
+                    ),
+                ), 
+                $defaultFaker, // faker 
+                // values
+                array(),  
+                'sentences', // name 
+                'sentences', // method 
+                // methodArguments 
+                array(4), 
+                // variableConfigs
+                array(
+                ),  
+                false, // optional 
+                false, // unique 
+                false, // force 
+                false, // useIncrement 
+                false, // resetIncrement 
+            ),
+            // data set #7 sentences
+            array(
+                // expected rules
+                array(
+                    'paragraphs' => array(
+                        'raw_type' => 'array',
+                        'raw_count' => 4,
+                        'flat_pattern' => '/^.+\n.+\n.+\n.+$/',
+                    ),
+                ), 
+                $defaultFaker, // faker 
+                // values
+                array(),  
+                'paragraphs', // name 
+                'paragraphs', // method 
+                // methodArguments 
+                array(4), 
+                // variableConfigs
+                array(
+                ),  
+                false, // optional 
+                false, // unique 
+                false, // force 
+                false, // useIncrement 
+                false, // resetIncrement 
+            ),
+            // data set #8 sentences
+            array(
+                // expected rules
+                array(
+                    'date' => array(
+                        'raw_class' => '\DateTime',
+                        'flat_pattern' => '/^\d{2}\/\d{2}\/\d{4} \d{2}:\d{2}:\d{2}$/',
+                    ),
+                ), 
+                $defaultFaker, // faker 
+                // values
+                array(),  
+                'date', // name 
+                'dateTime', // method 
+                // methodArguments 
+                array('d/m/Y H:i:s'), 
+                // variableConfigs
+                array(
+                ),  
+                false, // optional 
+                false, // unique 
+                false, // force 
+                false, // useIncrement 
+                false, // resetIncrement 
+            ),
+        );
+    }
 }

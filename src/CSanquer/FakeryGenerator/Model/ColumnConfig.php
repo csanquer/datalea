@@ -44,6 +44,7 @@ class ColumnConfig
         $this->setName($name);
         $this->setValue($value);
         $this->setConvertMethod($convertMethod);
+        $this->setColumnConfigs($columnConfigs);
     }
 
     /**
@@ -125,7 +126,9 @@ class ColumnConfig
      */
     public function setColumnConfigs(array $columnConfigs)
     {
-        $this->columnConfigs = $columnConfigs;
+        foreach ($columnConfigs as $columnConfig) {
+            $this->addColumnConfig($columnConfig);
+        }
         
         return $this;
     }

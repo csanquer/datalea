@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "8bf83fb0147326c713554223d5ccfc4c",
+    "hash": "f828fa120c7004036d2100beb36573d1",
     "packages": [
         {
             "name": "chh/cache-service-provider",
@@ -109,16 +109,16 @@
         },
         {
             "name": "csanquer/colibri-csv",
-            "version": "v1.0.1",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/csanquer/colibri-csv.git",
-                "reference": "a95a66d38741ac6fb4f9d78fcc160374ac9faa1f"
+                "reference": "ed5ee92d7da76513c4cfc564bf11b5b8284d1919"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/csanquer/colibri-csv/zipball/a95a66d38741ac6fb4f9d78fcc160374ac9faa1f",
-                "reference": "a95a66d38741ac6fb4f9d78fcc160374ac9faa1f",
+                "url": "https://api.github.com/repos/csanquer/colibri-csv/zipball/ed5ee92d7da76513c4cfc564bf11b5b8284d1919",
+                "reference": "ed5ee92d7da76513c4cfc564bf11b5b8284d1919",
                 "shasum": ""
             },
             "require": {
@@ -126,10 +126,10 @@
                 "php": ">=5.3.3"
             },
             "require-dev": {
-                "doctrine/inflector": "1.0.*",
-                "fzaninotto/faker": "1.3.*",
+                "doctrine/inflector": "~1.0",
+                "fzaninotto/faker": "~1.3",
                 "satooshi/php-coveralls": "dev-master",
-                "symfony/stopwatch": "2.4.*"
+                "symfony/stopwatch": "~2.4"
             },
             "suggest": {
                 "ext-iconv": "*"
@@ -146,7 +146,7 @@
             ],
             "authors": [
                 {
-                    "name": "Charles Sanquer",
+                    "name": "Charles SANQUER",
                     "email": "charles.sanquer@gmail.com"
                 }
             ],
@@ -159,50 +159,7 @@
                 "reader",
                 "writer"
             ],
-            "time": "2014-02-07 12:58:17"
-        },
-        {
-            "name": "csanquer/pdo-service-provider",
-            "version": "v0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/csanquer/PdoServiceProvider.git",
-                "reference": "18b00685411ceb62e540e12c419c9fbdbb24c571"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/csanquer/PdoServiceProvider/zipball/18b00685411ceb62e540e12c419c9fbdbb24c571",
-                "reference": "18b00685411ceb62e540e12c419c9fbdbb24c571",
-                "shasum": ""
-            },
-            "require": {
-                "silex/silex": "~1.1",
-                "symfony/options-resolver": "~2.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "CSanquer": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Charles Sanquer",
-                    "email": "charles.sanquer@gmail.com"
-                }
-            ],
-            "description": "a PDO database service provider for silex",
-            "keywords": [
-                "database",
-                "pdo",
-                "service provider",
-                "silex"
-            ],
-            "time": "2013-09-04 13:57:53"
+            "time": "2014-02-21 17:17:30"
         },
         {
             "name": "csanquer/silex-tools",
@@ -415,7 +372,7 @@
                 {
                     "name": "Kevin Herrera",
                     "email": "kevin@herrera.io",
-                    "homepage": "http://kevin.herrera.io/"
+                    "homepage": "http://kevin.herrera.io"
                 }
             ],
             "description": "A library for simplifying JSON linting and validation.",
@@ -474,7 +431,7 @@
                 {
                     "name": "Kevin Herrera",
                     "email": "kevin@herrera.io",
-                    "homepage": "http://kevin.herrera.io/"
+                    "homepage": "http://kevin.herrera.io"
                 }
             ],
             "description": "A Silex service provider for Wise.",
@@ -533,7 +490,7 @@
                 {
                     "name": "Kevin Herrera",
                     "email": "kevin@herrera.io",
-                    "homepage": "http://kevin.herrera.io/"
+                    "homepage": "http://kevin.herrera.io"
                 }
             ],
             "description": "Symfony Config for everyone else.",
@@ -929,10 +886,10 @@
             ],
             "authors": [
                 {
-                    "name": "Steve Clay",
+                    "name": "Stephen Clay",
                     "email": "steve@mrclay.org",
                     "homepage": "http://www.mrclay.org/",
-                    "role": "modifications + cleanup"
+                    "role": "Developer"
                 }
             ],
             "description": "Minify is a PHP5 app that helps you follow several rules for client-side performance. It combines multiple CSS or Javascript files, removes unnecessary whitespace and comments, and serves them with gzip encoding and optimal client-side cache headers",
@@ -1236,65 +1193,12 @@
             "authors": [
                 {
                     "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
+                    "email": "fabien@symfony.com"
                 }
             ],
             "description": "A WebProfiler for Silex",
             "homepage": "http://silex.sensiolabs.org/",
             "time": "2013-12-05 21:22:21"
-        },
-        {
-            "name": "swiftmailer/swiftmailer",
-            "version": "v5.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "32edc3b0de0fdc1b10f5c4912e8677b3f411a230"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/32edc3b0de0fdc1b10f5c4912e8677b3f411a230",
-                "reference": "32edc3b0de0fdc1b10f5c4912e8677b3f411a230",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.2.4"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "5.1-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "lib/swift_required.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
-                },
-                {
-                    "name": "Chris Corbyn"
-                }
-            ],
-            "description": "Swiftmailer, free feature-rich PHP mailer",
-            "homepage": "http://swiftmailer.org",
-            "keywords": [
-                "mail",
-                "mailer"
-            ],
-            "time": "2013-12-03 13:33:24"
         },
         {
             "name": "symfony/browser-kit",
@@ -2947,9 +2851,7 @@
             "authors": [
                 {
                     "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
+                    "email": "fabien@symfony.com"
                 }
             ],
             "description": "Common additional features for Twig that do not directly belong in core",
@@ -3001,7 +2903,7 @@
                     "role": "Lead Developer"
                 },
                 {
-                    "name": "Armin Ronacher2",
+                    "name": "Armin Ronacher",
                     "email": "armin.ronacher@active-4.com",
                     "role": "Project Founder"
                 },

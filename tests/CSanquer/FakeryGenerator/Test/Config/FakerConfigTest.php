@@ -55,6 +55,9 @@ class FakerConfigTest extends \PHPUnit_Framework_TestCase
         $this->config = new FakerConfig(self::$fixtures, 'foobar.yml', self::$cacheDir, false);
     }
 
+    /**
+     * @covers \CSanquer\FakeryGenerator\Config\FakerConfig::getConfig
+     */
     public function testGetConfig()
     {
         $expected = array(
@@ -144,7 +147,10 @@ class FakerConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $this->config->getConfig());
     }
 
-    public function testGetCulture()
+    /**
+     * @covers \CSanquer\FakeryGenerator\Config\FakerConfig::getCultures
+     */
+    public function testGetCultures()
     {
         $expected = array(
             'en_US',
@@ -155,6 +161,9 @@ class FakerConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $this->config->getCultures());
     }
 
+    /**
+     * @covers \CSanquer\FakeryGenerator\Config\FakerConfig::getProviders
+     */
     public function testGetProviders()
     {
         $expected = array(
@@ -167,6 +176,7 @@ class FakerConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers \CSanquer\FakeryGenerator\Config\FakerConfig::getMethods
      * @dataProvider providerGetMethods
      */
     public function testGetMethods($culture, $provider, $expected)
@@ -447,6 +457,7 @@ class FakerConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers \CSanquer\FakeryGenerator\Config\FakerConfig::getMethod
      * @dataProvider providerGetMethod
      */
     public function testGetMethod($name, $expected)
