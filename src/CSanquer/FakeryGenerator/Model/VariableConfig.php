@@ -198,7 +198,8 @@ class VariableConfig
             $value = $this->generate($faker, $values, $variableConfigs);
             if ($useIncrement) {
                 $this->increment++;
-                $value = is_numeric($value) ? $value+1 : $value.'_'.$this->increment;
+                $value['raw'] = is_numeric($value['raw']) ? $value['raw']+1 : $value['raw'].'_'.$this->increment;
+                $value['flat'] = is_numeric($value['flat']) ? $value['flat']+1 : $value['flat'].'_'.$this->increment;
             }
             $values[$this->getName()] = $value;
         }

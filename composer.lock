@@ -372,7 +372,7 @@
                 {
                     "name": "Kevin Herrera",
                     "email": "kevin@herrera.io",
-                    "homepage": "http://kevin.herrera.io/"
+                    "homepage": "http://kevin.herrera.io"
                 }
             ],
             "description": "A library for simplifying JSON linting and validation.",
@@ -431,7 +431,7 @@
                 {
                     "name": "Kevin Herrera",
                     "email": "kevin@herrera.io",
-                    "homepage": "http://kevin.herrera.io/"
+                    "homepage": "http://kevin.herrera.io"
                 }
             ],
             "description": "A Silex service provider for Wise.",
@@ -490,7 +490,7 @@
                 {
                     "name": "Kevin Herrera",
                     "email": "kevin@herrera.io",
-                    "homepage": "http://kevin.herrera.io/"
+                    "homepage": "http://kevin.herrera.io"
                 }
             ],
             "description": "Symfony Config for everyone else.",
@@ -886,10 +886,10 @@
             ],
             "authors": [
                 {
-                    "name": "Steve Clay",
+                    "name": "Stephen Clay",
                     "email": "steve@mrclay.org",
                     "homepage": "http://www.mrclay.org/",
-                    "role": "modifications + cleanup"
+                    "role": "Developer"
                 }
             ],
             "description": "Minify is a PHP5 app that helps you follow several rules for client-side performance. It combines multiple CSS or Javascript files, removes unnecessary whitespace and comments, and serves them with gzip encoding and optimal client-side cache headers",
@@ -1193,9 +1193,7 @@
             "authors": [
                 {
                     "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
+                    "email": "fabien@symfony.com"
                 }
             ],
             "description": "A WebProfiler for Silex",
@@ -2853,9 +2851,7 @@
             "authors": [
                 {
                     "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
+                    "email": "fabien@symfony.com"
                 }
             ],
             "description": "Common additional features for Twig that do not directly belong in core",
@@ -2907,7 +2903,7 @@
                     "role": "Lead Developer"
                 },
                 {
-                    "name": "Armin Ronacher2",
+                    "name": "Armin Ronacher",
                     "email": "armin.ronacher@active-4.com",
                     "role": "Project Founder"
                 },

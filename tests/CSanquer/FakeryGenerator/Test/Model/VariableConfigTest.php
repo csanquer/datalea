@@ -227,6 +227,9 @@ class VariableConfigTest extends \PHPUnit_Framework_TestCase
     {
         $defaultFaker = \Faker\Factory::create('en_US');
         
+        $fakerFixDigit = new \Faker\Generator();
+        $fakerFixDigit->addProvider(new FixDigitProvider());
+        
         return array(
             // data set #0 simple, no argument
             array(
@@ -441,7 +444,7 @@ class VariableConfigTest extends \PHPUnit_Framework_TestCase
                 false, // useIncrement 
                 false, // resetIncrement 
             ),
-            // data set #7 sentences
+            // data set #8 sentences
             array(
                 // expected rules
                 array(
@@ -467,7 +470,7 @@ class VariableConfigTest extends \PHPUnit_Framework_TestCase
                 false, // useIncrement 
                 false, // resetIncrement 
             ),
-            // data set #8 sentences
+            // data set #9 sentences
             array(
                 // expected rules
                 array(
@@ -492,6 +495,39 @@ class VariableConfigTest extends \PHPUnit_Framework_TestCase
                 false, // useIncrement 
                 false, // resetIncrement 
             ),
+            // data set #10 number with increment
+            array(
+                // expected rules
+                array(
+                    'number' => array(
+                        'raw_type' => 'int',
+                        'flat_pattern' => '/^6$/',
+                    ),
+                ), 
+                $fakerFixDigit, // faker 
+                // values
+                array(),  
+                'number', // name 
+                'fixDigit', // method 
+                // methodArguments 
+                array(5), 
+                // variableConfigs
+                array(
+                ),  
+                false, // optional 
+                false, // unique 
+                false, // force 
+                true, // useIncrement 
+                false, // resetIncrement 
+            ),
         );
+    }
+}
+
+class FixDigitProvider 
+{
+    public function fixDigit($num = 0)
+    {
+        return is_numeric($num) ? $num : 0;
     }
 }
