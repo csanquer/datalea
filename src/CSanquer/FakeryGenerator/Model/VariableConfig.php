@@ -38,7 +38,7 @@ class VariableConfig
 
     /**
      *
-     * @var bool
+     * @var int|null
      */
     protected $optional;
     
@@ -167,14 +167,20 @@ class VariableConfig
         return $this;
     }
 
-    public function isOptional()
+    public function getOptional()
     {
         return $this->optional;
     }
 
     public function setOptional($optional)
     {
-        $this->optional = (bool) $optional;
+        $this->optional = null;
+        if (is_numeric($optional)) {
+            if ($optional > 1.0) {
+                $optional = 1.0;
+            }
+            $this->optional = (float) $optional;
+        }
         
         return $this;
     }
@@ -270,8 +276,8 @@ class VariableConfig
                 $generator = $generator->unique();
             }
             
-            if ($this->isOptional()) {
-                $generator = $generator->optional();
+            if ($this->getOptional() !== null) {
+                $generator = $generator->optional($this->getOptional());
             }
             
             // generate value

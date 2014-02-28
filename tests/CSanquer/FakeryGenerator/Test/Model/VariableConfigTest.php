@@ -137,27 +137,28 @@ class VariableConfigTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * @covers CSanquer\FakeryGenerator\Model\VariableConfig::isOptional
+     * @covers CSanquer\FakeryGenerator\Model\VariableConfig::getOptional
      * @covers CSanquer\FakeryGenerator\Model\VariableConfig::setOptional
      * @dataProvider providerIsSetOptional
      */
-    public function testIsSetOptional($unique, $expected)
+    public function testIsSetOptional($unique, $expected, $type)
     {
         $this->assertInstanceOf('\\CSanquer\\FakeryGenerator\\Model\\VariableConfig', $this->variableConfig->setOptional($unique));
-        $isOptional = $this->variableConfig->isOptional();
-        $this->assertInternalType('bool', $isOptional);
+        $isOptional = $this->variableConfig->getOptional();
+        $this->assertInternalType($type, $isOptional);
         $this->assertEquals($expected, $isOptional);
     }
     
     public function providerIsSetOptional() 
     {
         return array(
-            array(0, false),
-            array(1, true),
-            array(null, false),
-            array('', false),
-            array(true, true),
-            array(false, false),
+            array(0, 0.0, 'float'),
+            array(1, 1.0, 'float'),
+            array('50.5', 1.0, 'float'),
+            array(null, null, 'null'),
+            array('', null, 'null'),
+            array(true, null, 'null'),
+            array(false, null, 'null'),
         );
     }
 
@@ -182,17 +183,13 @@ class VariableConfigTest extends \PHPUnit_Framework_TestCase
         $resetIncrement = false
     ) 
     {
-//        $this->markTestIncomplete();
-        
         $this->variableConfig->setName($name);
         $this->variableConfig->setMethod($method);
         $this->variableConfig->setMethodArguments($methodArguments);
         $this->variableConfig->setOptional($optional);
         $this->variableConfig->setUnique($unique);
         
-//        var_dump($values);
         $this->variableConfig->generateValue($faker, $values, $variableConfigs, $force, $useIncrement, $resetIncrement);
-//        var_dump($values);
         
         $this->assertArrayHasKey($name, $values);
         $this->assertArrayHasKey('raw', $values[$name]);
@@ -229,6 +226,10 @@ class VariableConfigTest extends \PHPUnit_Framework_TestCase
         
         $fakerFixDigit = new \Faker\Generator();
         $fakerFixDigit->addProvider(new FixDigitProvider());
+        
+        $fakerOptional = new \Faker\Generator();
+        $fakerOptional->addProvider(new \Faker\Provider\Base($fakerOptional));
+        $fakerOptional->addProvider(new \ArrayObject(array(1)));
         
         return array(
             // data set #0 simple, no argument
@@ -518,9 +519,121 @@ class VariableConfigTest extends \PHPUnit_Framework_TestCase
                 false, // unique 
                 false, // force 
                 true, // useIncrement 
+                true, // resetIncrement 
+            ),
+            // data set #11 optional 0 %
+            array(
+                // expected rules
+                array(
+                    'number' => array(
+                        'raw_type' => 'null',
+                        'flat_pattern' => '/^$/',
+                    ),
+                ), 
+                $fakerOptional, // faker 
+                // values
+                array(),  
+                'number', // name 
+                'count', // method 
+                // methodArguments 
+                array(), 
+                // variableConfigs
+                array(
+                ),  
+                0, // optional 
+                false, // unique 
+                false, // force 
+                false, // useIncrement 
+                false, // resetIncrement 
+            ),
+            // data set #12 optional 100 %
+            array(
+                // expected rules
+                array(
+                    'number' => array(
+                        'raw_type' => 'int',
+                        'flat_pattern' => '/1/',
+                    ),
+                ), 
+                $fakerOptional, // faker 
+                // values
+                array(),  
+                'number', // name 
+                'count', // method 
+                // methodArguments 
+                array(), 
+                // variableConfigs
+                array(
+                ),  
+                1, // optional 
+                false, // unique 
+                false, // force 
+                false, // useIncrement 
                 false, // resetIncrement 
             ),
         );
+    }
+    
+    public function testGenerateValueOptional() 
+    {
+        $faker = \Faker\Factory::create('en_US');
+        
+        $values = [];
+        $variableConfigs = [];
+                
+        $name = 'foo';
+        
+        $this->variableConfig->setName($name);
+        $this->variableConfig->setMethod('randomDigit');
+        $this->variableConfig->setMethodArguments([]);
+        $this->variableConfig->setOptional(0.5);
+        $this->variableConfig->setUnique(false);
+        
+        $rawValues = [];
+        
+        for ($i=0; $i < 20; $i++) {
+            $this->variableConfig->generateValue($faker, $values, $variableConfigs);
+            $this->assertArrayHasKey($name, $values);
+            $this->assertArrayHasKey('raw', $values[$name]);
+            $this->assertArrayHasKey('flat', $values[$name]);
+            
+            $rawValues[] = $values[$name]['raw'];
+            unset($values[$name]);
+        }
+        sort($rawValues);
+        
+        $this->assertContains(null, $rawValues);
+    }
+    
+    public function testGenerateValueUnique() 
+    {
+        $faker = \Faker\Factory::create('en_US');
+        
+        $values = [];
+        $variableConfigs = [];
+                
+        $name = 'foo';
+        
+        $this->variableConfig->setName($name);
+        $this->variableConfig->setMethod('randomDigit');
+        $this->variableConfig->setMethodArguments([]);
+        $this->variableConfig->setOptional(null);
+        $this->variableConfig->setUnique(true);
+        
+        $rawValues = [];
+        
+        for ($i=0; $i < 10; $i++) {
+            $this->variableConfig->generateValue($faker, $values, $variableConfigs);
+            $this->assertArrayHasKey($name, $values);
+            $this->assertArrayHasKey('raw', $values[$name]);
+            $this->assertArrayHasKey('flat', $values[$name]);
+            
+            $rawValues[] = $values[$name]['raw'];
+            unset($values[$name]);
+        }
+        sort($rawValues);
+        
+        $this->assertEquals(array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9), $rawValues);
     }
 }
 
