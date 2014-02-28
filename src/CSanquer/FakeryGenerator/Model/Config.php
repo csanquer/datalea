@@ -1,6 +1,6 @@
 <?php
 
-namespace Spyrit\Datalea\Faker\Model;
+namespace CSanquer\FakeryGenerator\Model;
 
 use \Spyrit\Datalea\Faker\Dump\Dumper;
 use CSanquer\ColibriCsv\CsvWriter;
