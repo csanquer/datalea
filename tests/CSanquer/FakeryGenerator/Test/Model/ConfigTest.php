@@ -259,10 +259,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Spyrit\Datalea\Faker\Model\Config::getColumnConfig
-     * @todo   Implement testGetColumnConfig().
+     * @covers Spyrit\Datalea\Faker\Model\Config::getColumn
+     * @todo   Implement testGetColumn().
      */
-    public function testGetColumnConfig()
+    public function testGetColumn()
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -271,10 +271,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Spyrit\Datalea\Faker\Model\Config::getColumnConfigs
-     * @todo   Implement testGetColumnConfigs().
+     * @covers Spyrit\Datalea\Faker\Model\Config::getColumns
+     * @todo   Implement testGetColumns().
      */
-    public function testGetColumnConfigs()
+    public function testGetColumns()
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -283,10 +283,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Spyrit\Datalea\Faker\Model\Config::setColumnConfigs
-     * @todo   Implement testSetColumnConfigs().
+     * @covers Spyrit\Datalea\Faker\Model\Config::setColumns
+     * @todo   Implement testSetColumns().
      */
-    public function testSetColumnConfigs()
+    public function testSetColumns()
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -295,10 +295,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Spyrit\Datalea\Faker\Model\Config::addColumnConfig
-     * @todo   Implement testAddColumnConfig().
+     * @covers Spyrit\Datalea\Faker\Model\Config::addColumn
+     * @todo   Implement testAddColumn().
      */
-    public function testAddColumnConfig()
+    public function testAddColumn()
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -307,10 +307,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Spyrit\Datalea\Faker\Model\Config::removeColumnConfig
-     * @todo   Implement testRemoveColumnConfig().
+     * @covers Spyrit\Datalea\Faker\Model\Config::removeColumn
+     * @todo   Implement testRemoveColumn().
      */
-    public function testRemoveColumnConfig()
+    public function testRemoveColumn()
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -319,10 +319,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Spyrit\Datalea\Faker\Model\Config::getVariableConfigs
-     * @todo   Implement testGetVariableConfigs().
+     * @covers Spyrit\Datalea\Faker\Model\Config::getVariables
+     * @todo   Implement testGetVariables().
      */
-    public function testGetVariableConfigs()
+    public function testGetVariables()
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -331,10 +331,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Spyrit\Datalea\Faker\Model\Config::getVariableConfig
-     * @todo   Implement testGetVariableConfig().
+     * @covers Spyrit\Datalea\Faker\Model\Config::getVariable
+     * @todo   Implement testGetVariable().
      */
-    public function testGetVariableConfig()
+    public function testGetVariable()
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -343,10 +343,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Spyrit\Datalea\Faker\Model\Config::setVariableConfigs
-     * @todo   Implement testSetVariableConfigs().
+     * @covers Spyrit\Datalea\Faker\Model\Config::setVariables
+     * @todo   Implement testSetVariables().
      */
-    public function testSetVariableConfigs()
+    public function testSetVariables()
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -355,10 +355,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Spyrit\Datalea\Faker\Model\Config::addVariableConfig
-     * @todo   Implement testAddVariableConfig().
+     * @covers Spyrit\Datalea\Faker\Model\Config::addVariable
+     * @todo   Implement testAddVariable().
      */
-    public function testAddVariableConfig()
+    public function testAddVariable()
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -367,10 +367,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Spyrit\Datalea\Faker\Model\Config::removeVariableConfig
-     * @todo   Implement testRemoveVariableConfig().
+     * @covers Spyrit\Datalea\Faker\Model\Config::removeVariable
+     * @todo   Implement testRemoveVariable().
      */
-    public function testRemoveVariableConfig()
+    public function testRemoveVariable()
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(

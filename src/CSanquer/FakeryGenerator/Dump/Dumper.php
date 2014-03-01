@@ -119,22 +119,22 @@ class Dumper
         }
 
         $variablesElt = $root->addChild('variables');
-        foreach ($this->config->getVariableConfigs() as $variableConfig) {
+        foreach ($this->config->getVariableConfigs() as $variable) {
             $variableElt = $variablesElt->addChild('variable');
-            $variableElt->addAttribute('name', $variableConfig->getName());
-            $variableElt->addChild('method', $variableConfig->getFakerMethod());
-            $variableElt->addChildCData('argument1', $variableConfig->getFakerMethodArg1());
-            $variableElt->addChildCData('argument2', $variableConfig->getFakerMethodArg2());
-            $variableElt->addChildCData('argument3', $variableConfig->getFakerMethodArg3());
+            $variableElt->addAttribute('name', $variable->getName());
+            $variableElt->addChild('method', $variable->getFakerMethod());
+            $variableElt->addChildCData('argument1', $variable->getFakerMethodArg1());
+            $variableElt->addChildCData('argument2', $variable->getFakerMethodArg2());
+            $variableElt->addChildCData('argument3', $variable->getFakerMethodArg3());
         }
 
         $columnsElt = $root->addChild('columns');
-        foreach ($this->config->getColumnConfigs() as $columnConfig) {
+        foreach ($this->config->getColumns() as $column) {
             $columnElt = $columnsElt->addChild('column');
-            $columnElt->addAttribute('name', $columnConfig->getName());
-            $columnElt->addAttribute('unique', $columnConfig->getUnique());
-            $columnElt->addChildCData('value', $columnConfig->getValue());
-            $columnElt->addChild('convert', $columnConfig->getConvertMethod());
+            $columnElt->addAttribute('name', $column->getName());
+            $columnElt->addAttribute('unique', $column->getUnique());
+            $columnElt->addChildCData('value', $column->getValue());
+            $columnElt->addChild('convert', $column->getConvertMethod());
         }
 
         $file = $dir.DS.$name.'.xml';
@@ -156,10 +156,10 @@ class Dumper
             throw new InvalidArgumentException('A Faker configuration must be set.');
         }
 
-        $variableConfigs = $this->config->getVariableConfigs();
-        $columnConfigs = $this->config->getColumnConfigs();
+        $variables = $this->config->getVariableConfigs();
+        $columns = $this->config->getColumns();
 
-        if (!count($columnConfigs)) {
+        if (!count($columns)) {
             throw new InvalidArgumentException('the configuration must have one column configuration at least.');
         }
 
@@ -173,8 +173,8 @@ class Dumper
         }
 
         $uniqueTupleCollection = new UniqueTupleCollection();
-        foreach ($columnConfigs as $columnConfig) {
-            $uniqueTuple = $columnConfig->createUniqueTuple($variableConfigs);
+        foreach ($columns as $column) {
+            $uniqueTuple = $column->createUniqueTuple($variables);
             if ($uniqueTuple) {
                 $uniqueTupleCollection->addUniqueTuple($uniqueTuple);
             }
@@ -184,15 +184,15 @@ class Dumper
         for ($index = 1; $index <= $this->config->getFakeNumber(); $index++) {
             //1 row
             $values = array();
-            foreach ($variableConfigs as $variableConfig) {
-                $variableConfig->generateValue($faker, $values, $variableConfigs, false, false, true);
+            foreach ($variables as $variable) {
+                $variable->generateValue($faker, $values, $variables, false, false, true);
             }
 
-            $uniqueTupleCollection->unDuplicateValues($faker, $values, $variableConfigs);
+            $uniqueTupleCollection->unDuplicateValues($faker, $values, $variables);
 
             $data = array();
-            foreach ($columnConfigs as $columnConfig) {
-                $data[$columnConfig->getName()] = $columnConfig->replaceVariable($values);
+            foreach ($columns as $column) {
+                $data[$column->getName()] = $column->replaceVariable($values);
             }
             $this->fakeData[] = $data;
         }

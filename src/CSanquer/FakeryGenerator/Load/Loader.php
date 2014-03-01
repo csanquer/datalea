@@ -1,11 +1,11 @@
 <?php
 
-namespace Spyrit\Datalea\Faker\Dump;
+namespace CSanquer\FakeryGenerator\Loader;
 
-use \Spyrit\Datalea\Faker\Model\ColumnConfig;
-use \Spyrit\Datalea\Faker\Model\Config;
-use \Spyrit\Datalea\Faker\Model\CsvFormat;
-use \Spyrit\Datalea\Faker\Model\VariableConfig;
+use \CSanquer\FakeryGenerator\Model\Column;
+use \CSanquer\FakeryGenerator\Model\Config;
+use \CSanquer\FakeryGenerator\Model\CsvFormat;
+use \CSanquer\FakeryGenerator\Model\VariableConfig;
 
 /**
  * Loader
@@ -21,7 +21,7 @@ class Loader
      */
     public function loadXmlFakerConfig($file)
     {
-        $root = simplexml_load_file($file, '\\Spyrit\\Datalea\\Faker\\Dump\\CdataSimpleXMLElement', LIBXML_NOCDATA);
+        $root = simplexml_load_file($file, '\\CSanquer\\FakeryGenerator\\XML\\CdataSimpleXMLElement', LIBXML_NOCDATA);
 
         $config = new Config();
         if (isset($root['classname'])) {
@@ -55,24 +55,24 @@ class Loader
 
         if (isset($root->variables->variable)) {
             foreach ($root->variables->variable as $variable) {
-                $variableConfig = new VariableConfig();
-                $variableConfig->setName($variable['name']);
-                $variableConfig->setFakerMethod((string) $variable->method);
-                $variableConfig->setFakerMethodArg1((string) $variable->argument1);
-                $variableConfig->setFakerMethodArg2((string) $variable->argument2);
-                $variableConfig->setFakerMethodArg3((string) $variable->argument3);
-                $config->addVariableConfig($variableConfig);
+                $variable = new VariableConfig();
+                $variable->setName($variable['name']);
+                $variable->setFakerMethod((string) $variable->method);
+                $variable->setFakerMethodArg1((string) $variable->argument1);
+                $variable->setFakerMethodArg2((string) $variable->argument2);
+                $variable->setFakerMethodArg3((string) $variable->argument3);
+                $config->addVariableConfig($variable);
             }
         }
 
         if (isset($root->columns->column)) {
             foreach ($root->columns->column as $column) {
-                $columnConfig = new ColumnConfig();
-                $columnConfig->setName($column['name']);
-                $columnConfig->setUnique(!empty($column['unique']));
-                $columnConfig->setValue((string) $column->value);
-                $columnConfig->setConvertMethod((string) $column->convert);
-                $config->addColumnConfig($columnConfig);
+                $column = new Column();
+                $column->setName($column['name']);
+                $column->setUnique(!empty($column['unique']));
+                $column->setValue((string) $column->value);
+                $column->setConvertMethod((string) $column->convert);
+                $config->addColumn($column);
             }
         }
         return $config;

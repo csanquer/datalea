@@ -108,22 +108,22 @@ class DumpManager
         }
 
         $variablesElt = $root->addChild('variables');
-        foreach ($this->config->getVariableConfigs() as $variableConfig) {
+        foreach ($this->config->getVariableConfigs() as $variable) {
             $variableElt = $variablesElt->addChild('variable');
-            $variableElt->addAttribute('name', $variableConfig->getName());
-            $variableElt->addChild('method', $variableConfig->getFakerMethod());
-            $variableElt->addChildCData('argument1', $variableConfig->getFakerMethodArg1());
-            $variableElt->addChildCData('argument2', $variableConfig->getFakerMethodArg2());
-            $variableElt->addChildCData('argument3', $variableConfig->getFakerMethodArg3());
+            $variableElt->addAttribute('name', $variable->getName());
+            $variableElt->addChild('method', $variable->getFakerMethod());
+            $variableElt->addChildCData('argument1', $variable->getFakerMethodArg1());
+            $variableElt->addChildCData('argument2', $variable->getFakerMethodArg2());
+            $variableElt->addChildCData('argument3', $variable->getFakerMethodArg3());
         }
 
         $columnsElt = $root->addChild('columns');
-        foreach ($this->config->getColumnConfigs() as $columnConfig) {
+        foreach ($this->config->getColumns() as $column) {
             $columnElt = $columnsElt->addChild('column');
-            $columnElt->addAttribute('name', $columnConfig->getName());
-            $columnElt->addAttribute('unique', $columnConfig->getUnique());
-            $columnElt->addChildCData('value', $columnConfig->getValue());
-            $columnElt->addChild('convert', $columnConfig->getConvertMethod());
+            $columnElt->addAttribute('name', $column->getName());
+            $columnElt->addAttribute('unique', $column->getUnique());
+            $columnElt->addChildCData('value', $column->getValue());
+            $columnElt->addChild('convert', $column->getConvertMethod());
         }
 
         $file = $dir.DS.$name.'.xml';

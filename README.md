@@ -1,6 +1,8 @@
 Fakery Generator - a Random Test Fixtures Data Generator
 ========================================================
 
+This project is a rewritten fork of [Spyrit's datalea](https://github.com/spyrit/datalea), I developed previously at Spyrit's.
+
 Install
 -------
 

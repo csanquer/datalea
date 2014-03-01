@@ -44,15 +44,15 @@ class Config
 
     /**
      *
-     * @var array of ColumnConfig
+     * @var array of Column
      */
-    protected $columnConfigs = array();
+    protected $columns = array();
 
     /**
      *
-     * @var array of VariableConfig
+     * @var array of Variable
      */
-    protected $variableConfigs = array();
+    protected $variables = array();
 
     /**
      *
@@ -62,7 +62,7 @@ class Config
 
     public function __construct()
     {
-        $this->columnConfigs = array();
+        $this->columns = array();
         $this->csvDialect = \CSanquer\ColibriCsv\Dialect::createExcelDialect();
     }
 
@@ -231,56 +231,56 @@ class Config
     /**
      *
      * @param  string       $name
-     * @return ColumnConfig
+     * @return Column
      */
-    public function getColumnConfig($name)
+    public function getColumn($name)
     {
-        return isset($this->columnConfigs[$name]) ? $this->columnConfigs[$name] : null ;
+        return isset($this->columns[$name]) ? $this->columns[$name] : null ;
     }
 
-    public function getColumnConfigs()
+    public function getColumns()
     {
-        return $this->columnConfigs;
+        return $this->columns;
     }
 
     /**
-     * @param  array                              $columnConfigs
+     * @param  array                              $columns
      * @return \Spyrit\Datalea\Faker\Model\Config
      */
-    public function setColumnConfigs(array $columnConfigs)
+    public function setColumns(array $columns)
     {
-        $this->columnConfigs = $columnConfigs;
+        $this->columns = $columns;
 
         return $this;
     }
 
     /**
-     * @param  \Spyrit\Datalea\Faker\Model\ColumnConfig $columnConfig
+     * @param  \Spyrit\Datalea\Faker\Model\Column $column
      * @return \Spyrit\Datalea\Faker\Model\Config
      */
-    public function addColumnConfig(ColumnConfig $columnConfig)
+    public function addColumn(Column $column)
     {
-        $name = $columnConfig->getName();
+        $name = $column->getName();
         if (empty($name)) {
             throw new \InvalidArgumentException('The column config must have a name.');
         }
 
-        $this->columnConfigs[$name] = $columnConfig;
+        $this->columns[$name] = $column;
 
         return $this;
     }
 
     /**
      *
-     * @param  \Spyrit\Datalea\Faker\Model\ColumnConfig $columnConfig
+     * @param  \Spyrit\Datalea\Faker\Model\Column $column
      * @return boolean
      */
-    public function removeColumnConfig(ColumnConfig $columnConfig)
+    public function removeColumn(Column $column)
     {
-        $key = array_search($columnConfig, $this->columnConfigs, true);
+        $key = array_search($column, $this->columns, true);
 
         if ($key !== false) {
-            unset($this->columnConfigs[$key]);
+            unset($this->columns[$key]);
 
             return true;
         }
@@ -288,53 +288,53 @@ class Config
         return false;
     }
 
-    public function getVariableConfigs()
+    public function getVariables()
     {
-        return $this->variableConfigs;
+        return $this->variables;
     }
 
     /**
      *
      * @param  string         $name
-     * @return VariableConfig
+     * @return Variable
      */
-    public function getVariableConfig($name)
+    public function getVariable($name)
     {
-        return isset($this->variableConfigs[$name]) ? $this->variableConfigs[$name] : null ;
+        return isset($this->variables[$name]) ? $this->variables[$name] : null ;
     }
 
-    public function setVariableConfigs($variableConfigs)
+    public function setVariables($variables)
     {
-        $this->variableConfigs = $variableConfigs;
+        $this->variables = $variables;
     }
 
     /**
-     * @param  \Spyrit\Datalea\Faker\Model\VariableConfig $variableConfig
+     * @param  \Spyrit\Datalea\Faker\Model\Variable $variable
      * @return \Spyrit\Datalea\Faker\Model\Config
      */
-    public function addVariableConfig(VariableConfig $variableConfig)
+    public function addVariable(Variable $variable)
     {
-        $name = $variableConfig->getName();
+        $name = $variable->getName();
         if (empty($name)) {
             throw new \InvalidArgumentException('The variable config must have a name.');
         }
 
-        $this->variableConfigs[$name] = $variableConfig;
+        $this->variables[$name] = $variable;
 
         return $this;
     }
 
     /**
      *
-     * @param  \Spyrit\Datalea\Faker\Model\ColumnConfig $columnConfig
+     * @param  \Spyrit\Datalea\Faker\Model\Column $column
      * @return boolean
      */
-    public function removeVariableConfig(VariableConfig $variableConfig)
+    public function removeVariable(Variable $variable)
     {
-        $key = array_search($variableConfig, $this->columnConfigs, true);
+        $key = array_search($variable, $this->columns, true);
 
         if ($key !== false) {
-            unset($this->variableConfigs[$key]);
+            unset($this->variables[$key]);
 
             return true;
         }
@@ -347,9 +347,9 @@ class Config
      */
     public function generateColumns()
     {
-        if (empty($this->columnConfigs) && is_array($this->variableConfigs) && !empty($this->variableConfigs)) {
-            foreach ($this->variableConfigs as $variableConfig) {
-                $this->addColumnConfig(new ColumnConfig($variableConfig->getName(), $variableConfig->getVarName()));
+        if (empty($this->columns) && is_array($this->variables) && !empty($this->variables)) {
+            foreach ($this->variables as $variable) {
+                $this->addColumn(new Column($variable->getName(), $variable->getVarName()));
             }
         }
     }
