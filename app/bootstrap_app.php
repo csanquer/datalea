@@ -242,7 +242,6 @@ $app['twig'] = $app->share($app->extend('twig', function($twig, $app) use ($conf
     // add twig custom globals, filters, tags, ...
     if (!empty($config['twig.variables'])) {
         foreach ($config['twig.variables'] as $name => $value) {
-            var_dump($name, $value);
             $twig->addGlobal($name, $value);
         }
     }

@@ -55,6 +55,3 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Fakery Generator.  If not, see <http://www.gnu.org/licenses/>.
 
-FAMFAMFAM flags icons
----------------------
-see http://www.famfamfam.com/lab/icons/flags/
