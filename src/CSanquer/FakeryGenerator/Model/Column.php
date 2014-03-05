@@ -32,15 +32,23 @@ class Column
 
     /**
      *
+     * @var array of Column
+     */
+    protected $columns = [];
+    
+    /**
+     *
      * @param string $name          default = null
      * @param string $value         default = null
      * @param string $convertMethod default = null
+     * @param array  $columns       default = array(), array of Column
      */
-    public function __construct($name = null, $value = null, $convertMethod = null)
+    public function __construct($name = null, $value = null, $convertMethod = null, array $columns = [])
     {
         $this->setName($name);
         $this->setValue($value);
         $this->setConvertMethod($convertMethod);
+        $this->setColumns($columns);
     }
 
     /**
@@ -107,42 +115,71 @@ class Column
     }
     
     /**
-     *
-     * @return array
+     * 
+     * @return array of Column
      */
-    public function getUsedVariables()
+    public function getColumns()
     {
-        if (empty($this->usedVariables)) {
-            if (preg_match_all('/%([a-zA-Z0-9_]+)%/', $this->getValue(), $matches, PREG_PATTERN_ORDER)) {
-                if (isset($matches[1])) {
-                    $this->usedVariables = $matches[1];
-                }
-            }
+        return $this->columns;
+    }
+
+    /**
+     * 
+     * @return Column
+     */
+    public function getColumn($name)
+    {
+        return isset($this->columns[$name]) ? $this->columns[$name] : null;
+    }
+
+    /**
+     * 
+     * @param array of Column $columns
+     * @return \CSanquer\FakeryGenerator\Model\Column
+     */
+    public function setColumns(array $columns)
+    {
+        foreach ($columns as $column) {
+            $this->addColumn($column);
+        }
+        
+        return $this;
+    }
+
+    /**
+     * @param  Column $column
+     * @return Column
+     */
+    public function addColumn(Column $column)
+    {
+        $name = $column->getName();
+        if ($name === null || $name === '') {
+            throw new \InvalidArgumentException('The column must have a name.');
         }
 
-        return $this->usedVariables;
+        $this->columns[$name] = $column;
+
+        return $this;
     }
-    
+
     /**
      *
-     * @param Generator $faker
-     * @param array            $values          generated value will be inserted into this array
-     * @param array            $variables other variable configs to be replaced in faker method arguments if used
+     * @param  Column $column
+     * @return boolean
      */
-    public function generateValues(Generator $faker, array &$values, array $variables = array())
+    public function removeColumn(Column $column)
     {
-        $usedVariables = $this->getUsedVariables();
+        $key = array_search($column, $this->columns, true);
 
+        if ($key !== false) {
+            unset($this->columns[$key]);
 
-        foreach ($usedVariables as $usedVariable) {
-            if (isset($variables[$usedVariable])) {
-                $variables[$usedVariable]->generateValue($faker, $values, $variables);
-            }
+            return true;
         }
 
-        var_dump($columnValue);
+        return false;
     }
-
+    
     /**
      *
      * @param  array  $availableVariables
@@ -157,53 +194,6 @@ class Column
             $this->getValue()
         );
 
-        switch ($this->getConvertMethod()) {
-            case 'lowercase':
-                $value = Converter::tolower($value, 'UTF-8');
-                break;
-            case 'uppercase':
-                $value = Converter::toupper($value, 'UTF-8');
-                break;
-            case 'capitalize':
-                $value = Converter::ucfirst($value);
-                break;
-            case 'capitalize_words':
-                $value = Converter::ucwords($value);
-                break;
-            case 'absolute':
-                $value = abs($value);
-                break;
-            case 'remove_accents':
-                $value = Converter::removeAccents($value);
-                break;
-            case 'remove_accents_lowercase':
-                $value = Converter::tolower(Converter::removeAccents($value), 'UTF-8');
-                break;
-            case 'remove_accents_uppercase':
-                $value = Converter::toupper(Converter::removeAccents($value), 'UTF-8');
-                break;
-            case 'remove_accents_capitalize':
-                $value = Converter::ucfirst(Converter::removeAccents($value));
-                break;
-            case 'remove_accents_capitalize_words':
-                $value = Converter::ucwords(Converter::removeAccents($value));
-                break;
-            case 'as_bool':
-                $value = (bool) $value;
-                break;
-            case 'as_int':
-                $value = (int) $value;
-                break;
-            case 'as_float':
-                $value = (float) $value;
-                break;
-            case 'as_string':
-                $value = (string) $value;
-                break;
-            default:
-                break;
-        }
-
-        return $value;
+        return Converter::convert($this->getConvertMethod(), $value);
     }
 }

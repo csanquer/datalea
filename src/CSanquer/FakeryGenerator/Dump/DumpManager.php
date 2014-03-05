@@ -40,7 +40,7 @@ class DumpManager
      */
     public static function getAvailableFormats()
     {
-        return array(
+        return [
             'csv' => 'CSV',
             'excel' => 'Excel',
             'yaml' => 'YAML',
@@ -51,7 +51,7 @@ class DumpManager
             'perl' => 'Perl',
             'ruby' => 'Ruby',
             'python' => 'Python',
-        );
+        ];
     }
 
     /**
@@ -165,7 +165,7 @@ class DumpManager
             $this->config->generateSeed();
         }
 
-        $files = array();
+        $files = [];
 
         $files[] = $this->saveConfigAsXML($workingPath);
 

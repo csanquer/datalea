@@ -55,7 +55,7 @@ class Variable
      * @param array $methodArguments
      * @param bool $unique
      */
-    public function __construct($name = null, $method = null, array $methodArguments = array(), $unique = false, $optional = false)
+    public function __construct($name = null, $method = null, array $methodArguments = [], $unique = false, $optional = false)
     {
         $this->setName($name);
         $this->setMethod($method);
@@ -194,7 +194,7 @@ class Variable
      * @param bool             $useIncrement    use increment suffix or add increment
      * @param bool             $resetIncrement  reset current variable increment
      */
-    public function generateValue(Generator $faker, array &$values, array $variables = array(), $force = false, $useIncrement = false, $resetIncrement = false)
+    public function generateValue(Generator $faker, array &$values, array $variables = [], $force = false, $useIncrement = false, $resetIncrement = false)
     {
         if ($resetIncrement) {
             $this->increment = 0;
@@ -218,13 +218,13 @@ class Variable
      * @param  array            $variables other variable configs to be replaced in faker method arguments if used
      * @return string
      */
-    protected function generate(Generator $faker, array &$values, array $variables = array())
+    protected function generate(Generator $faker, array &$values, array $variables = [])
     {
         try {
             $method = $this->getMethod();
 
             // prepare arguments , replace variables with generated random values
-            $args = array();
+            $args = [];
             foreach ($this->getMethodArguments() as $methodArgument) {
                 $args[] = $this->replaceVariables($methodArgument, $faker, $values, $variables);
             }
@@ -281,7 +281,7 @@ class Variable
             }
             
             // generate value
-            $raw = call_user_func_array(array($generator, $method), $args);
+            $raw = call_user_func_array([$generator, $method], $args);
             
             // format value
             if ($raw instanceof \DateTime) {
@@ -298,10 +298,10 @@ class Variable
             $value = '';
         }
         
-        return array(
+        return [
             'raw' => $raw,
             'flat' => $value,
-        );
+        ];
     }
 
     /**
@@ -313,7 +313,7 @@ class Variable
      * @param  array            $variables
      * @return string
      */
-    protected function replaceVariables($str, Generator $faker, array &$values, array $variables = array())
+    protected function replaceVariables($str, Generator $faker, array &$values, array $variables = [])
     {
         return preg_replace_callback('/%([a-zA-Z0-9_]+)%/',
             function($matches) use (&$values, $faker, $variables) {

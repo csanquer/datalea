@@ -2,8 +2,9 @@
 
 namespace CSanquer\FakeryGenerator\Model;
 
-use \Spyrit\Datalea\Faker\Dump\Dumper;
 use CSanquer\ColibriCsv\CsvWriter;
+use CSanquer\ColibriCsv\Dialect;
+use CSanquer\FakeryGenerator\Dump\Dumper;
 
 /**
  * Config
@@ -34,43 +35,52 @@ class Config
      *
      * @var array
      */
-    protected $formats = array();
+    protected $formats = [];
 
     /**
      *
      * @var int
      */
-    protected $fakeNumber;
+    protected $fakeNumber = 0;
 
     /**
      *
      * @var array of Column
      */
-    protected $columns = array();
+    protected $columns = [];
 
     /**
      *
      * @var array of Variable
      */
-    protected $variables = array();
+    protected $variables = [];
 
     /**
      *
-     * @var \CSanquer\ColibriCsv\Dialect
+     * @var Dialect
      */
     protected $csvDialect;
 
     public function __construct()
     {
-        $this->columns = array();
-        $this->csvDialect = \CSanquer\ColibriCsv\Dialect::createExcelDialect();
+        $this->generateSeed();
+        $this->csvDialect = Dialect::createExcelDialect();
     }
 
+    /**
+     * 
+     * @return string
+     */
     public function getLocale()
     {
         return $this->locale;
     }
 
+    /**
+     * 
+     * @param string $locale
+     * @return Config
+     */
     public function setLocale($locale)
     {
         $this->locale = $locale;
@@ -78,11 +88,10 @@ class Config
         return $this;
     }
 
-    public function hasSeed()
-    {
-        return $this->seed !== null && $this->seed != '';
-    }
-
+    /**
+     * 
+     * @return Config
+     */
     public function generateSeed()
     {
         return $this->setSeed(mt_rand(0, 50000));
@@ -99,12 +108,12 @@ class Config
 
     /**
      *
-     * @param  int                                $seed
-     * @return \Spyrit\Datalea\Faker\Model\Config
+     * @param  int    $seed
+     * @return Config
      */
     public function setSeed($seed)
     {
-        $this->seed = $seed !== null && $seed != '' ? (int) $seed : null;
+        $this->seed = (int) $seed;
 
         return $this;
     }
@@ -125,14 +134,16 @@ class Config
      */
     public function getClassNameLastPart()
     {
-        $res = preg_match('/([a-zA-Z0-9]+)$/', $this->className, $matches);
-        if ($res) {
-            return $matches[1];
-        }
-
-        return $this->getClassName(true);
+        $res = preg_match('/([a-zA-Z0-9]+)[^a-zA-Z0-9]*$/', $this->className, $matches);
+        
+        return $res ? $matches[1] : $this->getClassName(true);
     }
 
+    /**
+     * 
+     * @param string $className
+     * @return Config
+     */
     public function setClassName($className)
     {
         $this->className = preg_replace('/[^a-zA-Z0-9_\\\\]/', '', $className);
@@ -140,6 +151,11 @@ class Config
         return $this;
     }
 
+    /**
+     * 
+     * @param string $format
+     * @return Config
+     */
     public function addFormat($format)
     {
         if (in_array($format, array_keys(Dumper::getAvailableFormats())) && !in_array($format, $this->formats)) {
@@ -177,6 +193,10 @@ class Config
         return in_array($format, $this->formats);
     }
 
+    /**
+     * 
+     * @return array
+     */
     public function getFormats()
     {
         return $this->formats;
@@ -185,7 +205,7 @@ class Config
     /**
      *
      * @param  array                              $formats
-     * @return \Spyrit\Datalea\Faker\Model\Config
+     * @return Config
      */
     public function setFormats(array $formats)
     {
@@ -194,11 +214,20 @@ class Config
         return $this;
     }
 
+    /**
+     * 
+     * @return int
+     */
     public function getFakeNumber()
     {
         return $this->fakeNumber;
     }
 
+    /**
+     * 
+     * @param int $fakeNumber
+     * @return Config
+     */
     public function setFakeNumber($fakeNumber)
     {
         $this->fakeNumber = (int) $fakeNumber;
@@ -206,12 +235,21 @@ class Config
         return $this;
     }
 
+    /**
+     * 
+     * @return Dialect
+     */
     public function getCsvDialect()
     {
         return $this->csvDialect;
     }
 
-    public function setCsvDialect(\CSanquer\ColibriCsv\Dialect $csvDialect)
+    /**
+     * 
+     * @param Dialect $csvDialect
+     * @return Config
+     */
+    public function setCsvDialect(Dialect $csvDialect)
     {
         $this->csvDialect = $csvDialect;
         
@@ -221,11 +259,11 @@ class Config
     /**
      * create a CSV writer from CSV format options
      *
-     * @return \CSanquer\ColibriCsv\CsvWriter
+     * @return CsvWriter
      */
     public function createCsvWriter()
     {
-        return new CsvWriter($this->csvDialect ?: \CSanquer\ColibriCsv\Dialect::createExcelDialect());
+        return new CsvWriter($this->csvDialect ?: Dialect::createExcelDialect());
     }
 
     /**
@@ -245,7 +283,7 @@ class Config
 
     /**
      * @param  array                              $columns
-     * @return \Spyrit\Datalea\Faker\Model\Config
+     * @return Config
      */
     public function setColumns(array $columns)
     {
@@ -255,8 +293,8 @@ class Config
     }
 
     /**
-     * @param  \Spyrit\Datalea\Faker\Model\Column $column
-     * @return \Spyrit\Datalea\Faker\Model\Config
+     * @param  Column $column
+     * @return Config
      */
     public function addColumn(Column $column)
     {
@@ -272,7 +310,7 @@ class Config
 
     /**
      *
-     * @param  \Spyrit\Datalea\Faker\Model\Column $column
+     * @param  Column $column
      * @return boolean
      */
     public function removeColumn(Column $column)
@@ -288,6 +326,10 @@ class Config
         return false;
     }
 
+    /**
+     * 
+     * @return array of Variable
+     */
     public function getVariables()
     {
         return $this->variables;
@@ -303,14 +345,18 @@ class Config
         return isset($this->variables[$name]) ? $this->variables[$name] : null ;
     }
 
+    /**
+     * 
+     * @param array $variables array of Variable
+     */
     public function setVariables($variables)
     {
         $this->variables = $variables;
     }
 
     /**
-     * @param  \Spyrit\Datalea\Faker\Model\Variable $variable
-     * @return \Spyrit\Datalea\Faker\Model\Config
+     * @param  Variable $variable
+     * @return Config
      */
     public function addVariable(Variable $variable)
     {
@@ -326,7 +372,7 @@ class Config
 
     /**
      *
-     * @param  \Spyrit\Datalea\Faker\Model\Column $column
+     * @param  Column $column
      * @return boolean
      */
     public function removeVariable(Variable $variable)

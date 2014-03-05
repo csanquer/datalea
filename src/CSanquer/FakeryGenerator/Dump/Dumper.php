@@ -51,7 +51,7 @@ class Dumper
      */
     public static function getAvailableFormats()
     {
-        return array(
+        return [
             'csv' => 'CSV',
             'excel' => 'Excel',
             'yaml' => 'YAML',
@@ -62,7 +62,7 @@ class Dumper
             'perl' => 'Perl',
             'ruby' => 'Ruby',
             'python' => 'Python',
-        );
+        ];
     }
 
     /**
@@ -180,17 +180,17 @@ class Dumper
             }
         }
 
-        $this->fakeData = array();
+        $this->fakeData = [];
         for ($index = 1; $index <= $this->config->getFakeNumber(); $index++) {
             //1 row
-            $values = array();
+            $values = [];
             foreach ($variables as $variable) {
                 $variable->generateValue($faker, $values, $variables, false, false, true);
             }
 
             $uniqueTupleCollection->unDuplicateValues($faker, $values, $variables);
 
-            $data = array();
+            $data = [];
             foreach ($columns as $column) {
                 $data[$column->getName()] = $column->replaceVariable($values);
             }
@@ -429,9 +429,9 @@ JSON;
     public function dumpYAML($dir)
     {
         $className = $this->config->getClassName();
-        $data = array(
-            $className => array(),
-        );
+        $data = [
+            $className => [],
+        ];
 
         $fakeData = $this->getFakeData();
 
@@ -615,7 +615,7 @@ DUMP;
             $this->config->generateSeed();
         }
 
-        $files = array();
+        $files = [];
 
         $files[] = $this->saveConfigAsXML($workingPath);
 

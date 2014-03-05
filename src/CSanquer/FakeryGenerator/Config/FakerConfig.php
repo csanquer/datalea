@@ -23,7 +23,7 @@ class FakerConfig
     
     protected $cachePath;
 
-    protected $config = array();
+    protected $config = [];
     
     public function __construct($configDirectories, $configFiles, $cachePath, $debug = false)
     {
@@ -35,18 +35,18 @@ class FakerConfig
 
         if (!$configCache->isFresh()) {
             $locator = new FileLocator($this->configDirectories);
-            $loaderResolver = new LoaderResolver(array(new YamlLoader($locator)));
+            $loaderResolver = new LoaderResolver([new YamlLoader($locator)]);
             $delegatingLoader = new DelegatingLoader($loaderResolver);
             
-            $resources = array();
-            $config = array();
+            $resources = [];
+            $config = [];
             foreach ($this->configFiles as $configFile) {
                 $path = $locator->locate($configFile);
                 $config = array_merge($config, $delegatingLoader->load($path));
                 $resources[] = new FileResource($path);
             }
 
-            $exportConfig = var_export($this->parseRawConfig(isset($config['faker']) ? $config['faker'] : array()), true);
+            $exportConfig = var_export($this->parseRawConfig(isset($config['faker']) ? $config['faker'] : []), true);
             $code = <<<PHP
 <?php
 return {$exportConfig};
@@ -62,11 +62,11 @@ PHP;
     
     protected function parseRawConfig(array $rawConfig)
     {
-        $parsedConfig = array(
-            'cultures' => array(),
-            'providers' => array(),
-            'methods' => array(),
-        );
+        $parsedConfig = [
+            'cultures' => [],
+            'providers' => [],
+            'methods' => [],
+        ];
         
         if (isset($rawConfig['cultures'])) {
             $parsedConfig['cultures'] = array_unique($rawConfig['cultures']);
@@ -78,13 +78,13 @@ PHP;
                 foreach ($providers as $provider => $methods) {
                     $parsedConfig['providers'][] = $provider;
                     foreach ($methods as $method => $infos) {
-                        $parsedConfig['methods'][$method] = array(
+                        $parsedConfig['methods'][$method] = [
                             'name' => $method,
                             'provider' => $provider,
                             'culture' => $culture,
-                        );
+                        ];
 
-                        $parsedConfig['methods'][$method]['arguments'] = isset($infos['arguments']) ? $infos['arguments'] : array();
+                        $parsedConfig['methods'][$method]['arguments'] = isset($infos['arguments']) ? $infos['arguments'] : [];
                         $parsedConfig['methods'][$method]['example'] = isset($infos['example']) ? $infos['example'] : null;
                     }
                 }
@@ -113,7 +113,7 @@ PHP;
     
     public function getMethod($name) 
     {
-        return isset($this->config['methods'][$name]) ? $this->config['methods'][$name] : array();
+        return isset($this->config['methods'][$name]) ? $this->config['methods'][$name] : [];
     }
     
     public function getMethods($culture = null, $provider = null) 
@@ -128,7 +128,7 @@ PHP;
             });
         }
         
-        $cultures = array_unique(array($culture, self::DEFAULT_CULTURE));
+        $cultures = array_unique([$culture, self::DEFAULT_CULTURE]);
         
         if (empty($provider)) {
             return array_filter($this->config['methods'], function($method) use ($cultures) {

@@ -60,90 +60,90 @@ class FakerConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetConfig()
     {
-        $expected = array(
-            'cultures' => array(
+        $expected = [
+            'cultures' => [
                 'en_US',
                 'es_ES',
                 'fr_FR',
-            ),
-            'providers' => array(
+            ],
+            'providers' => [
                 'Address',
                 'Company',
                 'Person',
-            ),
-            'methods' => array(
-                'departmentName' => array(
+            ],
+            'methods' => [
+                'departmentName' => [
                     'name' => 'departmentName',
                     'provider' => 'Address',
                     'culture' => 'fr_FR',
-                    'arguments' => array(),
+                    'arguments' => [],
                     'example' => '\'Haut-Rhin\'',
-                ),
-                'departmentNumber' => array(
+                ],
+                'departmentNumber' => [
                     'name' => 'departmentNumber',
                     'provider' => 'Address',
                     'culture' => 'fr_FR',
-                    'arguments' => array(),
+                    'arguments' => [],
                     'example' => '\'2B\'',
-                ),
-                'siret' => array(
+                ],
+                'siret' => [
                     'name' => 'siret',
                     'provider' => 'Company',
                     'culture' => 'fr_FR',
-                    'arguments' => array('sequential_digits' => 2),
+                    'arguments' => ['sequential_digits' => 2],
                     'example' => '\'347 355 708 00224\''
-                ),
-                'firstName' => array(
+                ],
+                'firstName' => [
                     'name' => 'firstName',
                     'provider' => 'Person',
                     'culture' => 'en_US',
-                    'arguments' => array(),
+                    'arguments' => [],
                     'example' => '\'Maynard\'',
-                ),
-                'lastName' => array(
+                ],
+                'lastName' => [
                     'name' => 'lastName',
                     'provider' => 'Person',
                     'culture' => 'en_US',
-                    'arguments' => array(),
+                    'arguments' => [],
                     'example' => '\'Zulauf\'',
-                ),
-                'buildingNumber' => array(
+                ],
+                'buildingNumber' => [
                     'name' => 'buildingNumber',
                     'provider' => 'Address',
                     'culture' => 'en_US',
-                    'arguments' => array(),
+                    'arguments' => [],
                     'example' => '\'484\'',
-                ),
-                'city' => array(
+                ],
+                'city' => [
                     'name' => 'city',
                     'provider' => 'Address',
                     'culture' => 'en_US',
-                    'arguments' => array(),
+                    'arguments' => [],
                     'example' => '\'West Judge\'',
-                ),
-                'streetName' => array(
+                ],
+                'streetName' => [
                     'name' => 'streetName',
                     'provider' => 'Address',
                     'culture' => 'en_US',
-                    'arguments' => array(),
+                    'arguments' => [],
                     'example' => '\'Keegan Trail\'',
-                ),
-                'postcode' => array(
+                ],
+                'postcode' => [
                     'name' => 'postcode',
                     'provider' => 'Address',
                     'culture' => 'en_US',
-                    'arguments' => array(),
+                    'arguments' => [],
                     'example' => '\'17916\'',
-                ),
-                'country' => array(
+                ],
+                'country' => [
                     'name' => 'country',
                     'provider' => 'Address',
                     'culture' => 'en_US',
-                    'arguments' => array(),
+                    'arguments' => [],
                     'example' => '\'Falkland Islands (Malvinas)\'',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
         $this->assertEquals($expected, $this->config->getConfig());
     }
 
@@ -152,11 +152,11 @@ class FakerConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCultures()
     {
-        $expected = array(
+        $expected = [
             'en_US',
             'es_ES',
             'fr_FR',
-        );
+        ];
 
         $this->assertEquals($expected, $this->config->getCultures());
     }
@@ -166,11 +166,11 @@ class FakerConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetProviders()
     {
-        $expected = array(
+        $expected = [
             'Address',
             'Company',
             'Person',
-        );
+        ];
 
         $this->assertEquals($expected, $this->config->getProviders());
     }
@@ -186,274 +186,274 @@ class FakerConfigTest extends \PHPUnit_Framework_TestCase
 
     public function providerGetMethods()
     {
-        return array(
+        return [
             //data set #0
-            array(
+            [
                 null,
                 null,
-                array(
-                    'departmentName' => array(
+                [
+                    'departmentName' => [
                         'name' => 'departmentName',
                         'provider' => 'Address',
                         'culture' => 'fr_FR',
-                        'arguments' => array(),
+                        'arguments' => [],
                         'example' => '\'Haut-Rhin\'',
-                    ),
-                    'departmentNumber' => array(
+                    ],
+                    'departmentNumber' => [
                         'name' => 'departmentNumber',
                         'provider' => 'Address',
                         'culture' => 'fr_FR',
-                        'arguments' => array(),
+                        'arguments' => [],
                         'example' => '\'2B\'',
-                    ),
-                    'siret' => array(
+                    ],
+                    'siret' => [
                         'name' => 'siret',
                         'provider' => 'Company',
                         'culture' => 'fr_FR',
-                        'arguments' => array('sequential_digits' => 2),
+                        'arguments' => ['sequential_digits' => 2],
                         'example' => '\'347 355 708 00224\''
-                    ),
-                    'firstName' => array(
+                    ],
+                    'firstName' => [
                         'name' => 'firstName',
                         'provider' => 'Person',
                         'culture' => 'en_US',
-                        'arguments' => array(),
+                        'arguments' => [],
                         'example' => '\'Maynard\'',
-                    ),
-                    'lastName' => array(
+                    ],
+                    'lastName' => [
                         'name' => 'lastName',
                         'provider' => 'Person',
                         'culture' => 'en_US',
-                        'arguments' => array(),
+                        'arguments' => [],
                         'example' => '\'Zulauf\'',
-                    ),
-                    'buildingNumber' => array(
+                    ],
+                    'buildingNumber' => [
                         'name' => 'buildingNumber',
                         'provider' => 'Address',
                         'culture' => 'en_US',
-                        'arguments' => array(),
+                        'arguments' => [],
                         'example' => '\'484\'',
-                    ),
-                    'city' => array(
+                    ],
+                    'city' => [
                         'name' => 'city',
                         'provider' => 'Address',
                         'culture' => 'en_US',
-                        'arguments' => array(),
+                        'arguments' => [],
                         'example' => '\'West Judge\'',
-                    ),
-                    'streetName' => array(
+                    ],
+                    'streetName' => [
                         'name' => 'streetName',
                         'provider' => 'Address',
                         'culture' => 'en_US',
-                        'arguments' => array(),
+                        'arguments' => [],
                         'example' => '\'Keegan Trail\'',
-                    ),
-                    'postcode' => array(
+                    ],
+                    'postcode' => [
                         'name' => 'postcode',
                         'provider' => 'Address',
                         'culture' => 'en_US',
-                        'arguments' => array(),
+                        'arguments' => [],
                         'example' => '\'17916\'',
-                    ),
-                    'country' => array(
+                    ],
+                    'country' => [
                         'name' => 'country',
                         'provider' => 'Address',
                         'culture' => 'en_US',
-                        'arguments' => array(),
+                        'arguments' => [],
                         'example' => '\'Falkland Islands (Malvinas)\'',
-                    ),
-                ),
-            ),
+                    ],
+                ],
+            ],
             //data set #1
-            array(
+            [
                 'en_US',
                 '',
-                array(
-                    'firstName' => array(
+                [
+                    'firstName' => [
                         'name' => 'firstName',
                         'provider' => 'Person',
                         'culture' => 'en_US',
-                        'arguments' => array(),
+                        'arguments' => [],
                         'example' => '\'Maynard\'',
-                    ),
-                    'lastName' => array(
+                    ],
+                    'lastName' => [
                         'name' => 'lastName',
                         'provider' => 'Person',
                         'culture' => 'en_US',
-                        'arguments' => array(),
+                        'arguments' => [],
                         'example' => '\'Zulauf\'',
-                    ),
-                    'buildingNumber' => array(
+                    ],
+                    'buildingNumber' => [
                         'name' => 'buildingNumber',
                         'provider' => 'Address',
                         'culture' => 'en_US',
-                        'arguments' => array(),
+                        'arguments' => [],
                         'example' => '\'484\'',
-                    ),
-                    'city' => array(
+                    ],
+                    'city' => [
                         'name' => 'city',
                         'provider' => 'Address',
                         'culture' => 'en_US',
-                        'arguments' => array(),
+                        'arguments' => [],
                         'example' => '\'West Judge\'',
-                    ),
-                    'streetName' => array(
+                    ],
+                    'streetName' => [
                         'name' => 'streetName',
                         'provider' => 'Address',
                         'culture' => 'en_US',
-                        'arguments' => array(),
+                        'arguments' => [],
                         'example' => '\'Keegan Trail\'',
-                    ),
-                    'postcode' => array(
+                    ],
+                    'postcode' => [
                         'name' => 'postcode',
                         'provider' => 'Address',
                         'culture' => 'en_US',
-                        'arguments' => array(),
+                        'arguments' => [],
                         'example' => '\'17916\'',
-                    ),
-                    'country' => array(
+                    ],
+                    'country' => [
                         'name' => 'country',
                         'provider' => 'Address',
                         'culture' => 'en_US',
-                        'arguments' => array(),
+                        'arguments' => [],
                         'example' => '\'Falkland Islands (Malvinas)\'',
-                    ),
-                )
-            ),
+                    ],
+                ]
+            ],
             //data set #2
-            array(
+            [
                 'en_US',
                 'Person',
-                array(
-                    'firstName' => array(
+                [
+                    'firstName' => [
                         'name' => 'firstName',
                         'provider' => 'Person',
                         'culture' => 'en_US',
-                        'arguments' => array(),
+                        'arguments' => [],
                         'example' => '\'Maynard\'',
-                    ),
-                    'lastName' => array(
+                    ],
+                    'lastName' => [
                         'name' => 'lastName',
                         'provider' => 'Person',
                         'culture' => 'en_US',
-                        'arguments' => array(),
+                        'arguments' => [],
                         'example' => '\'Zulauf\'',
-                    ),
-                ),
-            ),
+                    ],
+                ],
+            ],
             //data set #3
-            array(
+            [
                 'fr_FR',
                 'Address',
-                array(
-                    'departmentName' => array(
+                [
+                    'departmentName' => [
                         'name' => 'departmentName',
                         'provider' => 'Address',
                         'culture' => 'fr_FR',
-                        'arguments' => array(),
+                        'arguments' => [],
                         'example' => '\'Haut-Rhin\'',
-                    ),
-                    'departmentNumber' => array(
+                    ],
+                    'departmentNumber' => [
                         'name' => 'departmentNumber',
                         'provider' => 'Address',
                         'culture' => 'fr_FR',
-                        'arguments' => array(),
+                        'arguments' => [],
                         'example' => '\'2B\'',
-                    ),
-                    'buildingNumber' => array(
+                    ],
+                    'buildingNumber' => [
                         'name' => 'buildingNumber',
                         'provider' => 'Address',
                         'culture' => 'en_US',
-                        'arguments' => array(),
+                        'arguments' => [],
                         'example' => '\'484\'',
-                    ),
-                    'city' => array(
+                    ],
+                    'city' => [
                         'name' => 'city',
                         'provider' => 'Address',
                         'culture' => 'en_US',
-                        'arguments' => array(),
+                        'arguments' => [],
                         'example' => '\'West Judge\'',
-                    ),
-                    'streetName' => array(
+                    ],
+                    'streetName' => [
                         'name' => 'streetName',
                         'provider' => 'Address',
                         'culture' => 'en_US',
-                        'arguments' => array(),
+                        'arguments' => [],
                         'example' => '\'Keegan Trail\'',
-                    ),
-                    'postcode' => array(
+                    ],
+                    'postcode' => [
                         'name' => 'postcode',
                         'provider' => 'Address',
                         'culture' => 'en_US',
-                        'arguments' => array(),
+                        'arguments' => [],
                         'example' => '\'17916\'',
-                    ),
-                    'country' => array(
+                    ],
+                    'country' => [
                         'name' => 'country',
                         'provider' => 'Address',
                         'culture' => 'en_US',
-                        'arguments' => array(),
+                        'arguments' => [],
                         'example' => '\'Falkland Islands (Malvinas)\'',
-                    ),
-                ),
-            ),
+                    ],
+                ],
+            ],
             //data set #4
-            array(
+            [
                 null,
                 'Address',
-                array(
-                    'departmentName' => array(
+                [
+                    'departmentName' => [
                         'name' => 'departmentName',
                         'provider' => 'Address',
                         'culture' => 'fr_FR',
-                        'arguments' => array(),
+                        'arguments' => [],
                         'example' => '\'Haut-Rhin\'',
-                    ),
-                    'departmentNumber' => array(
+                    ],
+                    'departmentNumber' => [
                         'name' => 'departmentNumber',
                         'provider' => 'Address',
                         'culture' => 'fr_FR',
-                        'arguments' => array(),
+                        'arguments' => [],
                         'example' => '\'2B\'',
-                    ),
-                    'buildingNumber' => array(
+                    ],
+                    'buildingNumber' => [
                         'name' => 'buildingNumber',
                         'provider' => 'Address',
                         'culture' => 'en_US',
-                        'arguments' => array(),
+                        'arguments' => [],
                         'example' => '\'484\'',
-                    ),
-                    'city' => array(
+                    ],
+                    'city' => [
                         'name' => 'city',
                         'provider' => 'Address',
                         'culture' => 'en_US',
-                        'arguments' => array(),
+                        'arguments' => [],
                         'example' => '\'West Judge\'',
-                    ),
-                    'streetName' => array(
+                    ],
+                    'streetName' => [
                         'name' => 'streetName',
                         'provider' => 'Address',
                         'culture' => 'en_US',
-                        'arguments' => array(),
+                        'arguments' => [],
                         'example' => '\'Keegan Trail\'',
-                    ),
-                    'postcode' => array(
+                    ],
+                    'postcode' => [
                         'name' => 'postcode',
                         'provider' => 'Address',
                         'culture' => 'en_US',
-                        'arguments' => array(),
+                        'arguments' => [],
                         'example' => '\'17916\'',
-                    ),
-                    'country' => array(
+                    ],
+                    'country' => [
                         'name' => 'country',
                         'provider' => 'Address',
                         'culture' => 'en_US',
-                        'arguments' => array(),
+                        'arguments' => [],
                         'example' => '\'Falkland Islands (Malvinas)\'',
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -467,23 +467,23 @@ class FakerConfigTest extends \PHPUnit_Framework_TestCase
 
     public function providerGetMethod()
     {
-        return array(
+        return [
             //data set #0
-            array(
+            [
                 'firstName',
-                array(
+                [
                     'name' => 'firstName',
                     'provider' => 'Person',
                     'culture' => 'en_US',
-                    'arguments' => array(),
+                    'arguments' => [],
                     'example' => '\'Maynard\'',
-                ),
-            ),
+                ],
+            ],
             //data set #1
-            array(
+            [
                 'foobar',
-                array(),
-            ),
-        );
+                [],
+            ],
+        ];
     }
 }
