@@ -1,7 +1,19 @@
 Fakery Generator - a Random Test Fixtures Data Generator
 ========================================================
 
+[![Latest Stable Version](https://poser.pugx.org/csanquer/fakery-generator/v/stable.png)](https://packagist.org/packages/csanquer/fakery-generator)
+[![Latest Unstable Version](https://poser.pugx.org/csanquer/fakery-generator/v/unstable.png)](https://packagist.org/packages/csanquer/fakery-generator)
 [![Build Status](https://travis-ci.org/csanquer/fakery-generator.png?branch=master)](https://travis-ci.org/csanquer/fakery-generator)
+[![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/csanquer/fakery-generator/badges/quality-score.png?s=2198ddf464fb44997b3990277151df112a95844a)](https://scrutinizer-ci.com/g/csanquer/fakery-generator/)
+[![Code Coverage](https://scrutinizer-ci.com/g/csanquer/fakery-generator/badges/coverage.png?s=7d035be3f60ced08ac77245c40354460aa6fe2ab)](https://scrutinizer-ci.com/g/csanquer/fakery-generator/)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/7a3e3061-48f2-4bee-8c2b-4da3b28db159/mini.png)](https://insight.sensiolabs.com/projects/7a3e3061-48f2-4bee-8c2b-4da3b28db159)
+
+[![Dependency Status](https://www.versioneye.com/user/projects/53184899ec13755bfa000652/badge.png)](https://www.versioneye.com/user/projects/53184899ec13755bfa000652)
+[![Project Status](http://stillmaintained.com/csanquer/colibri-csv.png)](http://stillmaintained.com/csanquer/colibri-csv)
+[![License](https://poser.pugx.org/csanquer/fakery-generator/license.png)](https://packagist.org/packages/csanquer/fakery-generator)
+[![Daily Downloads](https://poser.pugx.org/csanquer/fakery-generator/d/daily.png)](https://packagist.org/packages/csanquer/fakery-generator)
+[![Monthly Downloads](https://poser.pugx.org/csanquer/fakery-generator/d/monthly.png)](https://packagist.org/packages/csanquer/fakery-generator)
+[![Total Downloads](https://poser.pugx.org/csanquer/fakery-generator/downloads.png)](https://packagist.org/packages/csanquer/fakery-generator)
 
 This project is a rewritten fork of [Spyrit's datalea](https://github.com/spyrit/datalea), I developed previously at Spyrit's.
 
