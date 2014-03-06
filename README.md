@@ -1,6 +1,8 @@
 Fakery Generator - a Random Test Fixtures Data Generator
 ========================================================
 
+[![Build Status](https://travis-ci.org/csanquer/fakery-generator.png?branch=master)](https://travis-ci.org/csanquer/fakery-generator)
+
 This project is a rewritten fork of [Spyrit's datalea](https://github.com/spyrit/datalea), I developed previously at Spyrit's.
 
 Install
