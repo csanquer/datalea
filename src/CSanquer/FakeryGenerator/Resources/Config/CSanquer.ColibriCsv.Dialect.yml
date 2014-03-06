@@ -7,7 +7,7 @@ CSanquer\ColibriCsv\Dialect:
             expose: true
         eol:
             access_type: public_method
-            accessor: 
+            accessor:
                 getter: getLineEndingsAsLabel
                 setter: setLineEndings
             type: string

@@ -176,11 +176,11 @@ class Variable
     public function setOptional($optional)
     {
         $this->optional = null;
-        
+
         if ($optional === true) {
             $optional = 0.5;
         }
-        
+
         if (is_numeric($optional)) {
             if ($optional > 1.0) {
                 $optional = 1.0;

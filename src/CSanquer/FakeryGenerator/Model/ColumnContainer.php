@@ -17,7 +17,7 @@ abstract class ColumnContainer
 
     /**
      *
-     * @param array  $columns       default = array(), array of Column
+     * @param array $columns default = array(), array of Column
      */
     public function __construct(array $columns = [])
     {
