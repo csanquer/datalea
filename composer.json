@@ -1,5 +1,6 @@
 {
     "name": "csanquer/fakery-generator",
+    "type": "project",
     "description": "Random Test Fixtures Data Generator",
     "keywords": ["data", "generator", "random", "test", "fixtures", "faker"],
     "authors": [
