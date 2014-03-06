@@ -75,6 +75,7 @@ class Loader
                 $config->addColumn($column);
             }
         }
+
         return $config;
     }
 }

@@ -16,28 +16,28 @@ use Symfony\Component\Config\Resource\FileResource;
 class FakerConfig
 {
     CONST DEFAULT_CULTURE = 'en_US';
-    
+
     protected $configDirectories;
-    
+
     protected $configFiles;
-    
+
     protected $cachePath;
 
     protected $config = [];
-    
+
     public function __construct($configDirectories, $configFiles, $cachePath, $debug = false)
     {
         $this->configDirectories = (array) $configDirectories;
         $this->configFiles = (array) $configFiles;
         $this->cachePath = $cachePath.'/faker_config.php';
-        
+
         $configCache = new ConfigCache($this->cachePath, $debug);
 
         if (!$configCache->isFresh()) {
             $locator = new FileLocator($this->configDirectories);
             $loaderResolver = new LoaderResolver([new YamlLoader($locator)]);
             $delegatingLoader = new DelegatingLoader($loaderResolver);
-            
+
             $resources = [];
             $config = [];
             foreach ($this->configFiles as $configFile) {
@@ -54,12 +54,12 @@ PHP;
 
             $configCache->write($code, $resources);
         }
-        
+
         if (file_exists($this->cachePath)) {
             $this->config = include $this->cachePath;
         }
     }
-    
+
     protected function parseRawConfig(array $rawConfig)
     {
         $parsedConfig = [
@@ -67,12 +67,12 @@ PHP;
             'providers' => [],
             'methods' => [],
         ];
-        
+
         if (isset($rawConfig['cultures'])) {
             $parsedConfig['cultures'] = array_unique($rawConfig['cultures']);
             sort($parsedConfig['cultures']);
         }
-        
+
         if (isset($rawConfig['providers'])) {
             foreach ($rawConfig['providers'] as $culture => $providers) {
                 foreach ($providers as $provider => $methods) {
@@ -92,50 +92,50 @@ PHP;
             $parsedConfig['providers'] = array_unique($parsedConfig['providers']);
             sort($parsedConfig['providers']);
         }
-        
+
         return $parsedConfig;
     }
-    
+
     public function getConfig()
     {
         return $this->config;
     }
-    
+
     public function getCultures()
     {
         return $this->config['cultures'];
     }
-    
+
     public function getProviders()
     {
         return $this->config['providers'];
     }
-    
-    public function getMethod($name) 
+
+    public function getMethod($name)
     {
         return isset($this->config['methods'][$name]) ? $this->config['methods'][$name] : [];
     }
-    
-    public function getMethods($culture = null, $provider = null) 
+
+    public function getMethods($culture = null, $provider = null)
     {
         if (empty($culture) && empty($provider)) {
             return $this->config['methods'];
         }
-        
+
         if (empty($culture)) {
             return array_filter($this->config['methods'], function($method) use ($provider) {
                 return $method['provider'] == $provider;
             });
         }
-        
+
         $cultures = array_unique([$culture, self::DEFAULT_CULTURE]);
-        
+
         if (empty($provider)) {
             return array_filter($this->config['methods'], function($method) use ($cultures) {
                 return in_array($method['culture'], $cultures);
             });
         }
-        
+
         return array_filter($this->config['methods'], function($method) use ($cultures, $provider) {
             return in_array($method['culture'], $cultures) && $method['provider'] == $provider;
         });

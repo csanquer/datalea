@@ -68,7 +68,7 @@ class Config
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function getLocale()
@@ -77,8 +77,8 @@ class Config
     }
 
     /**
-     * 
-     * @param string $locale
+     *
+     * @param  string $locale
      * @return Config
      */
     public function setLocale($locale)
@@ -89,7 +89,7 @@ class Config
     }
 
     /**
-     * 
+     *
      * @return Config
      */
     public function generateSeed()
@@ -135,13 +135,13 @@ class Config
     public function getClassNameLastPart()
     {
         $res = preg_match('/([a-zA-Z0-9]+)[^a-zA-Z0-9]*$/', $this->className, $matches);
-        
+
         return $res ? $matches[1] : $this->getClassName(true);
     }
 
     /**
-     * 
-     * @param string $className
+     *
+     * @param  string $className
      * @return Config
      */
     public function setClassName($className)
@@ -152,8 +152,8 @@ class Config
     }
 
     /**
-     * 
-     * @param string $format
+     *
+     * @param  string $format
      * @return Config
      */
     public function addFormat($format)
@@ -194,7 +194,7 @@ class Config
     }
 
     /**
-     * 
+     *
      * @return array
      */
     public function getFormats()
@@ -204,7 +204,7 @@ class Config
 
     /**
      *
-     * @param  array                              $formats
+     * @param  array  $formats
      * @return Config
      */
     public function setFormats(array $formats)
@@ -215,7 +215,7 @@ class Config
     }
 
     /**
-     * 
+     *
      * @return int
      */
     public function getFakeNumber()
@@ -224,8 +224,8 @@ class Config
     }
 
     /**
-     * 
-     * @param int $fakeNumber
+     *
+     * @param  int    $fakeNumber
      * @return Config
      */
     public function setFakeNumber($fakeNumber)
@@ -236,7 +236,7 @@ class Config
     }
 
     /**
-     * 
+     *
      * @return Dialect
      */
     public function getCsvDialect()
@@ -245,17 +245,17 @@ class Config
     }
 
     /**
-     * 
-     * @param Dialect $csvDialect
+     *
+     * @param  Dialect $csvDialect
      * @return Config
      */
     public function setCsvDialect(Dialect $csvDialect)
     {
         $this->csvDialect = $csvDialect;
-        
+
         return $this;
     }
-        
+
     /**
      * create a CSV writer from CSV format options
      *
@@ -268,7 +268,7 @@ class Config
 
     /**
      *
-     * @param  string       $name
+     * @param  string $name
      * @return Column
      */
     public function getColumn($name)
@@ -282,7 +282,7 @@ class Config
     }
 
     /**
-     * @param  array                              $columns
+     * @param  array  $columns
      * @return Config
      */
     public function setColumns(array $columns)
@@ -312,7 +312,7 @@ class Config
 
     /**
      *
-     * @param  Column $column
+     * @param  Column  $column
      * @return boolean
      */
     public function removeColumn(Column $column)
@@ -329,7 +329,7 @@ class Config
     }
 
     /**
-     * 
+     *
      * @return array of Variable
      */
     public function getVariables()
@@ -339,7 +339,7 @@ class Config
 
     /**
      *
-     * @param  string         $name
+     * @param  string   $name
      * @return Variable
      */
     public function getVariable($name)
@@ -348,8 +348,8 @@ class Config
     }
 
     /**
-     * 
-     * @param array $variables array of Variable
+     *
+     * @param  array                                  $variables array of Variable
      * @return \CSanquer\FakeryGenerator\Model\Config
      */
     public function setVariables($variables)
@@ -379,7 +379,7 @@ class Config
 
     /**
      *
-     * @param  Column $column
+     * @param  Column  $column
      * @return boolean
      */
     public function removeVariable(Variable $variable)

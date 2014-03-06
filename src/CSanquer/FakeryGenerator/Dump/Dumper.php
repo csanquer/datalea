@@ -7,7 +7,6 @@ use DOMDocument;
 use Faker\Factory;
 use InvalidArgumentException;
 use RuntimeException;
-use CSanquer\FakeryGenerator\Dump\Dumper;
 use CSanquer\FakeryGenerator\Model\Config;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
@@ -384,7 +383,7 @@ JSON;
         $name = $this->config->getClassName(true);
 
         $fakeData = $this->getFakeData();
-        
+
         $file = $dir.DS.$name.'.json';
         if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
             $json = json_encode($fakeData, JSON_PRETTY_PRINT);
@@ -415,7 +414,7 @@ JSON;
 
                 $json .= "\n".str_repeat($indentChar, $indent).'}';
             }
-            $json .= "\n".']'; 
+            $json .= "\n".']';
         }
         file_put_contents($file, $json);
 

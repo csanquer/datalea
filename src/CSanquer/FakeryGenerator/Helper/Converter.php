@@ -84,7 +84,7 @@ class Converter
 
         return $value;
     }
-    
+
     public static function tolower($str)
     {
         return mb_strtolower($str, 'UTF-8');
@@ -119,10 +119,11 @@ class Converter
             [
                 '#&([A-za-z])(?:acute|cedil|circ|grave|orn|ring|slash|th|tilde|uml);#',
                 '#&([A-za-z]{2})(?:lig);#', // for ligatures e.g. '&oelig;'
-            ], 
-            ['\1','\1'], 
+            ],
+            ['\1','\1'],
             htmlentities($string, ENT_NOQUOTES, $charset)
         );
+
         return html_entity_decode($string, ENT_NOQUOTES , $charset);
     }
 }

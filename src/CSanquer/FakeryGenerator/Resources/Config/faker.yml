@@ -1,4 +1,4 @@
-faker: 
+faker:
     cultures:
         - bg_BG
         - cs_CZ
@@ -37,7 +37,7 @@ faker:
         - tr_TR
         - uk_UA
         - zh_CN
-        
+
     providers:
         fr_FR:
             Address:
@@ -56,7 +56,7 @@ faker:
                     arguments:
                         sequential_digits: 2
                     example: '''347 355 708 00224'''
-                
+
         da_DK:
             Person:
                 cpr:
@@ -71,7 +71,7 @@ faker:
                     example: '''32458723'''
                 p:
                     example: '''5398237590'''
-                    
+
         pl_PL:
             Person:
                 pesel:
@@ -90,7 +90,7 @@ faker:
                     example: '''Narodowy Bank Polski'''
                 bankAccountNumber:
                     example: '''PL14968907563953822118075816'''
-                    
+
         ja_JP:
             Person:
                 kanaName:
@@ -120,7 +120,7 @@ faker:
                     example: '''0800123456'''
                 premiumRatePhoneNumber:
                     example: '''0900123456'''
-        
+
         # Default
         en_US:
             Person:
@@ -180,11 +180,11 @@ faker:
             Payment:
                 creditCardType:
                     example: '''MasterCard'''
-                creditCardNumber:        
+                creditCardNumber:
                     example: '''4485480221084675'''
-                creditCardExpirationDate: 
+                creditCardExpirationDate:
                     example: 04/13
-                creditCardExpirationDateString: 
+                creditCardExpirationDateString:
                     example: '''04/13'''
                 creditCardDetails:
                     example: 'array(''MasterCard'', ''4485480221084675'', ''Aleksander Nowak'', ''04/13'')'
@@ -369,7 +369,7 @@ faker:
                 mimeType:
                     example: '''video/x-msvideo'''
             Color:
-                hexcolor:          
+                hexcolor:
                     example: '''#fa3cc2'''
                 rgbcolor:
                     example: '''0,255,122'''
@@ -381,7 +381,7 @@ faker:
                     example: '''fuchsia'''
                 colorName:
                     example: '''Gainsbor'''
-                    
+
             Image:
                 image:
                     arguments:
@@ -390,7 +390,7 @@ faker:
                         height: 480
                         # One of 'abstract','animals','business','cats','city','food','nightlife','fashion','people','nature','sports','technics', and 'transport'
                         category: ~
-                            
+
                     example: '''/path/to/dir/13b73edae8443990be1aa8f1a483bc27.jpg'''
                 imageUrl:
                     arguments:

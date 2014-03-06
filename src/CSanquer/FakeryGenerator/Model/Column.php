@@ -34,7 +34,7 @@ class Column
      * @var array of Column
      */
     protected $columns = [];
-    
+
     /**
      *
      * @param string $name          default = null
@@ -51,7 +51,7 @@ class Column
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function getName()
@@ -60,8 +60,8 @@ class Column
     }
 
     /**
-     * 
-     * @param string $name
+     *
+     * @param  string $name
      * @return Column
      */
     public function setName($name)
@@ -72,7 +72,7 @@ class Column
     }
 
     /**
-     * 
+     *
      * @return mixed
      */
     public function getValue()
@@ -81,8 +81,8 @@ class Column
     }
 
     /**
-     * 
-     * @param mixed $value
+     *
+     * @param  mixed  $value
      * @return Column
      */
     public function setValue($value)
@@ -93,7 +93,7 @@ class Column
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function getConvertMethod()
@@ -102,8 +102,8 @@ class Column
     }
 
     /**
-     * 
-     * @param string $convertMethod
+     *
+     * @param  string $convertMethod
      * @return Column
      */
     public function setConvertMethod($convertMethod)
@@ -112,9 +112,9 @@ class Column
 
         return $this;
     }
-    
+
     /**
-     * 
+     *
      * @return array of Column
      */
     public function getColumns()
@@ -123,7 +123,7 @@ class Column
     }
 
     /**
-     * 
+     *
      * @return Column
      */
     public function getColumn($name)
@@ -132,8 +132,8 @@ class Column
     }
 
     /**
-     * 
-     * @param array of Column $columns
+     *
+     * @param  array of Column                        $columns
      * @return \CSanquer\FakeryGenerator\Model\Column
      */
     public function setColumns(array $columns)
@@ -141,7 +141,7 @@ class Column
         foreach ($columns as $column) {
             $this->addColumn($column);
         }
-        
+
         return $this;
     }
 
@@ -163,7 +163,7 @@ class Column
 
     /**
      *
-     * @param  Column $column
+     * @param  Column  $column
      * @return boolean
      */
     public function removeColumn(Column $column)
@@ -178,7 +178,7 @@ class Column
 
         return false;
     }
-    
+
     /**
      *
      * @param  array  $availableVariables
