@@ -1,0 +1,38 @@
+CSanquer\FakeryGenerator\Model\Config:
+    exclusion_policy: ALL
+    properties:
+        locale:
+            type: string
+            expose: true
+        seed:
+            type: integer
+            expose: true
+        className:
+            type: string
+            expose: true
+        formats:
+            type: array<string>
+            expose: true
+            xml_list:
+                inline: false
+                entry_name: format
+        fakeNumber:
+            type: integer
+            expose: true
+        csvDialect:
+            type: CSanquer\ColibriCsv\Dialect
+            expose: true
+        columns:
+            type: array<string, CSanquer\FakeryGenerator\Model\Column>
+            expose: true
+            xml_map:
+                inline: false
+                key_attribute_name: name
+                entry_name: column
+        variables:
+            type: array<string, CSanquer\FakeryGenerator\Model\Variable>
+            expose: true
+            xml_map:
+                inline: false
+                key_attribute_name: name
+                entry_name: variable

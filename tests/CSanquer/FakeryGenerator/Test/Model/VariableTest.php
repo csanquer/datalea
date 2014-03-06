@@ -39,11 +39,12 @@ class VariableTest extends \PHPUnit_Framework_TestCase
 
     public function testConstruct()
     {
-        $variable = new Variable('firstname', 'firstName', [1], true);
+        $variable = new Variable('firstname', 'firstName', [1], true, true);
         $this->assertEquals('firstname', $variable->getName());
         $this->assertEquals('firstName', $variable->getMethod());
         $this->assertEquals([1], $variable->getMethodArguments());
         $this->assertEquals(true, $variable->isUnique());
+        $this->assertEquals(0.5, $variable->getOptional());
     }
     
     /**
@@ -157,7 +158,7 @@ class VariableTest extends \PHPUnit_Framework_TestCase
             ['50.5', 1.0, 'float'],
             [null, null, 'null'],
             ['', null, 'null'],
-            [true, null, 'null'],
+            [true, 0.5, 'float'],
             [false, null, 'null'],
         ];
     }

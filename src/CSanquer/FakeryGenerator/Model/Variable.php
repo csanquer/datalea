@@ -61,6 +61,7 @@ class Variable
         $this->setMethod($method);
         $this->setMethodArguments($methodArguments);
         $this->setUnique($unique);
+        $this->setOptional($optional);
     }
 
     /**
@@ -175,6 +176,11 @@ class Variable
     public function setOptional($optional)
     {
         $this->optional = null;
+        
+        if ($optional === true) {
+            $optional = 0.5;
+        }
+        
         if (is_numeric($optional)) {
             if ($optional > 1.0) {
                 $optional = 1.0;

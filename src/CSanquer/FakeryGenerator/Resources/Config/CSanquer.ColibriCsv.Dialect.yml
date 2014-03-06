@@ -1,0 +1,43 @@
+CSanquer\ColibriCsv\Dialect:
+    exclusion_policy: ALL
+    properties:
+        translit:
+            type: string
+            expose: true
+        eol:
+            access_type: public_method
+            accessor: 
+                getter: getLineEndingsAsLabel
+                setter: setLineEndings
+            type: string
+            expose: true
+        encoding:
+            type: string
+            expose: true
+        enclosingMode:
+            type: string
+            expose: true
+        enclosure:
+            type: string
+            expose: true
+        escape:
+            type: string
+            expose: true
+        escapeDouble:
+            type: boolean
+            expose: true
+        delimiter:
+            type: string
+            expose: true
+        useBom:
+            type: boolean
+            expose: true
+        trim:
+            type: boolean
+            expose: true
+        forceEncodingDetection:
+            type: boolean
+            expose: true
+        skipEmptyLines:
+            type: boolean
+            expose: true

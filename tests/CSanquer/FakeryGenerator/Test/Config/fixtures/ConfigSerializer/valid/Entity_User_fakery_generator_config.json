@@ -1,0 +1,106 @@
+{
+    "locale": "fr_FR",
+    "seed": 51,
+    "class_name": "Entity\\User",
+    "formats": [
+        "php",
+        "json",
+        "xml"
+    ],
+    "fake_number": 500,
+    "columns": {
+        "person": {
+            "name": "person",
+            "convert_method": "",
+            "columns": {
+                "name": {
+                    "name": "name",
+                    "convert_method": "",
+                    "columns": {
+                        "firstname": {
+                            "name": "firstname",
+                            "value": "%firstname%",
+                            "convert_method": "capitalize",
+                            "columns": {
+
+                            }
+                        },
+                        "lastname": {
+                            "name": "lastname",
+                            "value": "%lastname%",
+                            "convert_method": "capitalize",
+                            "columns": {
+
+                            }
+                        }
+                    }
+                },
+                "birthday": {
+                    "name": "birthday",
+                    "value": "%birthday%",
+                    "convert_method": "",
+                    "columns": {
+
+                    }
+                }
+            }
+        },
+        "email": {
+            "name": "email",
+            "value": "%email%",
+            "convert_method": "",
+            "columns": {
+
+            }
+        }
+    },
+    "variables": {
+        "firstname": {
+            "name": "firstname",
+            "method": "firstName",
+            "method_arguments": [
+
+            ],
+            "unique": false
+        },
+        "lastname": {
+            "name": "lastname",
+            "method": "lastName",
+            "method_arguments": [
+
+            ],
+            "unique": false
+        },
+        "birthday": {
+            "name": "birthday",
+            "method": "dateTimeThisCentury",
+            "method_arguments": [
+                "d\/m\/Y"
+            ],
+            "unique": false,
+            "optional": 0.5
+        },
+        "email": {
+            "name": "email",
+            "method": "safeEmail",
+            "method_arguments": [
+
+            ],
+            "unique": true
+        }
+    },
+    "csv_dialect": {
+        "translit": "translit",
+        "eol": "windows",
+        "encoding": "CP1252",
+        "enclosing_mode": "minimal",
+        "enclosure": "\"",
+        "escape": "\\",
+        "escape_double": true,
+        "delimiter": ";",
+        "use_bom": false,
+        "trim": false,
+        "force_encoding_detection": false,
+        "skip_empty_lines": false
+    }
+}

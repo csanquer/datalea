@@ -1,0 +1,19 @@
+CSanquer\FakeryGenerator\Model\Column:
+    exclusion_policy: ALL
+    properties:
+        name:
+            type: string
+            expose: true
+        value:
+            type: string
+            expose: true
+        convertMethod:
+            type: string
+            expose: true
+        columns:
+            type: array<string, CSanquer\FakeryGenerator\Model\Column>
+            expose: true
+            xml_map:
+                inline: false
+                key_attribute_name: name
+                entry_name: column

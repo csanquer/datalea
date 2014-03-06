@@ -1,0 +1,21 @@
+CSanquer\FakeryGenerator\Model\Variable:
+    exclusion_policy: ALL
+    properties:
+        name:
+            type: string
+            expose: true
+        method:
+            type: string
+            expose: true
+        methodArguments:
+            type: array<string>
+            expose: true
+            xml_list:
+                inline: false
+                entry_name: method_argument
+        unique:
+            type: boolean
+            expose: true
+        optional:
+            type: double
+            expose: true
