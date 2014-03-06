@@ -1,13 +1,62 @@
 {
+    "class_name": "Entity\\User",
     "locale": "fr_FR",
     "seed": 51,
-    "class_name": "Entity\\User",
+    "fake_number": 500,
     "formats": [
         "php",
         "json",
         "xml"
     ],
-    "fake_number": 500,
+    "csv_dialect": {
+        "delimiter": ";",
+        "enclosing_mode": "minimal",
+        "enclosure": "\"",
+        "encoding": "CP1252",
+        "eol": "windows",
+        "escape": "\\",
+        "escape_double": true,
+        "force_encoding_detection": false,
+        "skip_empty_lines": false,
+        "translit": "translit",
+        "trim": false,
+        "use_bom": false
+    },
+    "variables": {
+        "firstname": {
+            "name": "firstname",
+            "method": "firstName",
+            "method_arguments": [
+
+            ],
+            "unique": false
+        },
+        "lastname": {
+            "name": "lastname",
+            "method": "lastName",
+            "method_arguments": [
+
+            ],
+            "unique": false
+        },
+        "birthday": {
+            "name": "birthday",
+            "method": "dateTimeThisCentury",
+            "method_arguments": [
+                "d\/m\/Y"
+            ],
+            "unique": false,
+            "optional": 0.5
+        },
+        "email": {
+            "name": "email",
+            "method": "safeEmail",
+            "method_arguments": [
+
+            ],
+            "unique": true
+        }
+    },
     "columns": {
         "person": {
             "name": "person",
@@ -53,54 +102,5 @@
 
             }
         }
-    },
-    "variables": {
-        "firstname": {
-            "name": "firstname",
-            "method": "firstName",
-            "method_arguments": [
-
-            ],
-            "unique": false
-        },
-        "lastname": {
-            "name": "lastname",
-            "method": "lastName",
-            "method_arguments": [
-
-            ],
-            "unique": false
-        },
-        "birthday": {
-            "name": "birthday",
-            "method": "dateTimeThisCentury",
-            "method_arguments": [
-                "d\/m\/Y"
-            ],
-            "unique": false,
-            "optional": 0.5
-        },
-        "email": {
-            "name": "email",
-            "method": "safeEmail",
-            "method_arguments": [
-
-            ],
-            "unique": true
-        }
-    },
-    "csv_dialect": {
-        "translit": "translit",
-        "eol": "windows",
-        "encoding": "CP1252",
-        "enclosing_mode": "minimal",
-        "enclosure": "\"",
-        "escape": "\\",
-        "escape_double": true,
-        "delimiter": ";",
-        "use_bom": false,
-        "trim": false,
-        "force_encoding_detection": false,
-        "skip_empty_lines": false
     }
 }

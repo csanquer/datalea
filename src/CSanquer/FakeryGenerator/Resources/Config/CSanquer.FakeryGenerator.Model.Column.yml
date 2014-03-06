@@ -1,5 +1,7 @@
 CSanquer\FakeryGenerator\Model\Column:
     exclusion_policy: ALL
+    accessor_order: custom
+    custom_accessor_order: [name, value, convertMethod, columns]
     properties:
         name:
             type: string

@@ -1,14 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
+  <class_name><![CDATA[Entity\User]]></class_name>
   <locale><![CDATA[fr_FR]]></locale>
   <seed>51</seed>
-  <class_name><![CDATA[Entity\User]]></class_name>
+  <fake_number>500</fake_number>
   <formats>
     <format><![CDATA[php]]></format>
     <format><![CDATA[json]]></format>
     <format><![CDATA[xml]]></format>
   </formats>
-  <fake_number>500</fake_number>
+  <csv_dialect>
+    <delimiter><![CDATA[;]]></delimiter>
+    <enclosing_mode><![CDATA[minimal]]></enclosing_mode>
+    <enclosure><![CDATA["]]></enclosure>
+    <encoding><![CDATA[CP1252]]></encoding>
+    <eol><![CDATA[windows]]></eol>
+    <escape><![CDATA[\]]></escape>
+    <escape_double>true</escape_double>
+    <force_encoding_detection>false</force_encoding_detection>
+    <skip_empty_lines>false</skip_empty_lines>
+    <translit><![CDATA[translit]]></translit>
+    <trim>false</trim>
+    <use_bom>false</use_bom>
+  </csv_dialect>
+  <variables>
+    <variable name="firstname">
+      <name><![CDATA[firstname]]></name>
+      <method><![CDATA[firstName]]></method>
+      <unique>false</unique>
+    </variable>
+    <variable name="lastname">
+      <name><![CDATA[lastname]]></name>
+      <method><![CDATA[lastName]]></method>
+      <unique>false</unique>
+    </variable>
+    <variable name="birthday">
+      <name><![CDATA[birthday]]></name>
+      <method><![CDATA[dateTimeThisCentury]]></method>
+      <method_arguments>
+        <method_argument><![CDATA[d/m/Y]]></method_argument>
+      </method_arguments>
+      <unique>false</unique>
+      <optional>0.5</optional>
+    </variable>
+    <variable name="email">
+      <name><![CDATA[email]]></name>
+      <method><![CDATA[safeEmail]]></method>
+      <unique>true</unique>
+    </variable>
+  </variables>
   <columns>
     <column name="person">
       <name><![CDATA[person]]></name>
@@ -47,44 +87,4 @@
       <columns/>
     </column>
   </columns>
-  <variables>
-    <variable name="firstname">
-      <name><![CDATA[firstname]]></name>
-      <method><![CDATA[firstName]]></method>
-      <unique>false</unique>
-    </variable>
-    <variable name="lastname">
-      <name><![CDATA[lastname]]></name>
-      <method><![CDATA[lastName]]></method>
-      <unique>false</unique>
-    </variable>
-    <variable name="birthday">
-      <name><![CDATA[birthday]]></name>
-      <method><![CDATA[dateTimeThisCentury]]></method>
-      <method_arguments>
-        <method_argument><![CDATA[d/m/Y]]></method_argument>
-      </method_arguments>
-      <unique>false</unique>
-      <optional>0.5</optional>
-    </variable>
-    <variable name="email">
-      <name><![CDATA[email]]></name>
-      <method><![CDATA[safeEmail]]></method>
-      <unique>true</unique>
-    </variable>
-  </variables>
-  <csv_dialect>
-    <translit><![CDATA[translit]]></translit>
-    <eol><![CDATA[windows]]></eol>
-    <encoding><![CDATA[CP1252]]></encoding>
-    <enclosing_mode><![CDATA[minimal]]></enclosing_mode>
-    <enclosure><![CDATA["]]></enclosure>
-    <escape><![CDATA[\]]></escape>
-    <escape_double>true</escape_double>
-    <delimiter><![CDATA[;]]></delimiter>
-    <use_bom>false</use_bom>
-    <trim>false</trim>
-    <force_encoding_detection>false</force_encoding_detection>
-    <skip_empty_lines>false</skip_empty_lines>
-  </csv_dialect>
 </config>

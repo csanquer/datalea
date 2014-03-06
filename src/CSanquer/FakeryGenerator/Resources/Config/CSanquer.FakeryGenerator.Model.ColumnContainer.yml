@@ -1,0 +1,12 @@
+CSanquer\FakeryGenerator\Model\ColumnContainer:
+    exclusion_policy: ALL
+    accessor_order: custom
+    custom_accessor_order: [columns]
+    properties:
+        columns:
+            type: array<string, CSanquer\FakeryGenerator\Model\Column>
+            expose: true
+            xml_map:
+                inline: false
+                key_attribute_name: name
+                entry_name: column

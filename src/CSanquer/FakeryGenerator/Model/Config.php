@@ -11,7 +11,7 @@ use CSanquer\FakeryGenerator\Dump\Dumper;
  *
  * @author Charles Sanquer <charles.sanquer@spyrit.net>
  */
-class Config
+class Config extends ColumnContainer
 {
     /**
      *
@@ -45,12 +45,6 @@ class Config
 
     /**
      *
-     * @var array of Column
-     */
-    protected $columns = [];
-
-    /**
-     *
      * @var array of Variable
      */
     protected $variables = [];
@@ -63,6 +57,7 @@ class Config
 
     public function __construct()
     {
+        parent::__construct([]);
         $this->generateSeed();
         $this->csvDialect = Dialect::createExcelDialect();
     }
@@ -264,68 +259,6 @@ class Config
     public function createCsvWriter()
     {
         return new CsvWriter($this->csvDialect ?: Dialect::createExcelDialect());
-    }
-
-    /**
-     *
-     * @param  string $name
-     * @return Column
-     */
-    public function getColumn($name)
-    {
-        return isset($this->columns[$name]) ? $this->columns[$name] : null ;
-    }
-
-    public function getColumns()
-    {
-        return $this->columns;
-    }
-
-    /**
-     * @param  array  $columns
-     * @return Config
-     */
-    public function setColumns(array $columns)
-    {
-        foreach ($columns as $column) {
-            $this->addColumn($column);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param  Column $column
-     * @return Config
-     */
-    public function addColumn(Column $column)
-    {
-        $name = $column->getName();
-        if (empty($name)) {
-            throw new \InvalidArgumentException('The column must have a name.');
-        }
-
-        $this->columns[$name] = $column;
-
-        return $this;
-    }
-
-    /**
-     *
-     * @param  Column  $column
-     * @return boolean
-     */
-    public function removeColumn(Column $column)
-    {
-        $key = array_search($column, $this->columns, true);
-
-        if ($key !== false) {
-            unset($this->columns[$key]);
-
-            return true;
-        }
-
-        return false;
     }
 
     /**

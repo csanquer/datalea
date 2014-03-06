@@ -1,5 +1,7 @@
 CSanquer\FakeryGenerator\Model\Config:
     exclusion_policy: ALL
+    accessor_order: custom
+    custom_accessor_order: [className, locale, seed, fakeNumber, formats, csvDialect, variables, columns]
     properties:
         locale:
             type: string

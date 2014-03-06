@@ -1,5 +1,7 @@
 CSanquer\FakeryGenerator\Model\Variable:
     exclusion_policy: ALL
+    accessor_order: custom
+    custom_accessor_order: [name, method, methodArguments, unique, optional]
     properties:
         name:
             type: string
