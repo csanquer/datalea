@@ -287,7 +287,9 @@ class Config
      */
     public function setColumns(array $columns)
     {
-        $this->columns = $columns;
+        foreach ($columns as $column) {
+            $this->addColumn($column);
+        }
 
         return $this;
     }
@@ -300,7 +302,7 @@ class Config
     {
         $name = $column->getName();
         if (empty($name)) {
-            throw new \InvalidArgumentException('The column config must have a name.');
+            throw new \InvalidArgumentException('The column must have a name.');
         }
 
         $this->columns[$name] = $column;
@@ -348,10 +350,15 @@ class Config
     /**
      * 
      * @param array $variables array of Variable
+     * @return \CSanquer\FakeryGenerator\Model\Config
      */
     public function setVariables($variables)
     {
-        $this->variables = $variables;
+        foreach ($variables as $variable) {
+            $this->addVariable($variable);
+        }
+
+        return $this;
     }
 
     /**
@@ -362,7 +369,7 @@ class Config
     {
         $name = $variable->getName();
         if (empty($name)) {
-            throw new \InvalidArgumentException('The variable config must have a name.');
+            throw new \InvalidArgumentException('The variable must have a name.');
         }
 
         $this->variables[$name] = $variable;
@@ -377,7 +384,7 @@ class Config
      */
     public function removeVariable(Variable $variable)
     {
-        $key = array_search($variable, $this->columns, true);
+        $key = array_search($variable, $this->variables, true);
 
         if ($key !== false) {
             unset($this->variables[$key]);

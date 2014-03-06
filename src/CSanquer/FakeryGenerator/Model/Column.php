@@ -3,7 +3,6 @@
 namespace CSanquer\FakeryGenerator\Model;
 
 use CSanquer\FakeryGenerator\Helper\Converter;
-use Faker\Generator;
 
 /**
  * Column
