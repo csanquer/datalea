@@ -25,4 +25,9 @@ class PHPDumper implements DumperInterface
     {
         
     }
+
+    public function getExtension()
+    {
+        return 'php';
+    }
 }

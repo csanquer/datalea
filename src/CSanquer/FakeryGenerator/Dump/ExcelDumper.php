@@ -21,7 +21,7 @@ class ExcelDumper extends AbstractDumper
      *
      * @var int
      */
-    protected $row;
+    protected $line;
     
     /**
      *
@@ -37,17 +37,25 @@ class ExcelDumper extends AbstractDumper
         $sheet->setTitle($config->getClassNameLastPart());
         
         $this->col = 0;
-        $this->row = 1;
+        $this->line = 1;
         
+        $header = $config->getColumnNames(true);
+        foreach ($header as $key) {
+            $sheet->setCellValueByColumnAndRow($this->col, $this->line, $key);
+            $sheet->getColumnDimensionByColumn($this->col)->setAutoSize(true);
+            $this->col++;
+        }
     }
     
     public function dumpRow(array $row = array())
     {
         $sheet = $this->excel->getActiveSheet();
         $this->col = 0;
-        $this->row++;
-        foreach ($row as $value) {
-            $sheet->setCellValueByColumnAndRow($this->col, $this->row, $value);
+        $this->line++;
+        $flat = $this->convertRowAsFlat($row);
+        
+        foreach ($flat as $value) {
+            $sheet->setCellValueByColumnAndRow($this->col, $this->line, $value);
             $this->col++;
         }
     }

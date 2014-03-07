@@ -25,4 +25,9 @@ class PerlDumper implements DumperInterface
     {
         
     }
+
+    public function getExtension()
+    {
+        return 'pl';
+    }
 }

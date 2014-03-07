@@ -25,4 +25,9 @@ class RubyDumper implements DumperInterface
     {
         
     }
+
+    public function getExtension()
+    {
+        return 'rb';
+    }
 }

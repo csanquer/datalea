@@ -24,4 +24,9 @@ class SQLDumper implements DumperInterface
     {
         
     }
+
+    public function getExtension()
+    {
+        return 'sql';
+    }
 }

@@ -30,7 +30,7 @@ class JSONDumper extends AbstractDumper
         return $this->filename;
     }
 
-    protected function getExtension()
+    public function getExtension()
     {
         return 'json';
     }

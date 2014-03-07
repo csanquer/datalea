@@ -25,4 +25,9 @@ class PythonDumper implements DumperInterface
     {
         
     }
+
+    public function getExtension()
+    {
+        return 'py';
+    }
 }

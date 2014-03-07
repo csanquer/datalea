@@ -19,18 +19,33 @@ class CSVDumper extends AbstractDumper
      */
     protected $csvWriter;
     
+    /**
+     *
+     * @var bool
+     */
+    protected $hasHeader;
+    
     public function initialize(Config $config, $directory)
     {
         $this->setFilename($config, $directory);
         $this->csvWriter = new CsvWriter($config->getCsvDialect() ?: Dialect::createExcelDialect());
         $this->csvWriter->open($this->filename);
+        $this->hasHeader = false;
+//        $this->csvWriter->writeRow($config->getColumnNames(true));
     }
     
     public function dumpRow(array $row = array())
     {
-        $this->csvWriter->writeRow($row);
+        $flat = $this->convertRowAsFlat($row);
+        
+        if (!$this->hasHeader) {
+            $this->csvWriter->writeRow(array_keys($flat));
+            $this->hasHeader = true;
+        }
+        
+        $this->csvWriter->writeRow($flat);
     }
-
+    
     public function finalize()
     {
         $this->csvWriter->close();
@@ -38,7 +53,7 @@ class CSVDumper extends AbstractDumper
         return $this->filename;
     }
 
-    protected function getExtension()
+    public function getExtension()
     {
         return 'csv';
     }

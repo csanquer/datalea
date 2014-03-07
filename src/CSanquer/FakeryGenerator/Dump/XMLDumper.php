@@ -25,4 +25,9 @@ class XMLDumper implements DumperInterface
     {
         
     }
+
+    public function getExtension()
+    {
+        return 'xml';
+    }
 }

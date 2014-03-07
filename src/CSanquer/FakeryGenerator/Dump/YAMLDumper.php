@@ -25,4 +25,9 @@ class YAMLDumper implements DumperInterface
     {
         
     }
+
+    public function getExtension()
+    {
+        return 'yml';
+    }
 }

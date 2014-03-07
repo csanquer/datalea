@@ -23,4 +23,21 @@ abstract class AbstractDumper implements DumperInterface
         
         $this->filename = realpath($directory).DIRECTORY_SEPARATOR.$config->getClassName(true).'.'.$this->getExtension();
     }
+    
+    protected function convertRowAsFlat(array $row = array())
+    {
+        $flat = [];
+        foreach ($row as $key => $value) {
+            if (is_array($value)) {
+                $tmp = $this->convertRowAsFlat($value);
+                foreach ($tmp as $key2 => $value2) {
+                    $flat[$key.'-'.$key2] = $value2;
+                }
+            } else {
+                $flat[$key] = $value;
+            }
+        }
+        
+        return $flat;
+    }
 }
