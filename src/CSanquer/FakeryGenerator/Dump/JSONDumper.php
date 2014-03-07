@@ -3,11 +3,11 @@
 namespace CSanquer\FakeryGenerator\Dump;
 
 /**
- * CSVDumper
+ * JSONDumper
  *
  * @author Charles Sanquer <charles.sanquer.gmail.com>
  */
-class CSVDumper implements DumperInterface
+class JSONDumper implements DumperInterface
 {
     
 }

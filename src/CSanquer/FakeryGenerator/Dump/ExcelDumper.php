@@ -3,11 +3,11 @@
 namespace CSanquer\FakeryGenerator\Dump;
 
 /**
- * CSVDumper
+ * ExcelDumper
  *
  * @author Charles Sanquer <charles.sanquer.gmail.com>
  */
-class CSVDumper implements DumperInterface
+class ExcelDumper implements DumperInterface
 {
     
 }

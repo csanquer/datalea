@@ -1,13 +1,12 @@
 <?php
-
 namespace CSanquer\FakeryGenerator\Dump;
 
 /**
- * CSVDumper
+ * SQLDumper
  *
  * @author Charles Sanquer <charles.sanquer.gmail.com>
  */
-class CSVDumper implements DumperInterface
+class SQLDumper implements DumperInterface
 {
     
 }
