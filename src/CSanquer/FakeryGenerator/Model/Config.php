@@ -2,9 +2,9 @@
 
 namespace CSanquer\FakeryGenerator\Model;
 
-use CSanquer\ColibriCsv\CsvWriter;
 use CSanquer\ColibriCsv\Dialect;
 use CSanquer\FakeryGenerator\Dump\Dumper;
+use Faker\Generator;
 
 /**
  * Config
@@ -252,22 +252,21 @@ class Config extends ColumnContainer
     }
 
     /**
-     * create a CSV writer from CSV format options
-     *
-     * @return CsvWriter
-     */
-    public function createCsvWriter()
-    {
-        return new CsvWriter($this->csvDialect ?: Dialect::createExcelDialect());
-    }
-
-    /**
      *
      * @return array of Variable
      */
     public function getVariables()
     {
         return $this->variables;
+    }
+    
+    /**
+     *
+     * @return int
+     */
+    public function countVariables()
+    {
+        return count($this->variables);
     }
 
     /**
@@ -283,7 +282,7 @@ class Config extends ColumnContainer
     /**
      *
      * @param  array                                  $variables array of Variable
-     * @return \CSanquer\FakeryGenerator\Model\Config
+     * @return Config
      */
     public function setVariables($variables)
     {
@@ -331,12 +330,38 @@ class Config extends ColumnContainer
     /**
      * if no column configs, generate a column config for each variable config
      */
-    public function generateColumns()
+    public function createDefaultColumns()
     {
         if (empty($this->columns) && is_array($this->variables) && !empty($this->variables)) {
             foreach ($this->variables as $variable) {
                 $this->addColumn(new Column($variable->getName(), $variable->getVarName()));
             }
         }
+    }
+
+    /**
+     * 
+     * @param Generator $faker
+     * @param array $values (by reference)
+     */
+    public function generateVariableValues(Generator $faker, array &$values)
+    {
+        foreach ($this->variables as $variable) {
+            $variable->generateValue($faker, $values, $this->variables, false, false, true);
+        }
+    }
+    
+    /**
+     * 
+     * @param array $values
+     */
+    public function generateColumnValues(array $values)
+    {
+        $data = [];
+        foreach ($this->columns as $column) {
+            $data[$column->getName()] = $column->replaceVariable($values);
+        }
+        
+        return $data;
     }
 }

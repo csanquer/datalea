@@ -1,6 +1,8 @@
 <?php
 namespace CSanquer\FakeryGenerator\Dump;
 
+use CSanquer\FakeryGenerator\Model\Config;
+
 /**
  * SQLDumper
  *
@@ -8,5 +10,18 @@ namespace CSanquer\FakeryGenerator\Dump;
  */
 class SQLDumper implements DumperInterface
 {
-    
+    public function dumpRow(array $row = array())
+    {
+        
+    }
+
+    public function finalize()
+    {
+        
+    }
+
+    public function initialize(Config $config, $directory)
+    {
+        
+    }
 }

@@ -114,9 +114,18 @@ class Column extends ColumnContainer
      */
     public function replaceVariable(array $availableVariables)
     {
+        if ($this->countColumns() > 0) {
+            $result = [];
+            foreach ($this->columns as $column) {
+                $result[$column->getName()] = $column->replaceVariable($availableVariables);
+            }
+            
+            return $result;
+        }
+        
         $value = preg_replace_callback('/%([a-zA-Z0-9_]+)%/',
             function($matches) use ($availableVariables) {
-                return isset($availableVariables[$matches[1]]) ? $availableVariables[$matches[1]] : $matches[0];
+                return isset($availableVariables[$matches[1]]['flat']) ? $availableVariables[$matches[1]]['flat'] : $matches[0];
             },
             $this->getValue()
         );

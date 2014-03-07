@@ -72,19 +72,23 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers CSanquer\FakeryGenerator\Model\Column::getColumns
      * @covers CSanquer\FakeryGenerator\Model\Column::setColumns
+     * @covers CSanquer\FakeryGenerator\Model\Column::countColumns
      */
     public function testGetSetColumns()
     {
         $column = new Column('mode', '%mode%', 'lowercase');
         
+        $this->assertEquals(0, $this->column->countColumns());
         $this->assertInstanceOf('\\CSanquer\\FakeryGenerator\\Model\\Column', $this->column->setColumns([$column]));
         $this->assertEquals(['mode' => $column], $this->column->getColumns());
+        $this->assertEquals(1, $this->column->countColumns());
     }
 
     /**
      * @covers CSanquer\FakeryGenerator\Model\Column::addColumn
      * @covers CSanquer\FakeryGenerator\Model\Column::getColumn
      * @covers CSanquer\FakeryGenerator\Model\Column::removeColumn
+     * @covers CSanquer\FakeryGenerator\Model\Column::countColumns
      */
     public function testAddRemoveGetColumn()
     {
@@ -92,7 +96,9 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
         
         $this->assertInstanceOf('\\CSanquer\\FakeryGenerator\\Model\\Column', $this->column->addColumn($column));
         $this->assertEquals($column, $this->column->getColumn('mode'));
+        $this->assertEquals(1, $this->column->countColumns());
         $this->assertTrue($this->column->removeColumn($column));
+        $this->assertEquals(0, $this->column->countColumns());
         $this->assertFalse($this->column->removeColumn($column));
     }
     
@@ -112,7 +118,37 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
     {
         $this->column->setValue('%firstname%');
         $this->column->setConvertMethod('capitalize');
-        $this->assertEquals('Marc', $this->column->replaceVariable(['firstname' => 'marc']));
+        $this->assertEquals('Marc', $this->column->replaceVariable(['firstname' => ['raw' => 'marc', 'flat' => 'marc']]));
+    }
+    
+    /**
+     * @covers CSanquer\FakeryGenerator\Model\Column::replaceVariable
+     */
+    public function testReplaceVariableWithSubColumns()
+    {
+        $this->column->setValue('%firstname%');
+        $this->column->setConvertMethod('capitalize');
+        $this->column->setColumns([
+            new Column('name', null, null, [
+                new Column('firstname', '%firstname%', 'capitalize'),
+                new Column('lastname', '%lastname%', 'capitalize'),
+            ]),
+            new Column('email', '%email%', 'lowercase'),
+        ]);
+        $this->assertEquals(
+            [
+                'name' => [
+                    'firstname' => 'Marc',
+                    'lastname' => 'Dupont',
+                ],
+                'email' => 'marc.dupont@gmail.com'
+            ], 
+            $this->column->replaceVariable([
+                'firstname' => ['raw' => 'marc', 'flat' => 'marc'],
+                'lastname' => ['raw' => 'dupont', 'flat' => 'dupont'],
+                'email' => ['raw' => 'Marc.Dupont@gmail.com', 'flat' => 'Marc.Dupont@gmail.com'],
+            ]
+        ));
     }
 
 }

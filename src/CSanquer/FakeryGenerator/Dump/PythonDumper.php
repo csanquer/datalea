@@ -2,6 +2,8 @@
 
 namespace CSanquer\FakeryGenerator\Dump;
 
+use CSanquer\FakeryGenerator\Model\Config;
+
 /**
  * PythonDumper
  *
@@ -9,5 +11,18 @@ namespace CSanquer\FakeryGenerator\Dump;
  */
 class PythonDumper implements DumperInterface
 {
-    
+    public function dumpRow(array $row = array())
+    {
+        
+    }
+
+    public function finalize()
+    {
+        
+    }
+
+    public function initialize(Config $config, $directory)
+    {
+        
+    }
 }

@@ -125,36 +125,33 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers CSanquer\FakeryGenerator\Model\Config::createCsvWriter
-     */
-    public function testCreateCsvWriter()
-    {
-        $this->assertInstanceOf('\\CSanquer\\ColibriCsv\\CsvWriter', $this->config->createCsvWriter());
-    }
-
-    /**
      * @covers CSanquer\FakeryGenerator\Model\Config::getColumns
      * @covers CSanquer\FakeryGenerator\Model\Config::setColumns
+     * @covers CSanquer\FakeryGenerator\Model\Config::countColumns
      */
     public function testGetSetColumns()
     {
         $column = new Column('firstname', '%firstname%');
+        $this->assertEquals(0, $this->config->countColumns());
         $this->assertInstanceOf('\\CSanquer\\FakeryGenerator\\Model\\Config', $this->config->setColumns([$column]));
         $this->assertSame(['firstname' => $column], $this->config->getColumns());
+        $this->assertEquals(1, $this->config->countColumns());
     }
 
     /**
      * @covers CSanquer\FakeryGenerator\Model\Config::addColumn
      * @covers CSanquer\FakeryGenerator\Model\Config::getColumn
      * @covers CSanquer\FakeryGenerator\Model\Config::removeColumn
-     * @todo   Implement testAddColumn().
+     * @covers CSanquer\FakeryGenerator\Model\Config::countColumns
      */
     public function testAddGetRemoveColumn()
     {
         $column = new Column('firstname', '%firstname%');
         $this->assertInstanceOf('\\CSanquer\\FakeryGenerator\\Model\\Config', $this->config->addColumn($column));
         $this->assertSame($column, $this->config->getColumn('firstname'));
+        $this->assertEquals(1, $this->config->countColumns());
         $this->assertTrue($this->config->removeColumn($column));
+        $this->assertEquals(0, $this->config->countColumns());
         $this->assertNull($this->config->getColumn('firstname'));
         $this->assertFalse($this->config->removeColumn($column));
     }
@@ -171,25 +168,31 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers CSanquer\FakeryGenerator\Model\Config::getVariables
      * @covers CSanquer\FakeryGenerator\Model\Config::setVariables
+     * @covers CSanquer\FakeryGenerator\Model\Config::countVariables
      */
     public function testGetSetVariables()
     {
         $variable = new Variable('firstname', 'firstname');
+        $this->assertEquals(0, $this->config->countVariables());
         $this->assertInstanceOf('\\CSanquer\\FakeryGenerator\\Model\\Config', $this->config->setVariables([$variable]));
         $this->assertSame(['firstname' => $variable], $this->config->getVariables());
+        $this->assertEquals(1, $this->config->countVariables());
     }
 
     /**
      * @covers CSanquer\FakeryGenerator\Model\Config::addVariable
      * @covers CSanquer\FakeryGenerator\Model\Config::getVariable
      * @covers CSanquer\FakeryGenerator\Model\Config::removeVariable
+     * @covers CSanquer\FakeryGenerator\Model\Config::countVariables
      */
     public function testAddGetRemoveVariable()
     {
         $variable = new Variable('firstname', 'firstname');
         $this->assertInstanceOf('\\CSanquer\\FakeryGenerator\\Model\\Config', $this->config->addVariable($variable));
         $this->assertSame($variable, $this->config->getVariable('firstname'));
+        $this->assertEquals(1, $this->config->countVariables());
         $this->assertTrue($this->config->removeVariable($variable));
+        $this->assertEquals(0, $this->config->countVariables());
         $this->assertNull($this->config->getVariable('firstname'));
         $this->assertFalse($this->config->removeVariable($variable));
     }
@@ -204,13 +207,85 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * @covers CSanquer\FakeryGenerator\Model\Config::generateColumns
+     * @covers CSanquer\FakeryGenerator\Model\Config::createDefaultColumns
      */
-    public function testGenerateColumns()
+    public function testCreateDefaultColumns()
     {
         $this->config->addVariable(new Variable('firstname', 'firstname'));
-        $this->config->generateColumns();
+        $this->config->createDefaultColumns();
         $this->assertEquals(['firstname' => new Column('firstname', '%firstname%')], $this->config->getColumns());
     }
-
+    
+    /**
+     * @covers CSanquer\FakeryGenerator\Model\Config::generateVariableValues
+     */
+    public function testGenerateVariableValues()
+    {
+        $faker = \Faker\Factory::create('en_US');
+        
+        $this->config->setVariables([
+            new Variable('firstname', 'firstName'),
+            new Variable('lastname', 'lastName'),
+            new Variable('emailDomain', 'freeEmailDomain'),
+            new Variable('birthday', 'dateTimeThisCentury', ['Y-m-d']),
+        ]);
+        
+        $values = [];
+        $this->config->generateVariableValues($faker, $values);
+        $this->assertArrayHasKey('firstname', $values);
+        $this->assertArrayHasKey('lastname', $values);
+        $this->assertArrayHasKey('emailDomain', $values);
+        $this->assertArrayHasKey('birthday', $values);
+        
+        foreach ($values as $value) {
+            $this->assertArrayHasKey('flat', $value);
+            $this->assertArrayHasKey('raw', $value);
+            $this->assertNotEmpty($value['raw']);
+            $this->assertNotEmpty($value['flat']);
+        }
+    }
+    
+    /**
+     * @covers CSanquer\FakeryGenerator\Model\Config::generateColumnValues
+     */
+    public function testGenerateColumnValues()
+    {
+        $values =  [
+            'firstname' => [
+              'raw' => 'Allene',
+              'flat' => 'Allene',
+            ],
+            'lastname' => [
+              'raw' => 'McGlynn',
+              'flat' => 'McGlynn',
+            ],
+            'emailDomain' => [
+              'raw' => 'yahoo.com',
+              'flat' => 'yahoo.com',
+            ],
+            'birthday' => [
+              'raw' =>  new \DateTime('2000-10-13 20:30:58', new \DateTimeZone('Europe/Paris')),
+              'flat' => '2000-10-13',
+            ],
+          ];
+        
+        $this->config->setColumns([
+            new Column('name', null, null, [
+                new Column('firstname', '%firstname%', 'capitalize'),
+                new Column('lastname', '%lastname%', 'capitalize'),
+            ]),
+            new Column('email', '%firstname%.%lastname%@%emailDomain%', 'lowercase'),
+            new Column('birthday', '%birthday%'),
+        ]);
+        
+        $columnValues = $this->config->generateColumnValues($values);
+        $this->assertEquals([
+            'name' => [
+                'firstname' => 'Allene',
+                'lastname' => 'McGlynn',
+            ],
+            'email' => 'allene.mcglynn@yahoo.com',
+            'birthday' => '2000-10-13',
+        ], $columnValues);
+    }
 }

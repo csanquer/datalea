@@ -54,6 +54,7 @@ class Variable
      * @param string $method
      * @param array  $methodArguments
      * @param bool   $unique
+     * @param float|bool $optional
      */
     public function __construct($name = null, $method = null, array $methodArguments = [], $unique = false, $optional = false)
     {

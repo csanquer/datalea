@@ -34,6 +34,15 @@ abstract class ColumnContainer
     }
 
     /**
+     * 
+     * @return int
+     */
+    public function countColumns()
+    {
+        return count($this->columns);
+    }
+    
+    /**
      *
      * @return Column
      */
