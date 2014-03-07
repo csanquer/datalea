@@ -29,6 +29,12 @@ class ExcelDumper extends AbstractDumper
      */
     protected $excel;
     
+    /**
+     *
+     * @var bool
+     */
+    protected $hasHeader;
+    
     public function initialize(Config $config, $directory)
     {
         $this->setFilename($config, $directory);
@@ -37,23 +43,37 @@ class ExcelDumper extends AbstractDumper
         $sheet->setTitle($config->getClassNameLastPart());
         
         $this->col = 0;
-        $this->line = 1;
+        $this->line = 0;
         
-        $header = $config->getColumnNames(true);
-        foreach ($header as $key) {
-            $sheet->setCellValueByColumnAndRow($this->col, $this->line, $key);
-            $sheet->getColumnDimensionByColumn($this->col)->setAutoSize(true);
-            $this->col++;
-        }
+//        $header = $config->getColumnNames(true);
+//        $this->line++;
+//        foreach ($header as $key) {
+//            $sheet->setCellValueByColumnAndRow($this->col, $this->line, $key);
+//            $sheet->getColumnDimensionByColumn($this->col)->setAutoSize(true);
+//            $this->col++;
+//        }
     }
     
     public function dumpRow(array $row = array())
     {
         $sheet = $this->excel->getActiveSheet();
-        $this->col = 0;
-        $this->line++;
+       
         $flat = $this->convertRowAsFlat($row);
         
+        if (!$this->hasHeader) {
+            $this->col = 0;
+            $this->line++;
+            foreach (array_keys($flat) as $key) {
+                $sheet->setCellValueByColumnAndRow($this->col, $this->line, $key);
+                $sheet->getColumnDimensionByColumn($this->col)->setAutoSize(true);
+                $this->col++;
+            }
+            
+            $this->hasHeader = true;
+        }
+        
+        $this->col = 0;
+        $this->line++;
         foreach ($flat as $value) {
             $sheet->setCellValueByColumnAndRow($this->col, $this->line, $value);
             $this->col++;
