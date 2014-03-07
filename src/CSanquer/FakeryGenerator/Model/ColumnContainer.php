@@ -98,4 +98,33 @@ abstract class ColumnContainer
 
         return false;
     }
+    
+    /**
+     * get Columns Names list as a flat array or multidimensional array
+     * 
+     * @param bool $asFlat default = false
+     * @return array
+     */
+    public function getColumnNames($asFlat = false)
+    {
+        $names = [];
+        foreach ($this->columns as $column) {
+            if ($column->countColumns() > 0) {
+                if ($asFlat) {
+                    $tmpNames = $column->getColumnNames($asFlat);
+                    foreach ($tmpNames as $tmpName) {
+                        $name = $column->getName().'-'.$tmpName;
+                        $names[$name] = $name;
+                    } 
+                } else {
+                    $names[$column->getName()] = $column->getColumnNames($asFlat);
+                }
+
+            } else {
+                $names[$column->getName()] = $column->getName();
+            }
+        }
+        
+        return $names;
+    }
 }

@@ -216,6 +216,38 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['firstname' => new Column('firstname', '%firstname%')], $this->config->getColumns());
     }
     
+    public function testGetColumnNames()
+    {
+        $this->config->setColumns([
+            new Column('person', null, null, [
+                new Column('name', null, null, [
+                    new Column('firstname', '%firstname%', 'capitalize'),
+                    new Column('lastname', '%lastname%', 'capitalize'),
+                ]),
+                new Column('email', '%firstname%.%lastname%@%emailDomain%', 'lowercase'),
+            ]),
+            new Column('birthday', '%birthday%'),
+        ]);
+        
+        $this->assertEquals([
+            'person' => [
+                'name' => [
+                    'firstname' => 'firstname',
+                    'lastname' => 'lastname',
+                ],
+                'email' => 'email',
+            ],
+            'birthday' => 'birthday',
+        ], $this->config->getColumnNames(false));
+        
+        $this->assertEquals([
+            'person-name-firstname' => 'person-name-firstname',
+            'person-name-lastname' => 'person-name-lastname',
+            'person-email' => 'person-email',
+            'birthday' => 'birthday',
+        ], $this->config->getColumnNames(true));
+    }
+    
     /**
      * @covers CSanquer\FakeryGenerator\Model\Config::generateVariableValues
      */
