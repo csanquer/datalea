@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "cbd7c26e25151f56d42be1770d226b6b",
+    "hash": "599e2125850ba36947b8516aada60e57",
     "packages": [
         {
             "name": "chh/cache-service-provider",
@@ -164,16 +164,16 @@
         },
         {
             "name": "csanquer/silex-tools",
-            "version": "v0.2",
+            "version": "v0.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/csanquer/SilexTools.git",
-                "reference": "a0ae8372f4b40fde43d43eb282db452c2b58c6e5"
+                "reference": "fc0f7073563f47d8d1e426317fdfba0f84be6eea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/csanquer/SilexTools/zipball/a0ae8372f4b40fde43d43eb282db452c2b58c6e5",
-                "reference": "a0ae8372f4b40fde43d43eb282db452c2b58c6e5",
+                "url": "https://api.github.com/repos/csanquer/SilexTools/zipball/fc0f7073563f47d8d1e426317fdfba0f84be6eea",
+                "reference": "fc0f7073563f47d8d1e426317fdfba0f84be6eea",
                 "shasum": ""
             },
             "require": {
@@ -195,7 +195,8 @@
             "authors": [
                 {
                     "name": "Charles Sanquer",
-                    "email": "charles.sanquer@gmail.com"
+                    "email": "charles.sanquer@gmail.com",
+                    "role": "developer"
                 }
             ],
             "description": "a set of tools for silex applications",
@@ -204,7 +205,7 @@
                 "console",
                 "silex"
             ],
-            "time": "2013-09-18 12:24:03"
+            "time": "2014-03-22 11:04:49"
         },
         {
             "name": "doctrine/annotations",
@@ -497,7 +498,7 @@
                 {
                     "name": "Kevin Herrera",
                     "email": "kevin@herrera.io",
-                    "homepage": "http://kevin.herrera.io/"
+                    "homepage": "http://kevin.herrera.io"
                 }
             ],
             "description": "A library for simplifying JSON linting and validation.",
@@ -556,7 +557,7 @@
                 {
                     "name": "Kevin Herrera",
                     "email": "kevin@herrera.io",
-                    "homepage": "http://kevin.herrera.io/"
+                    "homepage": "http://kevin.herrera.io"
                 }
             ],
             "description": "A Silex service provider for Wise.",
@@ -615,7 +616,7 @@
                 {
                     "name": "Kevin Herrera",
                     "email": "kevin@herrera.io",
-                    "homepage": "http://kevin.herrera.io/"
+                    "homepage": "http://kevin.herrera.io"
                 }
             ],
             "description": "Symfony Config for everyone else.",
@@ -1140,16 +1141,16 @@
         },
         {
             "name": "mrclay/minify",
-            "version": "2.1.7",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mrclay/minify.git",
-                "reference": "db7fe244932ea77cf1438965693672ea12b33da8"
+                "reference": "d245bca4987dec197d1e6d7dc117614b60ff7494"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mrclay/minify/zipball/db7fe244932ea77cf1438965693672ea12b33da8",
-                "reference": "db7fe244932ea77cf1438965693672ea12b33da8",
+                "url": "https://api.github.com/repos/mrclay/minify/zipball/d245bca4987dec197d1e6d7dc117614b60ff7494",
+                "reference": "d245bca4987dec197d1e6d7dc117614b60ff7494",
                 "shasum": ""
             },
             "require": {
@@ -1168,15 +1169,15 @@
             ],
             "authors": [
                 {
-                    "name": "Steve Clay",
+                    "name": "Stephen Clay",
                     "email": "steve@mrclay.org",
                     "homepage": "http://www.mrclay.org/",
-                    "role": "modifications + cleanup"
+                    "role": "Developer"
                 }
             ],
             "description": "Minify is a PHP5 app that helps you follow several rules for client-side performance. It combines multiple CSS or Javascript files, removes unnecessary whitespace and comments, and serves them with gzip encoding and optimal client-side cache headers",
             "homepage": "http://code.google.com/p/minify/",
-            "time": "2013-07-23 19:58:28"
+            "time": "2014-03-12 12:54:23"
         },
         {
             "name": "natxet/CssMin",
@@ -1574,9 +1575,7 @@
             "authors": [
                 {
                     "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
+                    "email": "fabien@symfony.com"
                 }
             ],
             "description": "A WebProfiler for Silex",
@@ -2307,17 +2306,17 @@
         },
         {
             "name": "symfony/icu",
-            "version": "v1.2.0",
+            "version": "v1.2.1",
             "target-dir": "Symfony/Component/Icu",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Icu.git",
-                "reference": "7299cd3d8d6602103d1ebff5d0a9917b7bc6de72"
+                "reference": "98e197da54df1f966dd5e8a4992135703569c987"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Icu/zipball/7299cd3d8d6602103d1ebff5d0a9917b7bc6de72",
-                "reference": "7299cd3d8d6602103d1ebff5d0a9917b7bc6de72",
+                "url": "https://api.github.com/repos/symfony/Icu/zipball/98e197da54df1f966dd5e8a4992135703569c987",
+                "reference": "98e197da54df1f966dd5e8a4992135703569c987",
                 "shasum": ""
             },
             "require": {
@@ -2351,7 +2350,7 @@
                 "icu",
                 "intl"
             ],
-            "time": "2013-06-03 18:32:58"
+            "time": "2013-10-04 10:06:38"
         },
         {
             "name": "symfony/intl",
@@ -3288,7 +3287,7 @@
                     "role": "Lead Developer"
                 },
                 {
-                    "name": "Armin Ronacher2",
+                    "name": "Armin Ronacher",
                     "email": "armin.ronacher@active-4.com",
                     "role": "Project Founder"
                 },

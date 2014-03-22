@@ -11,6 +11,6 @@ composer.phar
 composer.lock
 phpunit.xml
 /web/compiled
+/build
 tests/CSanquer/FakeryGenerator/Test/Config/tmp/
-build
 tests/CSanquer/FakeryGenerator/Test/Dump/tmp
