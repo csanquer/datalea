@@ -38,10 +38,16 @@ class Variable
 
     /**
      *
-     * @var int|null
+     * @var float|null
      */
     protected $optional;
 
+    /**
+     *
+     * @var float|null
+     */
+    protected $wrong;
+    
     /**
      *
      * @var int
@@ -54,15 +60,17 @@ class Variable
      * @param string $method
      * @param array  $methodArguments
      * @param bool   $unique
-     * @param float|bool $optional
+     * @param float|null $optional
+     * @param float|null $wrong
      */
-    public function __construct($name = null, $method = null, array $methodArguments = [], $unique = false, $optional = false)
+    public function __construct($name = null, $method = null, array $methodArguments = [], $unique = false, $optional = null, $wrong = null)
     {
         $this->setName($name);
         $this->setMethod($method);
         $this->setMethodArguments($methodArguments);
         $this->setUnique($unique);
         $this->setOptional($optional);
+        $this->setWrong($wrong);
     }
 
     /**
@@ -191,6 +199,29 @@ class Variable
 
         return $this;
     }
+    
+    public function getWrong()
+    {
+        return $this->wrong;
+    }
+
+    public function setWrong($wrong)
+    {
+        $this->wrong = null;
+
+        if ($wrong === true) {
+            $wrong = 0.5;
+        }
+
+        if (is_numeric($wrong)) {
+            if ($wrong > 1.0) {
+                $wrong = 1.0;
+            }
+            $this->wrong = (float) $wrong;
+        }
+
+        return $this;
+    }
 
     /**
      *
@@ -287,6 +318,10 @@ class Variable
                 $generator = $generator->optional($this->getOptional());
             }
 
+            if ($this->getWrong() !== null) {
+                $generator = $generator->wrong($this->getWrong());
+            }
+            
             // generate value
             $raw = call_user_func_array([$generator, $method], $args);
 

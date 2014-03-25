@@ -37,7 +37,8 @@
             "method_arguments": [
 
             ],
-            "unique": false
+            "unique": false,
+            "wrong": 0.5
         },
         "birthday": {
             "name": "birthday",

@@ -64,10 +64,10 @@ class ConfigSerializerTest extends \PHPUnit_Framework_TestCase
         $config1->setSeed(51);
         $config1->setLocale('fr_FR');
         $config1->setVariables([
-            new Variable('firstname', 'firstName', [], false, false),
-            new Variable('lastname', 'lastName', [], false, false),
-            new Variable('birthday', 'dateTimeThisCentury', ['d/m/Y'], false, 0.5),
-            new Variable('email', 'safeEmail', [], true, false),
+            new Variable('firstname', 'firstName', [], false, null, null),
+            new Variable('lastname', 'lastName', [], false, false, 0.5),
+            new Variable('birthday', 'dateTimeThisCentury', ['d/m/Y'], false, 0.5, null),
+            new Variable('email', 'safeEmail', [], true, null, null),
         ]);
         
         $config1->setColumns([
@@ -157,10 +157,10 @@ class ConfigSerializerTest extends \PHPUnit_Framework_TestCase
         $config1->setSeed(51);
         $config1->setLocale('fr_FR');
         $config1->setVariables([
-            new Variable('firstname', 'firstName', [], false, false),
-            new Variable('lastname', 'lastName', [], false, false),
-            new Variable('birthday', 'dateTimeThisCentury', ['d/m/Y'], false, 0.5),
-            new Variable('email', 'safeEmail', [], true, false),
+            new Variable('firstname', 'firstName', [], false, null, null),
+            new Variable('lastname', 'lastName', [], false, null, 0.5),
+            new Variable('birthday', 'dateTimeThisCentury', ['d/m/Y'], false, 0.5, null),
+            new Variable('email', 'safeEmail', [], true, null, null),
         ]);
         
         $config1->setColumns([

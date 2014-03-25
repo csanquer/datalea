@@ -39,12 +39,13 @@ class VariableTest extends \PHPUnit_Framework_TestCase
 
     public function testConstruct()
     {
-        $variable = new Variable('firstname', 'firstName', [1], true, true);
+        $variable = new Variable('firstname', 'firstName', [1], true, true, true);
         $this->assertEquals('firstname', $variable->getName());
         $this->assertEquals('firstName', $variable->getMethod());
         $this->assertEquals([1], $variable->getMethodArguments());
         $this->assertEquals(true, $variable->isUnique());
         $this->assertEquals(0.5, $variable->getOptional());
+        $this->assertEquals(0.5, $variable->getWrong());
     }
     
     /**
@@ -140,17 +141,17 @@ class VariableTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers CSanquer\FakeryGenerator\Model\Variable::getOptional
      * @covers CSanquer\FakeryGenerator\Model\Variable::setOptional
-     * @dataProvider providerIsSetOptional
+     * @dataProvider providerGetSetOptional
      */
-    public function testIsSetOptional($unique, $expected, $type)
+    public function testGetSetOptional($optional, $expected, $type)
     {
-        $this->assertInstanceOf('\\CSanquer\\FakeryGenerator\\Model\\Variable', $this->variable->setOptional($unique));
+        $this->assertInstanceOf('\\CSanquer\\FakeryGenerator\\Model\\Variable', $this->variable->setOptional($optional));
         $isOptional = $this->variable->getOptional();
         $this->assertInternalType($type, $isOptional);
         $this->assertEquals($expected, $isOptional);
     }
     
-    public function providerIsSetOptional() 
+    public function providerGetSetOptional() 
     {
         return [
             [0, 0.0, 'float'],
@@ -163,6 +164,32 @@ class VariableTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * @covers CSanquer\FakeryGenerator\Model\Variable::getWrong
+     * @covers CSanquer\FakeryGenerator\Model\Variable::setWrong
+     * @dataProvider providerGetSetWrong
+     */
+    public function testGetSetWrong($wrong, $expected, $type)
+    {
+        $this->assertInstanceOf('\\CSanquer\\FakeryGenerator\\Model\\Variable', $this->variable->setWrong($wrong));
+        $isWrong = $this->variable->getWrong();
+        $this->assertInternalType($type, $isWrong);
+        $this->assertEquals($expected, $isWrong);
+    }
+    
+    public function providerGetSetWrong() 
+    {
+        return [
+            [0, 0.0, 'float'],
+            [1, 1.0, 'float'],
+            ['50.5', 1.0, 'float'],
+            [null, null, 'null'],
+            ['', null, 'null'],
+            [true, 0.5, 'float'],
+            [false, null, 'null'],
+        ];
+    }
+    
     /**
      * @covers CSanquer\FakeryGenerator\Model\Variable::generateValue
      * @covers CSanquer\FakeryGenerator\Model\Variable::generate
@@ -604,6 +631,39 @@ class VariableTest extends \PHPUnit_Framework_TestCase
         sort($rawValues);
         
         $this->assertContains(null, $rawValues);
+    }
+    
+    public function testGenerateValueWrong() 
+    {
+        $this->markTestIncomplete('Wrong modifier not yet implemented in faker.');
+        $faker = \Faker\Factory::create('en_US');
+        
+        $values = [];
+        $variables = [];
+                
+        $name = 'foo';
+        
+        $this->variable->setName($name);
+        $this->variable->setMethod('randomDigit');
+        $this->variable->setMethodArguments([]);
+        $this->variable->setWrong(0.5);
+        $this->variable->setOptional(null);
+        $this->variable->setUnique(false);
+        
+        $rawValues = [];
+        
+        for ($i=0; $i < 20; $i++) {
+            $this->variable->generateValue($faker, $values, $variables);
+            $this->assertArrayHasKey($name, $values);
+            $this->assertArrayHasKey('raw', $values[$name]);
+            $this->assertArrayHasKey('flat', $values[$name]);
+            
+            $rawValues[] = $values[$name]['raw'];
+            unset($values[$name]);
+        }
+//        sort($rawValues);
+        
+//        $this->assertContains(null, $rawValues);
     }
     
     public function testGenerateValueUnique() 

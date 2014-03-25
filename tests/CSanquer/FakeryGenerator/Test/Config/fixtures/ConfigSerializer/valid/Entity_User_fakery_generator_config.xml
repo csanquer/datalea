@@ -33,6 +33,7 @@
       <name><![CDATA[lastname]]></name>
       <method><![CDATA[lastName]]></method>
       <unique>false</unique>
+      <wrong>0.5</wrong>
     </variable>
     <variable name="birthday">
       <name><![CDATA[birthday]]></name>

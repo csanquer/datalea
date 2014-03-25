@@ -1,7 +1,7 @@
 CSanquer\FakeryGenerator\Model\Variable:
     exclusion_policy: ALL
     accessor_order: custom
-    custom_accessor_order: [name, method, methodArguments, unique, optional]
+    custom_accessor_order: [name, method, methodArguments, unique, optional, wrong]
     properties:
         name:
             type: string
@@ -19,5 +19,8 @@ CSanquer\FakeryGenerator\Model\Variable:
             type: boolean
             expose: true
         optional:
+            type: double
+            expose: true
+        wrong:
             type: double
             expose: true
