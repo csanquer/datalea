@@ -245,19 +245,26 @@ faker:
             DateTime:
                 unixTime:
                     example: 58781813
+                    arguments:
+                        max: '''now'''
                 dateTime:
                     arguments:
                         format: '''Y-m-d H:i:s'''
+                        max: '''now'''
                     example: '''2008-04-25 08:37:17'''
                 dateTimeAD:
                     arguments:
                         format: '''Y-m-d H:i:s'''
+                        max: '''now'''
                     example: '''1800-04-29 20:38:49'''
                 iso8601:
                     example: '''1978-12-09T10:10:29+0000'''
+                    arguments:
+                        max: '''now'''
                 prefix:
                     arguments:
                         format: '''H:i:s'''
+                        max: '''now'''
                     example: '''20:49:42'''
                 dateTimeBetween:
                     arguments:
@@ -268,31 +275,47 @@ faker:
                 dateTimeThisCentury:
                     arguments:
                         format: '''Y-m-d H:i:s'''
+                        max: '''now'''
                     example: '''1915-05-30 19:28:21'''
                 dateTimeThisDecade:
                     arguments:
                         format: '''Y-m-d H:i:s'''
+                        max: '''now'''
                     example: '''2007-05-29 22:30:48'''
                 dateTimeThisYear:
                     arguments:
                         format: '''Y-m-d H:i:s'''
+                        max: '''now'''
                     example: '''2011-02-27 20:52:14'''
                 dateTimeThisMonth:
                     arguments:
                         format: '''Y-m-d H:i:s'''
+                        max: '''now'''
                     example: '''2011-10-23 13:46:23'''
                 amPm:
                     example: '''pm'''
+                    arguments:
+                        max: '''now'''
                 dayOfMonth:
                     example: '''04'''
+                    arguments:
+                        max: '''now'''
                 dayOfWeek:
                     example: '''Friday'''
+                    arguments:
+                        max: '''now'''
                 month:
                     example: '''06'''
+                    arguments:
+                        max: '''now'''
                 monthName:
                     example: '''January'''
+                    arguments:
+                        max: '''now'''
                 year:
                     example: '''1993'''
+                    arguments:
+                        max: '''now'''
                 century:
                     example: '''VI'''
                 timezone:
