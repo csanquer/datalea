@@ -261,7 +261,12 @@ faker:
                     example: '''1978-12-09T10:10:29+0000'''
                     arguments:
                         max: '''now'''
-                prefix:
+                date:
+                    arguments:
+                        format: '''Y-m-d'''
+                        max: '''now'''
+                    example: '''20:49:42'''
+                time:
                     arguments:
                         format: '''H:i:s'''
                         max: '''now'''

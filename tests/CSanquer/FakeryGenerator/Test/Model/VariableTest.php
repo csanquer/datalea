@@ -472,7 +472,7 @@ class VariableTest extends \PHPUnit_Framework_TestCase
                 false, // useIncrement 
                 false, // resetIncrement 
             ],
-            // data set #9 sentences
+            // data set #9 datetime
             [
                 // expected rules
                 [

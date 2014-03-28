@@ -47,6 +47,12 @@ class Variable
      * @var int
      */
     protected $increment = 0;
+    
+    /**
+     *
+     * @var \DateTime
+     */
+    protected $maxTimestamp;
 
     /**
      *
@@ -55,14 +61,16 @@ class Variable
      * @param array  $methodArguments
      * @param bool   $unique
      * @param float|bool $optional
+     * @param \DateTime|int|string $maxTimestamp
      */
-    public function __construct($name = null, $method = null, array $methodArguments = [], $unique = false, $optional = false)
+    public function __construct($name = null, $method = null, array $methodArguments = [], $unique = false, $optional = false, $maxTimestamp = 'now')
     {
         $this->setName($name);
         $this->setMethod($method);
         $this->setMethodArguments($methodArguments);
         $this->setUnique($unique);
         $this->setOptional($optional);
+        $this->setMaxTimestamp($maxTimestamp);
     }
 
     /**
@@ -191,8 +199,29 @@ class Variable
 
         return $this;
     }
+    
+    /**
+     * 
+     * @return \DateTime
+     */
+    public function getMaxTimestamp()
+    {
+        return $this->maxTimestamp;
+    }
 
     /**
+     * 
+     * @param \DateTime|int|string $maxTimestamp $maxTimestamp default = 'now'
+     * @return \CSanquer\FakeryGenerator\Model\Variable
+     */
+    public function setMaxTimestamp($maxTimestamp = 'now')
+    {
+        $this->maxTimestamp = $maxTimestamp instanceof \DateTime ? $maxTimestamp : new \DateTime($maxTimestamp);
+        
+        return $this;
+    }
+
+        /**
      *
      * @param \Faker\Generator $faker
      * @param array            $values         generated value will be inserted into this array
@@ -247,20 +276,67 @@ class Variable
                     }
                     break;
 
+                case 'date':
+                    if (empty($args[0])) {
+                        $args[0] = 'Y-m-d';
+                    }
+                    
+                    if (empty($args[1]) || $args[1] == 'now') {
+                        $args[1] = $this->maxTimestamp->format('Y-m-d H:i:s');
+                    }
+                    break;
+                    
+                case 'time':
+                    if (empty($args[0])) {
+                        $args[0] = 'H:i:s';
+                    }
+                    
+                    if (empty($args[1]) || $args[1] == 'now') {
+                        $args[1] = $this->maxTimestamp->format('Y-m-d H:i:s');
+                    }
+                    break;
+                    
                 case 'dateTime':
                 case 'dateTimeAD':
                 case 'dateTimeThisCentury':
                 case 'dateTimeThisDecade':
                 case 'dateTimeThisYear':
                 case 'dateTimeThisMonth':
+                    // first arg is the datetime format (not a real Faker method argument)
+                    $format = array_shift($args);
+                    if (!empty($format)) {
+                        $dateTimeFormat = $format;
+                    }
+                    
+                case 'unixTime':
+                case 'iso8601':
+                case 'amPm':
+                case 'dayOfMonth':
+                case 'dayOfWeek':
+                case 'month':
+                case 'monthName':
+                case 'year':
+                    if (empty($args[0]) || $args[0] == 'now') {
+                        $args[0] = $this->maxTimestamp->format('Y-m-d H:i:s');
+                    }
+                    break;
+                    
                 case 'dateTimeBetween':
                     // first arg is the datetime format (not a real Faker method argument)
                     $format = array_shift($args);
                     if (!empty($format)) {
                         $dateTimeFormat = $format;
                     }
+                    
+                    if (empty($args[0])) {
+                        $args[0] = '-30 years';
+                    }
+                    
+                    if (empty($args[1]) || $args[1] == 'now') {
+                        $args[1] = $this->maxTimestamp->format('Y-m-d H:i:s');
+                    }
                     break;
-
+                    
                 case 'words':
                     $arraySeparator = ' ';
                     break;
@@ -292,22 +368,22 @@ class Variable
 
             // format value
             if ($raw instanceof \DateTime) {
-                $value = $raw->format($dateTimeFormat);
+                $flat = $raw->format($dateTimeFormat);
             } elseif (is_array($raw)) {
-                $value = implode($arraySeparator, $raw);
+                $flat = implode($arraySeparator, $raw);
             } else {
-                $value = $raw;
+                $flat = $raw;
             }
 
         } catch (\InvalidArgumentException $e) {
             // if the method doesn't exists in Faker set an empty string as value
             $raw = null;
-            $value = '';
+            $flat = '';
         }
 
         return [
             'raw' => $raw,
-            'flat' => $value,
+            'flat' => $flat,
         ];
     }
 
