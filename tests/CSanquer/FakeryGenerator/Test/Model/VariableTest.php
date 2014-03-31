@@ -634,7 +634,7 @@ class VariableTest extends \PHPUnit_Framework_TestCase
                 false, // useIncrement 
                 false, // resetIncrement 
                 1, // seed
-                '2014-03-25 12:51:43', // maxTimestamp
+                '2014-03-25T12:51:43+0100', // maxTimestamp
             ],
             // data set #14 date
             [
@@ -660,7 +660,7 @@ class VariableTest extends \PHPUnit_Framework_TestCase
                 false, // useIncrement 
                 false, // resetIncrement 
                 1, // seed
-                '2014-03-25 12:51:43', // maxTimestamp
+                '2014-03-25T12:51:43+0100', // maxTimestamp
             ],
             // data set #15 time
             [
@@ -686,7 +686,7 @@ class VariableTest extends \PHPUnit_Framework_TestCase
                 false, // useIncrement 
                 false, // resetIncrement 
                 1, // seed
-                '2014-03-25 12:51:43', // maxTimestamp
+                '2014-03-25T12:51:43+0100', // maxTimestamp
             ],
         ];
     }
