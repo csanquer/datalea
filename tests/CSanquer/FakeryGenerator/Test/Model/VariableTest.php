@@ -615,7 +615,7 @@ class VariableTest extends \PHPUnit_Framework_TestCase
                 [
                     'date' => [
                         'raw_class' => '\DateTime',
-                        'flat_pattern' => '/12\/08\/2001 11:48:03/',
+                        'flat_pattern' => '/12\/08\/2001 \d{2}:48:03/', // hours gap in travis ci with relative start date
                     ],
                 ], 
                 $defaultFaker, // faker 
