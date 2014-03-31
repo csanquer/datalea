@@ -78,9 +78,13 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
      * @covers CSanquer\FakeryGenerator\Helper\Converter::convert
      * @dataProvider providerConvert
      */
-    public function testConvert($method, $value, $expected)
+    public function testConvert($method, $value, $expected, $delta = null)
     {
-        $this->assertSame($expected, Converter::convert($method, $value));
+        if ($delta === null) {
+            $this->assertSame($expected, Converter::convert($method, $value));
+        } else {
+            $this->assertEquals($expected, Converter::convert($method, $value), 'the converted value is not valid.', $delta);
+        }
     }
     
     public function providerConvert()
@@ -110,8 +114,8 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             ['absolute', '-5', 5],
             ['as_bool', '0', false],
             ['as_int', '0.56', 0],
-            ['as_float', '0.56', 0.56],
-            ['as_string', 0.56, '0.56'],
+            ['as_float', '0.56', 0.56, 0.0000005],
+            ['as_string', 0.56, '0.56', 0.0000005],
             ['remove_accents', 'MÉLodie', 'MELodie'],
             ['remove_accents_lowercase', 'MÉLodie', 'melodie'],
             ['remove_accents_uppercase', 'MÉLodie', 'MELODIE'],

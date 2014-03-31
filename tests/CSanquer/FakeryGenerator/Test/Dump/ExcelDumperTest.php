@@ -3,7 +3,7 @@
 namespace CSanquer\FakeryGenerator\Test\Dump;
 
 use CSanquer\ColibriCsv\Dialect;
-use CSanquer\FakeryGenerator\Dump\CSVDumper;
+use \CSanquer\FakeryGenerator\Dump\ExcelDumper;
 use CSanquer\FakeryGenerator\Model\Column;
 use CSanquer\FakeryGenerator\Model\Config;
 use CSanquer\FakeryGenerator\Model\Variable;
@@ -11,11 +11,11 @@ use Faker\Factory;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * CSVDumperTest
+ * ExcelDumperTest
  *
  * @author Charles Sanquer <charles.sanquer.ext@francetv.fr>
  */
-class CSVDumperTest extends \PHPUnit_Framework_TestCase
+class ExcelDumperTest extends \PHPUnit_Framework_TestCase
 {
     protected static $fixtures;
     protected static $cacheDir;
@@ -38,11 +38,11 @@ class CSVDumperTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider providerDump
      */
-    public function testDump(Config $config, $generatedValues, $expectedFile)
+    public function testDump(Config $config, $generatedValues, $expectedFile, $expected)
     {
 //        $faker = Factory::create($config->getLocale());
 
-        $dumper = new CSVDumper();
+        $dumper = new ExcelDumper();
 
         $dumper->initialize($config, self::$cacheDir);
 
@@ -66,7 +66,13 @@ class CSVDumperTest extends \PHPUnit_Framework_TestCase
 //        var_dump(file_get_contents($filename));
         $this->assertFileExists($filename);
         $this->assertEquals(basename($expectedFile), basename($filename));
-        $this->assertFileEquals(self::$fixtures.'/'.$expectedFile, $filename);
+        
+        $reader = new \PHPExcel_Reader_Excel2007();
+        $excel = $reader->load(self::$fixtures.'/'.$expectedFile);
+        
+        $data = $excel->getActiveSheet()->toArray();
+//        print_r($data);
+        $this->assertEquals($expected, $data);
     }
 
     public function providerDump()
@@ -132,7 +138,33 @@ class CSVDumperTest extends \PHPUnit_Framework_TestCase
                         'birthday' => '1994-08-12',
                     ],
                 ],
-                'CSVDumper/expected/Entity_User.csv'
+                'ExcelDumper/expected/Entity_User.xlsx',
+                [
+                    [
+                        'person-name-firstname',
+                        'person-name-lastname',
+                        'person-email',
+                        'birthday',
+                    ],
+                    [
+                        'Adolph',
+                        'McCullough',
+                        'adolph.mccullough@yahoo.com',
+                        '1994-05-30',
+                    ],
+                    [
+                        'Sebastian',
+                        'Harvey',
+                        'sebastian.harvey@yahoo.com',
+                        '1927-10-02',
+                    ],
+                    [
+                        'Norris',
+                        'Douglas',
+                        'norris.douglas@hotmail.com',
+                        '1994-08-12',
+                    ],
+                ],
             ]
         ];
     }

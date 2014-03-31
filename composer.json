@@ -47,7 +47,7 @@
         "csanquer/silex-tools": "~0.3",
         "fzaninotto/faker": "dev-master",
         "csanquer/colibri-csv": "~1.0",
-        "CodePlex/PHPExcel": "~1.7",
+        "phpoffice/phpexcel": "~1.8",
         "jms/serializer": "~0.15"
     },
     "minimum-stability": "dev",
