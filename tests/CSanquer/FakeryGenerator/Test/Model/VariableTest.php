@@ -113,6 +113,33 @@ class VariableTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers CSanquer\FakeryGenerator\Model\Variable::getMaxTimestamp
+     * @covers CSanquer\FakeryGenerator\Model\Variable::setMaxTimestamp
+     * @dataProvider providerGetSetMaxTimestamp
+     */
+    public function testGetSetMaxTimestamp($maxTimestamp, $expected)
+    {
+        $this->assertInstanceOf('\\CSanquer\\FakeryGenerator\\Model\\Variable', $this->variable->setMaxTimestamp($maxTimestamp));
+        $date = $this->variable->getMaxTimestamp();
+        $this->assertInstanceOf('\\DateTime', $date);
+        if ($expected === null) {
+            $this->assertEquals(time(), $date->format('U'), 'The maximum timestamp is not the current timestamp', 30);
+        } else {
+            $this->assertEquals($expected, $date);
+        }
+    }
+    
+    public function providerGetSetMaxTimestamp() 
+    {
+        return [
+            [null, null],
+            ['now', null],
+            ['2014-01-01 12:30:45', new \DateTime('2014-01-01 12:30:45')],
+            [new \DateTime('2014-01-01 12:30:45'), new \DateTime('2014-01-01 12:30:45')],
+        ];
+    }
+    
+    /**
      * @covers CSanquer\FakeryGenerator\Model\Variable::isUnique
      * @covers CSanquer\FakeryGenerator\Model\Variable::setUnique
      * @dataProvider providerIsSetUnique
@@ -181,9 +208,17 @@ class VariableTest extends \PHPUnit_Framework_TestCase
         $unique = false, 
         $force = false, 
         $useIncrement = false, 
-        $resetIncrement = false
+        $resetIncrement = false,
+        $seed = 1,
+        $maxTimestamp = 'now'
     ) 
     {
+        mt_srand($seed);
+        
+        if (!empty($maxTimestamp)) {
+            $this->variable->setMaxTimestamp($maxTimestamp);
+        }
+        
         $this->variable->setName($name);
         $this->variable->setMethod($method);
         $this->variable->setMethodArguments($methodArguments);
@@ -219,6 +254,8 @@ class VariableTest extends \PHPUnit_Framework_TestCase
                 $this->assertEquals($rules['flat_length'], strlen($values[$key]['flat']), 'flat value length is not valid for variable '.$key);
             }
         }
+        
+        mt_srand();
     }
     
     public function providerGenerateValue() 
@@ -571,6 +608,85 @@ class VariableTest extends \PHPUnit_Framework_TestCase
                 false, // force 
                 false, // useIncrement 
                 false, // resetIncrement 
+            ],
+            // data set #13 datetime between
+            [
+                // expected rules
+                [
+                    'date' => [
+                        'raw_class' => '\DateTime',
+                        'flat_pattern' => '/12\/08\/2001 11:48:03/',
+                    ],
+                ], 
+                $defaultFaker, // faker 
+                // values
+                [],  
+                'date', // name 
+                'dateTimeBetween', // method 
+                // methodArguments 
+                ['d/m/Y H:i:s'], 
+                // variables
+                [
+                ],  
+                false, // optional 
+                false, // unique 
+                false, // force 
+                false, // useIncrement 
+                false, // resetIncrement 
+                1, // seed
+                '2014-03-25 12:51:43', // maxTimestamp
+            ],
+            // data set #14 date
+            [
+                // expected rules
+                [
+                    'date' => [
+                        'flat_pattern' => '/1995-08-18/',
+                    ],
+                ], 
+                $defaultFaker, // faker 
+                // values
+                [],  
+                'date', // name 
+                'date', // method 
+                // methodArguments 
+                [], 
+                // variables
+                [
+                ],  
+                false, // optional 
+                false, // unique 
+                false, // force 
+                false, // useIncrement 
+                false, // resetIncrement 
+                1, // seed
+                '2014-03-25 12:51:43', // maxTimestamp
+            ],
+            // data set #15 time
+            [
+                // expected rules
+                [
+                    'time' => [
+                        'flat_pattern' => '/13:05:27/',
+                    ],
+                ], 
+                $defaultFaker, // faker 
+                // values
+                [],  
+                'time', // name 
+                'time', // method 
+                // methodArguments 
+                [], 
+                // variables
+                [
+                ],  
+                false, // optional 
+                false, // unique 
+                false, // force 
+                false, // useIncrement 
+                false, // resetIncrement 
+                1, // seed
+                '2014-03-25 12:51:43', // maxTimestamp
             ],
         ];
     }

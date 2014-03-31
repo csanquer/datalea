@@ -58,6 +58,7 @@ class ConfigSerializerTest extends \PHPUnit_Framework_TestCase
     public function providerDump()
     {
         $config1 = new Config();
+        $config1->setMaxTimestamp('2014-01-01T12:30:45+0100');
         $config1->setClassName('Entity\\User');
         $config1->setFakeNumber(500);
         $config1->setFormats(['php', 'json', 'xml']);
@@ -151,6 +152,7 @@ class ConfigSerializerTest extends \PHPUnit_Framework_TestCase
     public function providerLoad()
     {
         $config1 = new Config();
+        $config1->setMaxTimestamp('2014-01-01T12:30:45+0100');
         $config1->setClassName('Entity\\User');
         $config1->setFakeNumber(500);
         $config1->setFormats(['php', 'json', 'xml']);
@@ -162,7 +164,7 @@ class ConfigSerializerTest extends \PHPUnit_Framework_TestCase
             new Variable('birthday', 'dateTimeThisCentury', ['d/m/Y'], false, 0.5),
             new Variable('email', 'safeEmail', [], true, false),
         ]);
-        
+
         $config1->setColumns([
             new Column('person', null, null, [
                 new Column('name', null, null, [

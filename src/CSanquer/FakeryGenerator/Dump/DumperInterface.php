@@ -12,10 +12,10 @@ use CSanquer\FakeryGenerator\Model\Config;
 interface DumperInterface
 {
     public function initialize(Config $config, $directory);
-    
+
     public function dumpRow(array $row = array());
-    
+
     public function finalize();
-    
+
     public function getExtension();
 }

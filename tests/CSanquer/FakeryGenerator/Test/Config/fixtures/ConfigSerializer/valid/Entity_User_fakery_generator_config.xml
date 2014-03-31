@@ -3,6 +3,7 @@
   <class_name><![CDATA[Entity\User]]></class_name>
   <locale><![CDATA[fr_FR]]></locale>
   <seed>51</seed>
+  <max_timestamp><![CDATA[2014-01-01T12:30:45+0100]]></max_timestamp>
   <fake_number>500</fake_number>
   <formats>
     <format><![CDATA[php]]></format>

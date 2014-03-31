@@ -13,17 +13,17 @@ class PHPDumper implements DumperInterface
 {
     public function dumpRow(array $row = array())
     {
-        
+
     }
 
     public function finalize()
     {
-        
+
     }
 
     public function initialize(Config $config, $directory)
     {
-        
+
     }
 
     public function getExtension()

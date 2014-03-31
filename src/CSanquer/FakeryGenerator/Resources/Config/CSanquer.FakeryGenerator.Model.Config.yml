@@ -1,7 +1,9 @@
 CSanquer\FakeryGenerator\Model\Config:
     exclusion_policy: ALL
     accessor_order: custom
-    custom_accessor_order: [className, locale, seed, fakeNumber, formats, csvDialect, variables, columns]
+    custom_accessor_order: [className, locale, seed, maxTimestamp, fakeNumber, formats, csvDialect, variables, columns]
+    callback_methods:
+        post_deserialize: [updateVariableMaxTimestamp]
     properties:
         locale:
             type: string
@@ -9,6 +11,10 @@ CSanquer\FakeryGenerator\Model\Config:
         seed:
             type: integer
             expose: true
+        maxTimestamp:
+            type: DateTime
+            expose: true
+#            access_type: public_method
         className:
             type: string
             expose: true
@@ -33,6 +39,7 @@ CSanquer\FakeryGenerator\Model\Config:
                 entry_name: column
         variables:
             type: array<string, CSanquer\FakeryGenerator\Model\Variable>
+#            access_type: public_method
             expose: true
             xml_map:
                 inline: false

@@ -16,35 +16,35 @@ class ExcelDumper extends AbstractDumper
      * @var int
      */
     protected $col;
-    
+
     /**
      *
      * @var int
      */
     protected $line;
-    
+
     /**
      *
-     * @var \PHPExcel 
+     * @var \PHPExcel
      */
     protected $excel;
-    
+
     /**
      *
      * @var bool
      */
     protected $hasHeader;
-    
+
     public function initialize(Config $config, $directory)
     {
         $this->setFilename($config, $directory);
         $this->excel = new \PHPExcel();
         $sheet = $this->excel->getActiveSheet();
         $sheet->setTitle($config->getClassNameLastPart());
-        
+
         $this->col = 0;
         $this->line = 0;
-        
+
 //        $header = $config->getColumnNames(true);
 //        $this->line++;
 //        foreach ($header as $key) {
@@ -53,13 +53,13 @@ class ExcelDumper extends AbstractDumper
 //            $this->col++;
 //        }
     }
-    
+
     public function dumpRow(array $row = array())
     {
         $sheet = $this->excel->getActiveSheet();
-       
+
         $flat = $this->convertRowAsFlat($row);
-        
+
         if (!$this->hasHeader) {
             $this->col = 0;
             $this->line++;
@@ -68,10 +68,10 @@ class ExcelDumper extends AbstractDumper
                 $sheet->getColumnDimensionByColumn($this->col)->setAutoSize(true);
                 $this->col++;
             }
-            
+
             $this->hasHeader = true;
         }
-        
+
         $this->col = 0;
         $this->line++;
         foreach ($flat as $value) {
@@ -85,10 +85,9 @@ class ExcelDumper extends AbstractDumper
         $writer = new \PHPExcel_Writer_Excel2007($this->excel);
         $writer->setPreCalculateFormulas(false);
         $writer->save($this->filename);
-        
+
         return $this->filename;
     }
-
 
     public function getExtension()
     {

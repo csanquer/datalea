@@ -2,6 +2,7 @@
     "class_name": "Entity\\User",
     "locale": "fr_FR",
     "seed": 51,
+    "max_timestamp": "2014-01-01T12:30:45+0100",
     "fake_number": 500,
     "formats": [
         "php",

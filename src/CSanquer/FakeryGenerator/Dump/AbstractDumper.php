@@ -13,17 +13,17 @@ use Symfony\Component\Filesystem\Filesystem;
 abstract class AbstractDumper implements DumperInterface
 {
     protected $filename;
-    
-    protected function setFilename(Config $config, $directory) 
+
+    protected function setFilename(Config $config, $directory)
     {
         $fs = new Filesystem();
         if (!$fs->exists($directory)) {
             $fs->mkdir($directory);
         }
-        
+
         $this->filename = realpath($directory).DIRECTORY_SEPARATOR.$config->getClassName(true).'.'.$this->getExtension();
     }
-    
+
     protected function convertRowAsFlat(array $row = array())
     {
         $flat = [];
@@ -37,7 +37,7 @@ abstract class AbstractDumper implements DumperInterface
                 $flat[$key] = $value;
             }
         }
-        
+
         return $flat;
     }
 }

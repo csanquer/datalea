@@ -2,7 +2,7 @@
 
 namespace CSanquer\FakeryGenerator\Model;
 
-use Faker\Generator;
+use \Faker\Generator;
 
 /**
  * Variable
@@ -47,7 +47,7 @@ class Variable
      * @var int
      */
     protected $increment = 0;
-    
+
     /**
      *
      * @var \DateTime
@@ -56,11 +56,11 @@ class Variable
 
     /**
      *
-     * @param string $name
-     * @param string $method
-     * @param array  $methodArguments
-     * @param bool   $unique
-     * @param float|bool $optional
+     * @param string               $name
+     * @param string               $method
+     * @param array                $methodArguments
+     * @param bool                 $unique
+     * @param float|bool           $optional
      * @param \DateTime|int|string $maxTimestamp
      */
     public function __construct($name = null, $method = null, array $methodArguments = [], $unique = false, $optional = false, $maxTimestamp = 'now')
@@ -93,8 +93,8 @@ class Variable
 
     /**
      *
-     * @param  string                                   $name
-     * @return \CSanquer\FakeryGenerator\Model\Variable
+     * @param  string   $name
+     * @return Variable
      */
     public function setName($name)
     {
@@ -114,8 +114,8 @@ class Variable
 
     /**
      *
-     * @param  string                                   $method
-     * @return \CSanquer\FakeryGenerator\Model\Variable
+     * @param  string   $method
+     * @return Variable
      */
     public function setMethod($method)
     {
@@ -199,9 +199,9 @@ class Variable
 
         return $this;
     }
-    
+
     /**
-     * 
+     *
      * @return \DateTime
      */
     public function getMaxTimestamp()
@@ -210,25 +210,25 @@ class Variable
     }
 
     /**
-     * 
-     * @param \DateTime|int|string $maxTimestamp $maxTimestamp default = 'now'
-     * @return \CSanquer\FakeryGenerator\Model\Variable
+     *
+     * @param  \DateTime|int|string $maxTimestamp $maxTimestamp default = 'now'
+     * @return Variable
      */
     public function setMaxTimestamp($maxTimestamp = 'now')
     {
         $this->maxTimestamp = $maxTimestamp instanceof \DateTime ? $maxTimestamp : new \DateTime($maxTimestamp);
-        
+
         return $this;
     }
 
-        /**
+    /**
      *
-     * @param \Faker\Generator $faker
-     * @param array            $values         generated value will be inserted into this array
-     * @param array            $variables      other variable configs to be replaced in faker method arguments if used
-     * @param bool             $force          force generating value even if it already exists
-     * @param bool             $useIncrement   use increment suffix or add increment
-     * @param bool             $resetIncrement reset current variable increment
+     * @param Generator $faker
+     * @param array     $values         generated value will be inserted into this array
+     * @param array     $variables      other variable configs to be replaced in faker method arguments if used
+     * @param bool      $force          force generating value even if it already exists
+     * @param bool      $useIncrement   use increment suffix or add increment
+     * @param bool      $resetIncrement reset current variable increment
      */
     public function generateValue(Generator $faker, array &$values, array $variables = [], $force = false, $useIncrement = false, $resetIncrement = false)
     {
@@ -249,9 +249,9 @@ class Variable
 
     /**
      *
-     * @param  \Faker\Generator $faker
-     * @param  array            $values    generated value will be inserted into this array
-     * @param  array            $variables other variable configs to be replaced in faker method arguments if used
+     * @param  Generator $faker
+     * @param  array     $values    generated value will be inserted into this array
+     * @param  array     $variables other variable configs to be replaced in faker method arguments if used
      * @return string
      */
     protected function generate(Generator $faker, array &$values, array $variables = [])
@@ -280,22 +280,22 @@ class Variable
                     if (empty($args[0])) {
                         $args[0] = 'Y-m-d';
                     }
-                    
+
                     if (empty($args[1]) || $args[1] == 'now') {
-                        $args[1] = $this->maxTimestamp->format('Y-m-d H:i:s');
+                        $args[1] = $this->maxTimestamp->format(\DateTime::ISO8601);
                     }
                     break;
-                    
+
                 case 'time':
                     if (empty($args[0])) {
                         $args[0] = 'H:i:s';
                     }
-                    
+
                     if (empty($args[1]) || $args[1] == 'now') {
-                        $args[1] = $this->maxTimestamp->format('Y-m-d H:i:s');
+                        $args[1] = $this->maxTimestamp->format(\DateTime::ISO8601);
                     }
                     break;
-                    
+
                 case 'dateTime':
                 case 'dateTimeAD':
                 case 'dateTimeThisCentury':
@@ -307,7 +307,7 @@ class Variable
                     if (!empty($format)) {
                         $dateTimeFormat = $format;
                     }
-                    
+
                 case 'unixTime':
                 case 'iso8601':
                 case 'amPm':
@@ -317,26 +317,28 @@ class Variable
                 case 'monthName':
                 case 'year':
                     if (empty($args[0]) || $args[0] == 'now') {
-                        $args[0] = $this->maxTimestamp->format('Y-m-d H:i:s');
+                        $args[0] = $this->maxTimestamp->format(\DateTime::ISO8601);
                     }
                     break;
-                    
+
                 case 'dateTimeBetween':
                     // first arg is the datetime format (not a real Faker method argument)
                     $format = array_shift($args);
                     if (!empty($format)) {
                         $dateTimeFormat = $format;
                     }
-                    
-                    if (empty($args[0])) {
-                        $args[0] = '-30 years';
-                    }
-                    
+
                     if (empty($args[1]) || $args[1] == 'now') {
-                        $args[1] = $this->maxTimestamp->format('Y-m-d H:i:s');
+                        $args[1] = $this->maxTimestamp->format(\DateTime::ISO8601);
                     }
+
+                    if (empty($args[0])) {
+                        $args[0] = (new \DateTime($args[1]))->format(\DateTime::ISO8601).' -30 years';
+                    }
+
+                    ksort($args);
                     break;
-                    
+
                 case 'words':
                     $arraySeparator = ' ';
                     break;
@@ -390,10 +392,10 @@ class Variable
     /**
      * replace variable in faker method arguments
      *
-     * @param  string           $str
-     * @param  \Faker\Generator $faker
-     * @param  array            $values
-     * @param  array            $variables
+     * @param  string    $str
+     * @param  Generator $faker
+     * @param  array     $values
+     * @param  array     $variables
      * @return string
      */
     protected function replaceVariables($str, Generator $faker, array &$values, array $variables = [])

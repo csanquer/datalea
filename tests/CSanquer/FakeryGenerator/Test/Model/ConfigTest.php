@@ -48,6 +48,53 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers CSanquer\FakeryGenerator\Model\Config::getMaxTimestamp
+     * @covers CSanquer\FakeryGenerator\Model\Config::setMaxTimestamp
+     * @dataProvider providerGetSetMaxTimestamp
+     */
+    public function testGetSetMaxTimestamp($maxTimestamp, $expected)
+    {
+        $dateInit = $this->config->getMaxTimestamp();
+        $this->assertInstanceOf('\\DateTime', $dateInit);
+        $this->assertEquals(time(), $dateInit->format('U'), 'The maximum timestamp is not the current timestamp', 30);
+        
+        $this->assertInstanceOf('\\CSanquer\\FakeryGenerator\\Model\\Config', $this->config->setMaxTimestamp($maxTimestamp));
+        $date = $this->config->getMaxTimestamp();
+        $this->assertInstanceOf('\\DateTime', $date);
+        if ($expected === null) {
+            $this->assertEquals(time(), $date->format('U'), 'The maximum timestamp is not the current timestamp', 30);
+        } else {
+            $this->assertEquals($expected, $date);
+        }
+    }
+    
+    public function providerGetSetMaxTimestamp() 
+    {
+        return [
+            [null, null],
+            ['now', null],
+            ['2014-01-01 12:30:45', new \DateTime('2014-01-01 12:30:45')],
+            [new \DateTime('2014-01-01 12:30:45'), new \DateTime('2014-01-01 12:30:45')],
+        ];
+    }
+    
+    /**
+     * @covers CSanquer\FakeryGenerator\Model\Config::updateVariableMaxTimestamp
+     */
+    public function testUpdateVariableMaxTimestamp()
+    {
+        $variable = new Variable('birthday', 'date', [], false, false, '2000-01-01 08:00:00');
+        $this->assertEquals(new \DateTime('2000-01-01 08:00:00'), $variable->getMaxTimestamp());
+        
+        $this->config->addVariable($variable);
+        
+        $this->config->setMaxTimestamp('2014-06-30 00:00:00');
+        $this->config->updateVariableMaxTimestamp();
+        
+        $this->assertEquals(new \DateTime('2014-06-30 00:00:00'), $variable->getMaxTimestamp());
+    }
+    
+    /**
      * @covers CSanquer\FakeryGenerator\Model\Config::setSeed
      * @covers CSanquer\FakeryGenerator\Model\Config::getSeed
      * @covers CSanquer\FakeryGenerator\Model\Config::generateSeed

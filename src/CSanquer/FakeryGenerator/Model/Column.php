@@ -119,10 +119,10 @@ class Column extends ColumnContainer
             foreach ($this->columns as $column) {
                 $result[$column->getName()] = $column->replaceVariable($availableVariables);
             }
-            
+
             return $result;
         }
-        
+
         $value = preg_replace_callback('/%([a-zA-Z0-9_]+)%/',
             function($matches) use ($availableVariables) {
                 return isset($availableVariables[$matches[1]]['flat']) ? $availableVariables[$matches[1]]['flat'] : $matches[0];

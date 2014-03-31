@@ -15,16 +15,16 @@ class CSVDumper extends AbstractDumper
 {
     /**
      *
-     * @var CsvWriter 
+     * @var CsvWriter
      */
     protected $csvWriter;
-    
+
     /**
      *
      * @var bool
      */
     protected $hasHeader;
-    
+
     public function initialize(Config $config, $directory)
     {
         $this->setFilename($config, $directory);
@@ -33,23 +33,23 @@ class CSVDumper extends AbstractDumper
         $this->hasHeader = false;
 //        $this->csvWriter->writeRow($config->getColumnNames(true));
     }
-    
+
     public function dumpRow(array $row = array())
     {
         $flat = $this->convertRowAsFlat($row);
-        
+
         if (!$this->hasHeader) {
             $this->csvWriter->writeRow(array_keys($flat));
             $this->hasHeader = true;
         }
-        
+
         $this->csvWriter->writeRow($flat);
     }
-    
+
     public function finalize()
     {
         $this->csvWriter->close();
-        
+
         return $this->filename;
     }
 

@@ -34,14 +34,14 @@ abstract class ColumnContainer
     }
 
     /**
-     * 
+     *
      * @return int
      */
     public function countColumns()
     {
         return count($this->columns);
     }
-    
+
     /**
      *
      * @return Column
@@ -98,11 +98,11 @@ abstract class ColumnContainer
 
         return false;
     }
-    
+
     /**
      * get Columns Names list as a flat array or multidimensional array
-     * 
-     * @param bool $asFlat default = false
+     *
+     * @param  bool  $asFlat default = false
      * @return array
      */
     public function getColumnNames($asFlat = false)
@@ -115,7 +115,7 @@ abstract class ColumnContainer
                     foreach ($tmpNames as $tmpName) {
                         $name = $column->getName().'-'.$tmpName;
                         $names[$name] = $name;
-                    } 
+                    }
                 } else {
                     $names[$column->getName()] = $column->getColumnNames($asFlat);
                 }
@@ -124,7 +124,7 @@ abstract class ColumnContainer
                 $names[$column->getName()] = $column->getName();
             }
         }
-        
+
         return $names;
     }
 }

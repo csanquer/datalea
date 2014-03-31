@@ -27,6 +27,12 @@ class Config extends ColumnContainer
 
     /**
      *
+     * @var \DateTime
+     */
+    protected $maxTimestamp;
+
+    /**
+     *
      * @var string
      */
     protected $className;
@@ -59,6 +65,7 @@ class Config extends ColumnContainer
     {
         parent::__construct([]);
         $this->generateSeed();
+        $this->setMaxTimestamp('now');
         $this->csvDialect = Dialect::createExcelDialect();
     }
 
@@ -111,6 +118,38 @@ class Config extends ColumnContainer
         $this->seed = (int) $seed;
 
         return $this;
+    }
+
+    /**
+     *
+     * @return \DateTime
+     */
+    public function getMaxTimestamp()
+    {
+        return $this->maxTimestamp;
+    }
+
+    /**
+     *
+     * @param  \DateTime|int|string $maxTimestamp $maxTimestamp default = 'now'
+     * @return Config
+     */
+    public function setMaxTimestamp($maxTimestamp = 'now')
+    {
+        $this->maxTimestamp = $maxTimestamp instanceof \DateTime ? $maxTimestamp : new \DateTime($maxTimestamp);
+        $this->updateVariableMaxTimestamp();
+
+        return $this;
+    }
+
+    /**
+     * update all variable Max timestamp with the current config max timestamp
+     */
+    public function updateVariableMaxTimestamp()
+    {
+        foreach ($this->variables as $variable) {
+            $variable->setMaxTimestamp($this->maxTimestamp);
+        }
     }
 
     /**
@@ -259,7 +298,7 @@ class Config extends ColumnContainer
     {
         return $this->variables;
     }
-    
+
     /**
      *
      * @return int
@@ -281,7 +320,7 @@ class Config extends ColumnContainer
 
     /**
      *
-     * @param  array                                  $variables array of Variable
+     * @param  array  $variables array of Variable
      * @return Config
      */
     public function setVariables($variables)
@@ -305,13 +344,14 @@ class Config extends ColumnContainer
         }
 
         $this->variables[$name] = $variable;
+        $this->variables[$name]->setMaxTimestamp($this->maxTimestamp);
 
         return $this;
     }
 
     /**
      *
-     * @param  Column  $column
+     * @param  Column  $variable
      * @return boolean
      */
     public function removeVariable(Variable $variable)
@@ -340,9 +380,9 @@ class Config extends ColumnContainer
     }
 
     /**
-     * 
+     *
      * @param Generator $faker
-     * @param array $values (by reference)
+     * @param array     $values (by reference)
      */
     public function generateVariableValues(Generator $faker, array &$values)
     {
@@ -350,9 +390,9 @@ class Config extends ColumnContainer
             $variable->generateValue($faker, $values, $this->variables, false, false, true);
         }
     }
-    
+
     /**
-     * 
+     *
      * @param array $values
      */
     public function generateColumnValues(array $values)
@@ -361,7 +401,7 @@ class Config extends ColumnContainer
         foreach ($this->columns as $column) {
             $data[$column->getName()] = $column->replaceVariable($values);
         }
-        
+
         return $data;
     }
 }
