@@ -78,69 +78,6 @@ class DumpManager
 
     /**
      *
-     * @return string
-     */
-    public function saveConfigAsXML($dir)
-    {
-        $name = $this->config->getClassName(true).'_datalea_config';
-
-        $root = new CdataSimpleXMLElement('<?xml version=\'1.0\' encoding=\'utf-8\'?><datalea/>');
-
-        $root->addAttribute('classname', $this->config->getClassName());
-        $root->addAttribute('locale', $this->config->getLocale());
-        $root->addAttribute('seed', $this->config->getSeed());
-        $root->addAttribute('fakenumber', $this->config->getFakeNumber());
-
-        $formatsElt = $root->addChild('formats');
-        foreach ($this->config->getFormats() as $format) {
-            $formatElt = $formatsElt->addChild('format', $format);
-        }
-
-        $csvFormat = $this->config->getCsvFormat();
-        if ($csvFormat && $this->config->hasFormat('csv')) {
-            $formatOptionsElt = $root->addChild('formatOptions');
-            $csvElt = $formatOptionsElt->addChild('csv');
-            $csvElt->addChildCData('delimiter', $csvFormat->getDelimiter());
-            $csvElt->addChildCData('enclosure', $csvFormat->getEnclosure());
-            $csvElt->addChild('encoding', $csvFormat->getEncoding());
-            $csvElt->addChild('eol', $csvFormat->getEol());
-            $csvElt->addChildCData('escape', $csvFormat->getEscape());
-        }
-
-        $variablesElt = $root->addChild('variables');
-        foreach ($this->config->getVariableConfigs() as $variable) {
-            $variableElt = $variablesElt->addChild('variable');
-            $variableElt->addAttribute('name', $variable->getName());
-            $variableElt->addChild('method', $variable->getFakerMethod());
-            $variableElt->addChildCData('argument1', $variable->getFakerMethodArg1());
-            $variableElt->addChildCData('argument2', $variable->getFakerMethodArg2());
-            $variableElt->addChildCData('argument3', $variable->getFakerMethodArg3());
-        }
-
-        $columnsElt = $root->addChild('columns');
-        foreach ($this->config->getColumns() as $column) {
-            $columnElt = $columnsElt->addChild('column');
-            $columnElt->addAttribute('name', $column->getName());
-            $columnElt->addAttribute('unique', $column->getUnique());
-            $columnElt->addChildCData('value', $column->getValue());
-            $columnElt->addChild('convert', $column->getConvertMethod());
-        }
-
-        $file = $dir.DS.$name.'.xml';
-
-        $rootDom = dom_import_simplexml($root);
-        $dom = new DOMDocument('1.0', 'UTF-8');
-        $dom->formatOutput = true;
-        $rootDom = $dom->importNode($rootDom, true);
-        $rootDom = $dom->appendChild($rootDom);
-
-        $dom->save($file);
-
-        return $file;
-    }
-
-    /**
-     *
      * @param string   $tmpDir
      * @param DateTime $date
      *
