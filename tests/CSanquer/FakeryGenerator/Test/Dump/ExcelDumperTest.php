@@ -8,62 +8,27 @@ use CSanquer\FakeryGenerator\Model\Column;
 use CSanquer\FakeryGenerator\Model\Config;
 use CSanquer\FakeryGenerator\Model\Variable;
 use Faker\Factory;
-use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * ExcelDumperTest
  *
  * @author Charles Sanquer <charles.sanquer.ext@francetv.fr>
  */
-class ExcelDumperTest extends \PHPUnit_Framework_TestCase
+class ExcelDumperTest extends DumperTestCase
 {
-    protected static $fixtures;
-    protected static $cacheDir;
-
-    public static function setUpBeforeClass()
-    {
-        self::$fixtures = __DIR__.'/fixtures/';
-        self::$cacheDir = __DIR__.'/tmp';
-    }
-
-    protected function setUp()
-    {
-        $fs = new Filesystem();
-        if ($fs->exists(self::$cacheDir)) {
-            $fs->remove(self::$cacheDir);
-        }
-//        $fs->mkdir(self::$cacheDir);
-    }
-
     /**
      * @dataProvider providerDump
      */
     public function testDump(Config $config, $generatedValues, $expectedFile, $expected)
     {
-//        $faker = Factory::create($config->getLocale());
-
         $dumper = new ExcelDumper();
-
         $dumper->initialize($config, self::$cacheDir);
 
-//        $result = [];
         foreach ($generatedValues as $row) {
             $dumper->dumpRow($row);
         }
-        
-//        for ($i = 0; $i < count($generatedValues); $i++) {
-//            $values = [];
-//            $config->generateVariableValues($faker, $values);
-//            $row = $config->generateColumnValues($values);
-//            $result[] = $row;
-//            $dumper->dumpRow($row);
-//        }
-
-//        var_export($result);
-
         $filename = $dumper->finalize();
-//        var_dump($filename);
-//        var_dump(file_get_contents($filename));
+        
         $this->assertFileExists($filename);
         $this->assertEquals(basename($expectedFile), basename($filename));
         
@@ -71,7 +36,6 @@ class ExcelDumperTest extends \PHPUnit_Framework_TestCase
         $excel = $reader->load(self::$fixtures.'/'.$expectedFile);
         
         $data = $excel->getActiveSheet()->toArray();
-//        print_r($data);
         $this->assertEquals($expected, $data);
     }
 

@@ -9,8 +9,13 @@ use CSanquer\FakeryGenerator\Model\Config;
  *
  * @author Charles Sanquer <charles.sanquer.gmail.com>
  */
-class PythonDumper implements DumperInterface
+class PythonDumper extends AbstractDumper
 {
+    public function initialize(Config $config, $directory)
+    {
+
+    }
+    
     public function dumpRow(array $row = array())
     {
 
@@ -21,10 +26,6 @@ class PythonDumper implements DumperInterface
 
     }
 
-    public function initialize(Config $config, $directory)
-    {
-
-    }
 
     public function getExtension()
     {

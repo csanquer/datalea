@@ -3,33 +3,47 @@
 namespace CSanquer\FakeryGenerator\Test\Dump;
 
 use CSanquer\ColibriCsv\Dialect;
-use CSanquer\FakeryGenerator\Dump\CSVDumper;
+use CSanquer\FakeryGenerator\Dump\JSONDumper;
 use CSanquer\FakeryGenerator\Model\Column;
 use CSanquer\FakeryGenerator\Model\Config;
 use CSanquer\FakeryGenerator\Model\Variable;
 use Faker\Factory;
 
 /**
- * CSVDumperTest
+ * JSONDumperTest
  *
  * @author Charles Sanquer <charles.sanquer.ext@francetv.fr>
  */
-class CSVDumperTest extends DumperTestCase
+class JSONDumperTest extends DumperTestCase
 {
     /**
      * @dataProvider providerDump
      */
     public function testDump(Config $config, $generatedValues, $expectedFile)
     {
-        $dumper = new CSVDumper();
+//        $faker = Factory::create($config->getLocale());
 
+        $dumper = new JSONDumper();
         $dumper->initialize($config, self::$cacheDir);
 
+//        $result = [];
         foreach ($generatedValues as $row) {
             $dumper->dumpRow($row);
         }
+        
+//        for ($i = 0; $i < count($generatedValues); $i++) {
+//            $values = [];
+//            $config->generateVariableValues($faker, $values);
+//            $row = $config->generateColumnValues($values);
+//            $result[] = $row;
+//            $dumper->dumpRow($row);
+//        }
+
+//        var_export($result);
 
         $filename = $dumper->finalize();
+//        var_dump($filename);
+//        var_dump(file_get_contents($filename));
         $this->assertFileExists($filename);
         $this->assertEquals(basename($expectedFile), basename($filename));
         $this->assertFileEquals(self::$fixtures.'/'.$expectedFile, $filename);
@@ -98,7 +112,7 @@ class CSVDumperTest extends DumperTestCase
                         'birthday' => '1994-08-12',
                     ],
                 ],
-                'CSVDumper/expected/Entity_User.csv'
+                'JSONDumper/expected/Entity_User.json'
             ]
         ];
     }

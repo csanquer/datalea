@@ -9,19 +9,19 @@ use CSanquer\FakeryGenerator\Model\Config;
  *
  * @author Charles Sanquer <charles.sanquer.gmail.com>
  */
-class XMLDumper implements DumperInterface
+class XMLDumper extends AbstractDumper
 {
+    public function initialize(Config $config, $directory)
+    {
+
+    }
+    
     public function dumpRow(array $row = array())
     {
 
     }
 
     public function finalize()
-    {
-
-    }
-
-    public function initialize(Config $config, $directory)
     {
 
     }

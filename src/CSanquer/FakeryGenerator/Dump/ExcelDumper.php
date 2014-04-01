@@ -44,14 +44,6 @@ class ExcelDumper extends AbstractDumper
 
         $this->col = 0;
         $this->line = 0;
-
-//        $header = $config->getColumnNames(true);
-//        $this->line++;
-//        foreach ($header as $key) {
-//            $sheet->setCellValueByColumnAndRow($this->col, $this->line, $key);
-//            $sheet->getColumnDimensionByColumn($this->col)->setAutoSize(true);
-//            $this->col++;
-//        }
     }
 
     public function dumpRow(array $row = array())

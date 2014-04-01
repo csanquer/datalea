@@ -11,6 +11,10 @@ use CSanquer\FakeryGenerator\Model\Config;
  */
 class JSONDumper extends AbstractDumper
 {
+    /**
+     *
+     * @var array
+     */
     protected $data = [];
 
     public function initialize(Config $config, $directory)

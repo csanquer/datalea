@@ -8,19 +8,19 @@ use CSanquer\FakeryGenerator\Model\Config;
  *
  * @author Charles Sanquer <charles.sanquer.gmail.com>
  */
-class SQLDumper implements DumperInterface
+class SQLDumper extends AbstractDumper
 {
+    public function initialize(Config $config, $directory)
+    {
+
+    }
+    
     public function dumpRow(array $row = array())
     {
 
     }
 
     public function finalize()
-    {
-
-    }
-
-    public function initialize(Config $config, $directory)
     {
 
     }

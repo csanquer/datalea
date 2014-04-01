@@ -53,7 +53,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "autoload": {
-        "psr-0": { "": "src/" }
+        "psr-0": { "": ["src/", "tests/"] }
     },
     "config": {
         "bin-dir": "bin"

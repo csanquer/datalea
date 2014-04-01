@@ -31,7 +31,6 @@ class CSVDumper extends AbstractDumper
         $this->csvWriter = new CsvWriter($config->getCsvDialect() ?: Dialect::createExcelDialect());
         $this->csvWriter->open($this->filename);
         $this->hasHeader = false;
-//        $this->csvWriter->writeRow($config->getColumnNames(true));
     }
 
     public function dumpRow(array $row = array())
