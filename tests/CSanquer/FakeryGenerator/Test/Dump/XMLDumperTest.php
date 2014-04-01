@@ -55,7 +55,7 @@ class XMLDumperTest extends DumperTestCase
         $config1
             ->setClassName('Entity\\User')
             ->setFakeNumber(3)
-            ->setFormats(['csv'])
+            ->setFormats(['xml'])
             ->setLocale('en_US')
             ->setSeed(17846134)
             ->setCsvDialect(Dialect::createUnixDialect())

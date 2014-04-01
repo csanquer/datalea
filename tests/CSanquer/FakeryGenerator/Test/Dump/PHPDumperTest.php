@@ -3,18 +3,18 @@
 namespace CSanquer\FakeryGenerator\Test\Dump;
 
 use CSanquer\ColibriCsv\Dialect;
-use CSanquer\FakeryGenerator\Dump\YAMLDumper;
+use CSanquer\FakeryGenerator\Dump\PHPDumper;
 use CSanquer\FakeryGenerator\Model\Column;
 use CSanquer\FakeryGenerator\Model\Config;
 use CSanquer\FakeryGenerator\Model\Variable;
 use Faker\Factory;
 
 /**
- * YAMLDumperTest
+ * PHPDumperTest
  *
- * @author Charles Sanquer <charles.sanquer.ext@francetv.fr>
+ * PHPDumperTest Charles Sanquer <charles.sanquer.ext@francetv.fr>
  */
-class YAMLDumperTest extends DumperTestCase
+class XMLDumperTest extends DumperTestCase
 {
     /**
      * @dataProvider providerDump
@@ -23,7 +23,7 @@ class YAMLDumperTest extends DumperTestCase
     {
 //        $faker = Factory::create($config->getLocale());
 
-        $dumper = new YAMLDumper();
+        $dumper = new PHPDumper();
         $dumper->initialize($config, self::$cacheDir);
 
 //        $result = [];
@@ -55,7 +55,7 @@ class YAMLDumperTest extends DumperTestCase
         $config1
             ->setClassName('Entity\\User')
             ->setFakeNumber(3)
-            ->setFormats(['yaml'])
+            ->setFormats(['php'])
             ->setLocale('en_US')
             ->setSeed(17846134)
             ->setCsvDialect(Dialect::createUnixDialect())
@@ -112,7 +112,7 @@ class YAMLDumperTest extends DumperTestCase
                         'birthday' => '1994-08-12',
                     ],
                 ],
-                'YAMLDumper/expected/Entity_User.yml'
+                'PHPDumper/expected/Entity_User.php'
             ]
         ];
     }

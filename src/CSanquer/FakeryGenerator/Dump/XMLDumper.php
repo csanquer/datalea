@@ -42,16 +42,16 @@ class XMLDumper extends AbstractDumper
     
     public function dumpRow(array $row = array())
     {
-        $this->dumpXmlElement($this->elementName, $row);
+        $this->dumpElement($this->elementName, $row);
     }
 
-    protected function dumpXmlElement($key, $value) 
+    protected function dumpElement($key, $value) 
     {
         $this->xml->startElement(strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $key)));
         
         if (is_array($value)) {
             foreach ($value as $subKey => $subValue) {
-                $this->dumpXmlElement($subKey, $subValue);
+                $this->dumpElement($subKey, $subValue);
             }
         } else {
             //need CDATA

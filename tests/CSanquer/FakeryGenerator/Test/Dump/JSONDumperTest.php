@@ -55,7 +55,7 @@ class JSONDumperTest extends DumperTestCase
         $config1
             ->setClassName('Entity\\User')
             ->setFakeNumber(3)
-            ->setFormats(['csv'])
+            ->setFormats(['json'])
             ->setLocale('en_US')
             ->setSeed(17846134)
             ->setCsvDialect(Dialect::createUnixDialect())
