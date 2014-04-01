@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entityuser>
+    <user>
+        <person>
+            <name>
+                <firstname>Adolph</firstname>
+                <lastname>McCullough</lastname>
+            </name>
+            <email>adolph.mccullough@yahoo.com</email>
+        </person>
+        <birthday>1994-05-30</birthday>
+        <personalsite><![CDATA[http://www.rohan.com/?foo=<&bar=>]]></personalsite>
+    </user>
+    <user>
+        <person>
+            <name>
+                <firstname>Sebastian</firstname>
+                <lastname>Harvey</lastname>
+            </name>
+            <email>sebastian.harvey@yahoo.com</email>
+        </person>
+        <birthday>1927-10-02</birthday>
+        <personalsite><![CDATA[http://glover.com/?foo=<&bar=>]]></personalsite>
+    </user>
+    <user>
+        <person>
+            <name>
+                <firstname>Norris</firstname>
+                <lastname>Douglas</lastname>
+            </name>
+            <email>norris.douglas@hotmail.com</email>
+        </person>
+        <birthday>1994-08-12</birthday>
+        <personalsite><![CDATA[http://brown.com/?foo=<&bar=>]]></personalsite>
+    </user>
+</entityuser>
