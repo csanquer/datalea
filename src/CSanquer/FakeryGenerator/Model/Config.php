@@ -3,7 +3,7 @@
 namespace CSanquer\FakeryGenerator\Model;
 
 use CSanquer\ColibriCsv\Dialect;
-use CSanquer\FakeryGenerator\Dump\Dumper;
+use CSanquer\FakeryGenerator\Dump\DumpManager;
 use Faker\Generator;
 
 /**
@@ -192,7 +192,7 @@ class Config extends ColumnContainer
      */
     public function addFormat($format)
     {
-        if (in_array($format, array_keys(Dumper::getAvailableFormats())) && !in_array($format, $this->formats)) {
+        if (in_array($format, array_keys(DumpManager::getAvailableFormats())) && !in_array($format, $this->formats)) {
             $this->formats[] = $format;
         }
 
