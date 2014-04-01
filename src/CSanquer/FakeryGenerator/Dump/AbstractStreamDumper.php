@@ -36,6 +36,11 @@ abstract class AbstractStreamDumper extends AbstractDumper
 
         $this->first = true;
         $this->indent = 4;
+        
+        $beginning = $this->getFileBeginning($config);
+        if ($beginning !== null && $beginning !== '') {
+            fwrite($this->fileHandler, $beginning);
+        }
     }
 
     public function dumpRow(array $row = array())
@@ -45,9 +50,20 @@ abstract class AbstractStreamDumper extends AbstractDumper
             $this->first = false;
         }
     }
+    
+    abstract protected function getFileBeginning(Config $config);
+    
+    abstract protected function getFileEnding();
+
+    abstract protected function dumpElement($value, $key = null, $indent = 0, $withComma = false);
 
     public function finalize()
     {
+        $end = $this->getFileEnding();
+        if ($end !== null && $end !== '') {
+            fwrite($this->fileHandler, $end);
+        }
+        
         fclose($this->fileHandler);
 
         return $this->filename;

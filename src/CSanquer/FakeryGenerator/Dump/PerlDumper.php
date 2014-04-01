@@ -11,15 +11,14 @@ use CSanquer\FakeryGenerator\Model\Config;
  */
 class PerlDumper extends AbstractStreamDumper
 {
-    public function initialize(Config $config, $directory)
+    protected function getFileBeginning(Config $config)
     {
-        parent::initialize($config, $directory);
-        $name = $config->getClassName(true);
+        return 'my %'.$config->getClassName(true).' = ('."\n";
+    }
 
-        fwrite(
-            $this->fileHandler,
-            'my %'.$name.' = ('."\n"
-        );
+    protected function getFileEnding()
+    {
+        return "\n);\n";
     }
 
     protected function dumpElement($value, $key = null, $indent = 0, $withComma = false)
@@ -53,13 +52,6 @@ class PerlDumper extends AbstractStreamDumper
         }
 
         return $result;
-    }
-
-    public function finalize()
-    {
-        fwrite($this->fileHandler, "\n);\n");
-
-        return parent::finalize();
     }
 
     public function getExtension()
