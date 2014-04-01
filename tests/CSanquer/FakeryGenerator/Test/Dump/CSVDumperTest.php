@@ -7,7 +7,6 @@ use CSanquer\FakeryGenerator\Dump\CSVDumper;
 use CSanquer\FakeryGenerator\Model\Column;
 use CSanquer\FakeryGenerator\Model\Config;
 use CSanquer\FakeryGenerator\Model\Variable;
-use Faker\Factory;
 
 /**
  * CSVDumperTest

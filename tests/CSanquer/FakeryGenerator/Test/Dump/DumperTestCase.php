@@ -27,6 +27,5 @@ abstract class DumperTestCase extends \PHPUnit_Framework_TestCase
         if ($fs->exists(self::$cacheDir)) {
             $fs->remove(self::$cacheDir);
         }
-//        $fs->mkdir(self::$cacheDir);
     }
 }

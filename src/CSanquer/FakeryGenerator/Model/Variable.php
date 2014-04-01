@@ -401,7 +401,7 @@ class Variable
     protected function replaceVariables($str, Generator $faker, array &$values, array $variables = [])
     {
         return preg_replace_callback('/%([a-zA-Z0-9_]+)%/',
-            function($matches) use (&$values, $faker, $variables) {
+            function ($matches) use (&$values, $faker, $variables) {
                 if (!isset($values[$matches[1]]) && isset($variables[$matches[1]])) {
                     $variables[$matches[1]]->generateValue($faker, $values, $variables);
                 }

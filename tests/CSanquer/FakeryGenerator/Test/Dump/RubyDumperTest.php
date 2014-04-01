@@ -7,7 +7,6 @@ use CSanquer\FakeryGenerator\Dump\RubyDumper;
 use CSanquer\FakeryGenerator\Model\Column;
 use CSanquer\FakeryGenerator\Model\Config;
 use CSanquer\FakeryGenerator\Model\Variable;
-use Faker\Factory;
 
 /**
  * RubyDumperTest
@@ -21,29 +20,14 @@ class RubyDumperTest extends DumperTestCase
      */
     public function testDump(Config $config, $generatedValues, $expectedFile)
     {
-//        $faker = Factory::create($config->getLocale());
-
         $dumper = new RubyDumper();
         $dumper->initialize($config, self::$cacheDir);
 
-//        $result = [];
         foreach ($generatedValues as $row) {
             $dumper->dumpRow($row);
         }
         
-//        for ($i = 0; $i < count($generatedValues); $i++) {
-//            $values = [];
-//            $config->generateVariableValues($faker, $values);
-//            $row = $config->generateColumnValues($values);
-//            $result[] = $row;
-//            $dumper->dumpRow($row);
-//        }
-
-//        var_export($result);
-
         $filename = $dumper->finalize();
-//        var_dump($filename);
-//        var_dump(file_get_contents($filename));
         $this->assertFileExists($filename);
         $this->assertEquals(basename($expectedFile), basename($filename));
         $this->assertFileEquals(self::$fixtures.'/'.$expectedFile, $filename);

@@ -8,42 +8,30 @@ use CSanquer\FakeryGenerator\Model\Config;
  *
  * @author Charles Sanquer <charles.sanquer.gmail.com>
  */
-class SQLDumper extends AbstractDumper
+class SQLDumper extends AbstractStreamDumper
 {
     /**
      *
      * @var bool
      */
     protected $hasHeader;
-    
-    /**
-     *
-     * @var resource
-     */
-    protected $fileHandler;
 
-    /**
-     *
-     * @var bool
-     */
-    private $first;
-    
     public function initialize(Config $config, $directory)
     {
-        $this->setFilename($config, $directory);
-        $this->fileHandler = fopen($this->filename, 'w');
+        parent::initialize($config, $directory);
+
         $this->hasHeader = false;
-        $this->first = true;
+
         fwrite(
-            $this->fileHandler, 
+            $this->fileHandler,
             '# This is a fix for InnoDB in MySQL >= 4.1.x'."\n".
             '# It "suspends judgement" for fkey relationships until are tables are set.'."\n".
             'SET FOREIGN_KEY_CHECKS = 0;'."\n\n".
             'INSERT INTO `'.$config->getClassName(true).'` '
         );
-        
+
     }
-    
+
     public function dumpRow(array $row = array())
     {
         $content = '';
@@ -53,27 +41,25 @@ class SQLDumper extends AbstractDumper
             $content .= '(`'.implode('`, `', array_keys($flat)).'`) VALUES'."\n";
             $this->hasHeader = true;
         }
-        
+
         if ($this->first) {
             $this->first = false;
         } else {
             $content .= ','."\n";
         }
         $content .= '(\''.implode('\', \'', $flat).'\')';
-        
+
         fwrite($this->fileHandler, $content);
     }
 
     public function finalize()
     {
         fwrite(
-            $this->fileHandler, 
+            $this->fileHandler,
             ';'."\n\n".'# This restores the fkey checks, after having unset them earlier'."\n".
             'SET FOREIGN_KEY_CHECKS = 1;'."\n");
-        
-        fclose($this->fileHandler);
-        
-        return $this->filename;
+
+        return parent::finalize();
     }
 
     public function getExtension()

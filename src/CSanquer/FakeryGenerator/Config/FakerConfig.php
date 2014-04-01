@@ -123,7 +123,7 @@ PHP;
         }
 
         if (empty($culture)) {
-            return array_filter($this->config['methods'], function($method) use ($provider) {
+            return array_filter($this->config['methods'], function ($method) use ($provider) {
                 return $method['provider'] == $provider;
             });
         }
@@ -131,12 +131,12 @@ PHP;
         $cultures = array_unique([$culture, self::DEFAULT_CULTURE]);
 
         if (empty($provider)) {
-            return array_filter($this->config['methods'], function($method) use ($cultures) {
+            return array_filter($this->config['methods'], function ($method) use ($cultures) {
                 return in_array($method['culture'], $cultures);
             });
         }
 
-        return array_filter($this->config['methods'], function($method) use ($cultures, $provider) {
+        return array_filter($this->config['methods'], function ($method) use ($cultures, $provider) {
             return in_array($method['culture'], $cultures) && $method['provider'] == $provider;
         });
     }

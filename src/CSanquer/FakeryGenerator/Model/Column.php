@@ -124,7 +124,7 @@ class Column extends ColumnContainer
         }
 
         $value = preg_replace_callback('/%([a-zA-Z0-9_]+)%/',
-            function($matches) use ($availableVariables) {
+            function ($matches) use ($availableVariables) {
                 return isset($availableVariables[$matches[1]]['flat']) ? $availableVariables[$matches[1]]['flat'] : $matches[0];
             },
             $this->getValue()

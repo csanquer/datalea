@@ -7,7 +7,6 @@ use \CSanquer\FakeryGenerator\Dump\ExcelDumper;
 use CSanquer\FakeryGenerator\Model\Column;
 use CSanquer\FakeryGenerator\Model\Config;
 use CSanquer\FakeryGenerator\Model\Variable;
-use Faker\Factory;
 
 /**
  * ExcelDumperTest

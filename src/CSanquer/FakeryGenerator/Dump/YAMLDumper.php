@@ -17,25 +17,24 @@ class YAMLDumper extends AbstractDumper
      * @var int
      */
     protected $line;
-    
+
     /**
      *
      * @var array
      */
     protected $data;
-    
+
     /**
      *
      * @var string
      */
     protected $collectionName;
-    
+
     /**
      *
      * @var string
      */
     protected $itemName;
-
 
     public function initialize(Config $config, $directory)
     {
@@ -45,7 +44,7 @@ class YAMLDumper extends AbstractDumper
         $this->itemName = $config->getClassNameLastPart();
         $this->line = 1;
     }
-    
+
     public function dumpRow(array $row = array())
     {
         $this->data[$this->itemName.'_'.$this->line] = $row;
