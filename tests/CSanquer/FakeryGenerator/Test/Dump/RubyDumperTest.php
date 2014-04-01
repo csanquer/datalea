@@ -3,18 +3,18 @@
 namespace CSanquer\FakeryGenerator\Test\Dump;
 
 use CSanquer\ColibriCsv\Dialect;
-use CSanquer\FakeryGenerator\Dump\PHPDumper;
+use CSanquer\FakeryGenerator\Dump\RubyDumper;
 use CSanquer\FakeryGenerator\Model\Column;
 use CSanquer\FakeryGenerator\Model\Config;
 use CSanquer\FakeryGenerator\Model\Variable;
 use Faker\Factory;
 
 /**
- * PHPDumperTest
+ * RubyDumperTest
  *
- * PHPDumperTest Charles Sanquer <charles.sanquer.ext@francetv.fr>
+ * @author Charles Sanquer <charles.sanquer.ext@francetv.fr>
  */
-class PHPDumperTest extends DumperTestCase
+class RubyDumperTest extends DumperTestCase
 {
     /**
      * @dataProvider providerDump
@@ -23,7 +23,7 @@ class PHPDumperTest extends DumperTestCase
     {
 //        $faker = Factory::create($config->getLocale());
 
-        $dumper = new PHPDumper();
+        $dumper = new RubyDumper();
         $dumper->initialize($config, self::$cacheDir);
 
 //        $result = [];
@@ -55,7 +55,7 @@ class PHPDumperTest extends DumperTestCase
         $config1
             ->setClassName('Entity\\User')
             ->setFakeNumber(3)
-            ->setFormats(['php'])
+            ->setFormats(['ruby'])
             ->setLocale('en_US')
             ->setSeed(17846134)
             ->setCsvDialect(Dialect::createUnixDialect())
@@ -112,7 +112,7 @@ class PHPDumperTest extends DumperTestCase
                         'birthday' => '1994-08-12',
                     ],
                 ],
-                'PHPDumper/expected/Entity_User.php'
+                'RubyDumper/expected/Entity_User.rb'
             ]
         ];
     }
