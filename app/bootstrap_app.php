@@ -306,4 +306,12 @@ if ('dev' == SILEX_ENV) {
     $app->mount('/_profiler', $p);
 }
 
+//custom providers
+$app['fakery.faker.config'] = new \CSanquer\FakeryGenerator\Config\FakerConfig(
+    $app['root_dir'].'/src/CSanquer/FakeryGenerator/Resources/Config',
+    'faker.yml',
+    $app['cache_dir'],
+    $app['debug']
+);
+
 return $app;

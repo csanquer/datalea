@@ -4,7 +4,11 @@ if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }
 
-use CSanquer\Silex\Tools\ConsoleApplication;
+use \CSanquer\FakeryGenerator\Command\FakerInfoCommand;
+use \CSanquer\Silex\Tools\Command\AsseticDumpCommand;
+use \CSanquer\Silex\Tools\Command\CacheClearCommand;
+use \CSanquer\Silex\Tools\Command\ServerRunCommand;
+use \CSanquer\Silex\Tools\ConsoleApplication;
 
 $console = new ConsoleApplication($app, __DIR__.'/..', 'Twig Front Dev Application', 'n/a', 'app');
 
@@ -23,8 +27,9 @@ $console = new ConsoleApplication($app, __DIR__.'/..', 'Twig Front Dev Applicati
 // or add your existing commands to the application
 //$console->add(new MyCommand());
    
-$console->add(new CSanquer\Silex\Tools\Command\CacheClearCommand());
-$console->add(new CSanquer\Silex\Tools\Command\AsseticDumpCommand());
-$console->add(new CSanquer\Silex\Tools\Command\ServerRunCommand());
+$console->add(new CacheClearCommand());
+$console->add(new AsseticDumpCommand());
+$console->add(new ServerRunCommand());
+$console->add(new FakerInfoCommand());
 
 return $console;

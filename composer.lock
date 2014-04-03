@@ -361,12 +361,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "991e39d280afc34a91684e5789023f1b276e4618"
+                "reference": "f6070272693950fbc37618044e5dbb93b34cc467"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/991e39d280afc34a91684e5789023f1b276e4618",
-                "reference": "991e39d280afc34a91684e5789023f1b276e4618",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/f6070272693950fbc37618044e5dbb93b34cc467",
+                "reference": "f6070272693950fbc37618044e5dbb93b34cc467",
                 "shasum": ""
             },
             "require": {
@@ -399,7 +399,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2014-03-26 17:22:53"
+            "time": "2014-04-01 20:16:52"
         },
         {
             "name": "herrera-io/json",

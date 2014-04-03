@@ -25,6 +25,13 @@ class FakerConfig
 
     protected $config = [];
 
+    /**
+     * 
+     * @param string $configDirectories
+     * @param string $configFiles
+     * @param string $cachePath
+     * @param bool $debug
+     */
     public function __construct($configDirectories, $configFiles, $cachePath, $debug = false)
     {
         $this->configDirectories = (array) $configDirectories;
@@ -96,26 +103,49 @@ PHP;
         return $parsedConfig;
     }
 
+    /**
+     * 
+     * @return array
+     */
     public function getConfig()
     {
         return $this->config;
     }
 
+    /**
+     * 
+     * @return array
+     */
     public function getCultures()
     {
         return $this->config['cultures'];
     }
 
+    /**
+     * 
+     * @return array
+     */
     public function getProviders()
     {
         return $this->config['providers'];
     }
 
+    /**
+     * 
+     * @param string $name
+     * @return array
+     */
     public function getMethod($name)
     {
         return isset($this->config['methods'][$name]) ? $this->config['methods'][$name] : [];
     }
 
+    /**
+     * 
+     * @param string $culture
+     * @param string $provider
+     * @return array
+     */
     public function getMethods($culture = null, $provider = null)
     {
         if (empty($culture) && empty($provider)) {
