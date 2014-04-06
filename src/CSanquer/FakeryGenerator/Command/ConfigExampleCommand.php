@@ -7,18 +7,18 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Command for getting Faker available configuration 
+ * Command for generating a fakery configuration file example
  *
  * @author Charles Sanquer <charles.sanquer@gmail.com>
  *
  */
-class FakerInfoCommand extends Command
+class ConfigExampleCommand extends Command
 {
     protected function configure()
     {
         $this
-            ->setName('faker:info')
-            ->setDescription('list available Faker configuration')
+            ->setName('fakery:config:example')
+            ->setDescription('dump a fakery generator configuration file example')
         ;
     }
 
@@ -26,12 +26,14 @@ class FakerInfoCommand extends Command
     {
         $app = $this->getApplication()->getSilexApplication();
         
-        $fakerConfig = $app['fakery.faker.config'];
+//        $fakerConfig = $app['fakery.faker.config'];
 //        $fakerConfig = new \CSanquer\FakeryGenerator\Config\FakerConfig;
-        print_r($fakerConfig->getConfig());
-        print_r($fakerConfig->getCultures());
-        print_r($fakerConfig->getProviders());
-        print_r($fakerConfig->getMethods());
+//        print_r($fakerConfig->getConfig());
+//        print_r($fakerConfig->getCultures());
+//        print_r($fakerConfig->getProviders());
+//        print_r($fakerConfig->getMethods());
+        
+        $config = new \CSanquer\FakeryGenerator\Model\Config();
         
     }
 }

@@ -98,6 +98,8 @@ PHP;
             }
             $parsedConfig['providers'] = array_unique($parsedConfig['providers']);
             sort($parsedConfig['providers']);
+            
+            $parsedConfig['methods'] = $this->sortMethods($parsedConfig['methods']);
         }
 
         return $parsedConfig;
@@ -133,6 +135,7 @@ PHP;
     /**
      * 
      * @param string $name
+     * 
      * @return array
      */
     public function getMethod($name)
@@ -148,26 +151,43 @@ PHP;
      */
     public function getMethods($culture = null, $provider = null)
     {
+        $cultures = array_unique([$culture, self::DEFAULT_CULTURE]);
+        
         if (empty($culture) && empty($provider)) {
-            return $this->config['methods'];
-        }
-
-        if (empty($culture)) {
-            return array_filter($this->config['methods'], function ($method) use ($provider) {
+            $methods = $this->config['methods'];
+        } else if (empty($culture)) {
+            $methods = array_filter($this->config['methods'], function ($method) use ($provider) {
                 return $method['provider'] == $provider;
             });
-        }
-
-        $cultures = array_unique([$culture, self::DEFAULT_CULTURE]);
-
-        if (empty($provider)) {
-            return array_filter($this->config['methods'], function ($method) use ($cultures) {
+        } elseif (empty($provider)) {
+            $methods = array_filter($this->config['methods'], function ($method) use ($cultures) {
                 return in_array($method['culture'], $cultures);
             });
+        } else {
+            $methods = array_filter($this->config['methods'], function ($method) use ($cultures, $provider) {
+                return in_array($method['culture'], $cultures) && $method['provider'] == $provider;
+            });
         }
-
-        return array_filter($this->config['methods'], function ($method) use ($cultures, $provider) {
-            return in_array($method['culture'], $cultures) && $method['provider'] == $provider;
-        });
+        
+        return $methods;
+    }
+    
+    /**
+     * 
+     * @param array $methods
+     * 
+     * @return array
+     */
+    protected function sortMethods($methods)
+    {
+        foreach ($methods as $method) {
+            $locales[] = $method['culture'];
+            $providers[] = $method['provider'];
+            $names[] = $method['name'];
+        }
+        
+        array_multisort($providers, SORT_ASC, SORT_REGULAR, $locales, SORT_ASC, SORT_REGULAR, $names, SORT_ASC, SORT_REGULAR, $methods);
+        
+        return $methods;
     }
 }

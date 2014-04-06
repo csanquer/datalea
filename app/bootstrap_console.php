@@ -4,7 +4,10 @@ if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }
 
-use \CSanquer\FakeryGenerator\Command\FakerInfoCommand;
+use \CSanquer\FakeryGenerator\Command\ConfigExampleCommand;
+use \CSanquer\FakeryGenerator\Command\InfoLocalesCommand;
+use \CSanquer\FakeryGenerator\Command\InfoMethodsCommand;
+use \CSanquer\FakeryGenerator\Command\InfoProvidersCommand;
 use \CSanquer\Silex\Tools\Command\AsseticDumpCommand;
 use \CSanquer\Silex\Tools\Command\CacheClearCommand;
 use \CSanquer\Silex\Tools\Command\ServerRunCommand;
@@ -30,6 +33,9 @@ $console = new ConsoleApplication($app, __DIR__.'/..', 'Twig Front Dev Applicati
 $console->add(new CacheClearCommand());
 $console->add(new AsseticDumpCommand());
 $console->add(new ServerRunCommand());
-$console->add(new FakerInfoCommand());
+$console->add(new InfoLocalesCommand());
+$console->add(new InfoProvidersCommand());
+$console->add(new InfoMethodsCommand());
+$console->add(new ConfigExampleCommand());
 
 return $console;

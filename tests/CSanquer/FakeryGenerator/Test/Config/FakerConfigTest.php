@@ -181,7 +181,7 @@ class FakerConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMethods($culture, $provider, $expected)
     {
-        $this->assertEquals($expected, $this->config->getMethods($culture, $provider));
+        $this->assertSame($expected, $this->config->getMethods($culture, $provider));
     }
 
     public function providerGetMethods()
@@ -192,6 +192,41 @@ class FakerConfigTest extends \PHPUnit_Framework_TestCase
                 null,
                 null,
                 [
+                    'buildingNumber' => [
+                        'name' => 'buildingNumber',
+                        'provider' => 'Address',
+                        'culture' => 'en_US',
+                        'arguments' => [],
+                        'example' => '\'484\'',
+                    ],
+                    'city' => [
+                        'name' => 'city',
+                        'provider' => 'Address',
+                        'culture' => 'en_US',
+                        'arguments' => [],
+                        'example' => '\'West Judge\'',
+                    ],
+                    'country' => [
+                        'name' => 'country',
+                        'provider' => 'Address',
+                        'culture' => 'en_US',
+                        'arguments' => [],
+                        'example' => '\'Falkland Islands (Malvinas)\'',
+                    ],
+                    'postcode' => [
+                        'name' => 'postcode',
+                        'provider' => 'Address',
+                        'culture' => 'en_US',
+                        'arguments' => [],
+                        'example' => '\'17916\'',
+                    ],
+                    'streetName' => [
+                        'name' => 'streetName',
+                        'provider' => 'Address',
+                        'culture' => 'en_US',
+                        'arguments' => [],
+                        'example' => '\'Keegan Trail\'',
+                    ],
                     'departmentName' => [
                         'name' => 'departmentName',
                         'provider' => 'Address',
@@ -227,6 +262,13 @@ class FakerConfigTest extends \PHPUnit_Framework_TestCase
                         'arguments' => [],
                         'example' => '\'Zulauf\'',
                     ],
+                ],
+            ],
+            //data set #1
+            [
+                'en_US',
+                '',
+                [
                     'buildingNumber' => [
                         'name' => 'buildingNumber',
                         'provider' => 'Address',
@@ -241,12 +283,12 @@ class FakerConfigTest extends \PHPUnit_Framework_TestCase
                         'arguments' => [],
                         'example' => '\'West Judge\'',
                     ],
-                    'streetName' => [
-                        'name' => 'streetName',
+                    'country' => [
+                        'name' => 'country',
                         'provider' => 'Address',
                         'culture' => 'en_US',
                         'arguments' => [],
-                        'example' => '\'Keegan Trail\'',
+                        'example' => '\'Falkland Islands (Malvinas)\'',
                     ],
                     'postcode' => [
                         'name' => 'postcode',
@@ -255,20 +297,13 @@ class FakerConfigTest extends \PHPUnit_Framework_TestCase
                         'arguments' => [],
                         'example' => '\'17916\'',
                     ],
-                    'country' => [
-                        'name' => 'country',
+                    'streetName' => [
+                        'name' => 'streetName',
                         'provider' => 'Address',
                         'culture' => 'en_US',
                         'arguments' => [],
-                        'example' => '\'Falkland Islands (Malvinas)\'',
+                        'example' => '\'Keegan Trail\'',
                     ],
-                ],
-            ],
-            //data set #1
-            [
-                'en_US',
-                '',
-                [
                     'firstName' => [
                         'name' => 'firstName',
                         'provider' => 'Person',
@@ -282,41 +317,6 @@ class FakerConfigTest extends \PHPUnit_Framework_TestCase
                         'culture' => 'en_US',
                         'arguments' => [],
                         'example' => '\'Zulauf\'',
-                    ],
-                    'buildingNumber' => [
-                        'name' => 'buildingNumber',
-                        'provider' => 'Address',
-                        'culture' => 'en_US',
-                        'arguments' => [],
-                        'example' => '\'484\'',
-                    ],
-                    'city' => [
-                        'name' => 'city',
-                        'provider' => 'Address',
-                        'culture' => 'en_US',
-                        'arguments' => [],
-                        'example' => '\'West Judge\'',
-                    ],
-                    'streetName' => [
-                        'name' => 'streetName',
-                        'provider' => 'Address',
-                        'culture' => 'en_US',
-                        'arguments' => [],
-                        'example' => '\'Keegan Trail\'',
-                    ],
-                    'postcode' => [
-                        'name' => 'postcode',
-                        'provider' => 'Address',
-                        'culture' => 'en_US',
-                        'arguments' => [],
-                        'example' => '\'17916\'',
-                    ],
-                    'country' => [
-                        'name' => 'country',
-                        'provider' => 'Address',
-                        'culture' => 'en_US',
-                        'arguments' => [],
-                        'example' => '\'Falkland Islands (Malvinas)\'',
                     ],
                 ]
             ],
@@ -346,20 +346,6 @@ class FakerConfigTest extends \PHPUnit_Framework_TestCase
                 'fr_FR',
                 'Address',
                 [
-                    'departmentName' => [
-                        'name' => 'departmentName',
-                        'provider' => 'Address',
-                        'culture' => 'fr_FR',
-                        'arguments' => [],
-                        'example' => '\'Haut-Rhin\'',
-                    ],
-                    'departmentNumber' => [
-                        'name' => 'departmentNumber',
-                        'provider' => 'Address',
-                        'culture' => 'fr_FR',
-                        'arguments' => [],
-                        'example' => '\'2B\'',
-                    ],
                     'buildingNumber' => [
                         'name' => 'buildingNumber',
                         'provider' => 'Address',
@@ -374,12 +360,12 @@ class FakerConfigTest extends \PHPUnit_Framework_TestCase
                         'arguments' => [],
                         'example' => '\'West Judge\'',
                     ],
-                    'streetName' => [
-                        'name' => 'streetName',
+                    'country' => [
+                        'name' => 'country',
                         'provider' => 'Address',
                         'culture' => 'en_US',
                         'arguments' => [],
-                        'example' => '\'Keegan Trail\'',
+                        'example' => '\'Falkland Islands (Malvinas)\'',
                     ],
                     'postcode' => [
                         'name' => 'postcode',
@@ -388,12 +374,26 @@ class FakerConfigTest extends \PHPUnit_Framework_TestCase
                         'arguments' => [],
                         'example' => '\'17916\'',
                     ],
-                    'country' => [
-                        'name' => 'country',
+                    'streetName' => [
+                        'name' => 'streetName',
                         'provider' => 'Address',
                         'culture' => 'en_US',
                         'arguments' => [],
-                        'example' => '\'Falkland Islands (Malvinas)\'',
+                        'example' => '\'Keegan Trail\'',
+                    ],
+                    'departmentName' => [
+                        'name' => 'departmentName',
+                        'provider' => 'Address',
+                        'culture' => 'fr_FR',
+                        'arguments' => [],
+                        'example' => '\'Haut-Rhin\'',
+                    ],
+                    'departmentNumber' => [
+                        'name' => 'departmentNumber',
+                        'provider' => 'Address',
+                        'culture' => 'fr_FR',
+                        'arguments' => [],
+                        'example' => '\'2B\'',
                     ],
                 ],
             ],
@@ -402,20 +402,6 @@ class FakerConfigTest extends \PHPUnit_Framework_TestCase
                 null,
                 'Address',
                 [
-                    'departmentName' => [
-                        'name' => 'departmentName',
-                        'provider' => 'Address',
-                        'culture' => 'fr_FR',
-                        'arguments' => [],
-                        'example' => '\'Haut-Rhin\'',
-                    ],
-                    'departmentNumber' => [
-                        'name' => 'departmentNumber',
-                        'provider' => 'Address',
-                        'culture' => 'fr_FR',
-                        'arguments' => [],
-                        'example' => '\'2B\'',
-                    ],
                     'buildingNumber' => [
                         'name' => 'buildingNumber',
                         'provider' => 'Address',
@@ -430,12 +416,12 @@ class FakerConfigTest extends \PHPUnit_Framework_TestCase
                         'arguments' => [],
                         'example' => '\'West Judge\'',
                     ],
-                    'streetName' => [
-                        'name' => 'streetName',
+                    'country' => [
+                        'name' => 'country',
                         'provider' => 'Address',
                         'culture' => 'en_US',
                         'arguments' => [],
-                        'example' => '\'Keegan Trail\'',
+                        'example' => '\'Falkland Islands (Malvinas)\'',
                     ],
                     'postcode' => [
                         'name' => 'postcode',
@@ -444,12 +430,26 @@ class FakerConfigTest extends \PHPUnit_Framework_TestCase
                         'arguments' => [],
                         'example' => '\'17916\'',
                     ],
-                    'country' => [
-                        'name' => 'country',
+                    'streetName' => [
+                        'name' => 'streetName',
                         'provider' => 'Address',
                         'culture' => 'en_US',
                         'arguments' => [],
-                        'example' => '\'Falkland Islands (Malvinas)\'',
+                        'example' => '\'Keegan Trail\'',
+                    ],
+                    'departmentName' => [
+                        'name' => 'departmentName',
+                        'provider' => 'Address',
+                        'culture' => 'fr_FR',
+                        'arguments' => [],
+                        'example' => '\'Haut-Rhin\'',
+                    ],
+                    'departmentNumber' => [
+                        'name' => 'departmentNumber',
+                        'provider' => 'Address',
+                        'culture' => 'fr_FR',
+                        'arguments' => [],
+                        'example' => '\'2B\'',
                     ],
                 ],
             ],
