@@ -306,12 +306,26 @@ if ('dev' == SILEX_ENV) {
     $app->mount('/_profiler', $p);
 }
 
-//custom providers
-$app['fakery.faker.config'] = new \CSanquer\FakeryGenerator\Config\FakerConfig(
-    $app['root_dir'].'/src/CSanquer/FakeryGenerator/Resources/Config',
-    'faker.yml',
-    $app['cache_dir'],
-    $app['debug']
-);
+//custom providers and services
+$app['fakery.faker.config'] = $app->share(function ($app) {
+    return new \CSanquer\FakeryGenerator\Config\FakerConfig(
+        $app['root_dir'].'/src/CSanquer/FakeryGenerator/Resources/Config',
+        'faker.yml',
+        $app['cache_dir'],
+        $app['debug']
+    );
+});
+
+$app['fakery.config_serializer'] = $app->share(function ($app) {
+    return new CSanquer\FakeryGenerator\Config\ConfigSerializer(
+        $app['cache_dir'], 
+        $app['root_dir'].'/src/CSanquer/FakeryGenerator/Resources/Config',
+        $app['debug']
+    );
+});
+
+$app['fakery.dumper_manager'] = $app->share(function ($app) {
+    return null;
+});
 
 return $app;
