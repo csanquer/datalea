@@ -16,6 +16,12 @@ class SQLDumper extends AbstractStreamDumper
      */
     protected $hasHeader;
 
+    /**
+     *
+     * @var \PDO
+     */
+    protected $pdo;
+    
     protected function getFileBeginning(Config $config)
     {
         return '# This is a fix for InnoDB in MySQL >= 4.1.x'."\n".
@@ -34,14 +40,21 @@ class SQLDumper extends AbstractStreamDumper
     {
         $this->hasHeader = false;
         parent::initialize($config, $directory);
+        
+        $this->pdo = new \PDO('sqlite::memory:');
     }
 
     protected function dumpElement($value, $key = null, $indent = 0, $withComma = false) 
     {
         $content = '';
         
-        $flat = $this->convertRowAsFlat($value);
-
+        $rawFlat = $this->convertRowAsFlat($value);
+        
+        $flat = [];
+        foreach ($rawFlat as $key => $value) {
+            $flat[$key] = $this->pdo->quote($value);
+        }
+        
         if (!$this->hasHeader) {
             $content .= '(`'.implode('`, `', array_keys($flat)).'`) VALUES'."\n";
             $this->hasHeader = true;
@@ -51,7 +64,7 @@ class SQLDumper extends AbstractStreamDumper
             $content .= ",\n";
         }
         
-        $content .= '(\''.implode('\', \'', $flat).'\')';
+        $content .= '('.implode(', ', $flat).')';
         
         return $content;
     }
