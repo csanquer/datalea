@@ -40,7 +40,7 @@ class YAMLDumper extends AbstractDumper
     {
         $this->setFilename($config, $directory);
         $this->data = [];
-        $this->collectionName = $config->getClassName(true);
+        $this->collectionName = $config->getClassNameLastPart(true);
         $this->itemName = $config->getClassNameLastPart();
         $this->line = 1;
     }

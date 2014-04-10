@@ -1,4 +1,4 @@
-Entity_User = {
+Users = {
     {
         'person': {
             'name': {

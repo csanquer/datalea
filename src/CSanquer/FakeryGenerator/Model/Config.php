@@ -5,6 +5,7 @@ namespace CSanquer\FakeryGenerator\Model;
 use CSanquer\ColibriCsv\Dialect;
 use CSanquer\FakeryGenerator\Dump\DumpManager;
 use Faker\Generator;
+use Doctrine\Common\Inflector\Inflector;
 
 /**
  * Config
@@ -166,11 +167,12 @@ class Config extends ColumnContainer
      *
      * @return string
      */
-    public function getClassNameLastPart()
+    public function getClassNameLastPart($pluralized = false)
     {
         $res = preg_match('/([a-zA-Z0-9]+)[^a-zA-Z0-9]*$/', $this->className, $matches);
-
-        return $res ? $matches[1] : $this->getClassName(true);
+        $lastPart = $res ? $matches[1] : $this->getClassName(true);
+        
+        return $pluralized ? Inflector::pluralize($lastPart) : $lastPart;
     }
 
     /**

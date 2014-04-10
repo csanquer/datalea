@@ -1,6 +1,6 @@
 <?php
 
-$Entity_User = array(
+$Users = array(
     array(
         'person' => array(
             'name' => array(

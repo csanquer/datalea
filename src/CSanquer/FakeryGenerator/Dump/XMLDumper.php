@@ -34,10 +34,9 @@ class XMLDumper extends AbstractDumper
         $this->xml->setIndent(true);
         $this->xml->setIndentString('    ');
 
-        $rootName = strtolower(str_ireplace('_', '', $config->getClassName(true)));
-        $this->xml->startElement($rootName);
-
+        $this->xml->writeComment('list of '.$config->getClassName());
         $this->elementName = strtolower($config->getClassNameLastPart());
+        $this->xml->startElement(strtolower($config->getClassNameLastPart(true)));
     }
 
     public function dumpRow(array $row = array())
@@ -72,37 +71,6 @@ class XMLDumper extends AbstractDumper
         $this->xml->flush();
 
         return $this->filename;
-
-        /**
-        $fakeData = $this->getFakeData();
-
-        $name = $this->config->getClassName(true);
-
-        $elementRootName = strtolower(str_ireplace('_', '', $name));
-        $elementName = strtolower($this->config->getClassNameLastPart());
-
-        $root = new \CSanquer\FakeryGenerator\XML\CdataSimpleXMLElement('<?xml version=\'1.0\' encoding=\'utf-8\'?><'.$elementRootName.'s/>');
-
-        foreach ($fakeData as $items) {
-            $element = $root->addChild($elementName);
-            foreach ($items as $column => $value) {
-                $element->addChild(strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $column)), $value);
-            }
-        }
-
-        $file = $dir.DS.$name.'.xml';
-
-        $rootDom = dom_import_simplexml($root);
-        $dom = new DOMDocument('1.0', 'UTF-8');
-        $dom->formatOutput = true;
-        $rootDom = $dom->importNode($rootDom, true);
-        $rootDom = $dom->appendChild($rootDom);
-
-        $dom->save($file);
-
-        return $file;
-        /**/
-
     }
 
     public function getExtension()

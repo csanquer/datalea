@@ -13,7 +13,7 @@ class PerlDumper extends AbstractStreamDumper
 {
     protected function getFileBeginning(Config $config)
     {
-        return 'my %'.$config->getClassName(true).' = ('."\n";
+        return 'my %'.$config->getClassNameLastPart(true).' = ('."\n";
     }
 
     protected function getFileEnding()

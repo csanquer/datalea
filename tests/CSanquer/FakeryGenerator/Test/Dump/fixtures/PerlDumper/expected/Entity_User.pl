@@ -1,4 +1,4 @@
-my %Entity_User = (
+my %Users = (
     {
         'person' => {
             'name' => {

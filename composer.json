@@ -20,6 +20,7 @@
         "ext-SimpleXML": "*",
         "silex/silex": "~1.1",
         "silex/web-profiler": "~1.0",
+        "doctrine/inflector": "~1.0",
         "symfony/browser-kit": "~2.3",
         "symfony/class-loader": "~2.3",
         "symfony/config": "~2.3",

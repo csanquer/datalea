@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<entityuser>
+<!--list of Entity\User-->
+<users>
     <user>
         <person>
             <name>
@@ -33,4 +34,4 @@
         <birthday>1994-08-12</birthday>
         <personalsite><![CDATA[http://brown.com/?foo=<&bar=>]]></personalsite>
     </user>
-</entityuser>
+</users>

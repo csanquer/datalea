@@ -13,7 +13,7 @@ class RubyDumper extends AbstractStreamDumper
 {
     protected function getFileBeginning(Config $config)
     {
-        return $config->getClassName(true).' = {'."\n";
+        return $config->getClassNameLastPart(true).' = {'."\n";
     }
 
     protected function getFileEnding()

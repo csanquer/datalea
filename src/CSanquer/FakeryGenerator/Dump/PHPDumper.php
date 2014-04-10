@@ -14,7 +14,7 @@ class PHPDumper extends AbstractStreamDumper
     protected function getFileBeginning(Config $config)
     {
         return "<?php\n\n".
-            '$'.$config->getClassName(true).' = array('."\n";
+            '$'.$config->getClassNameLastPart(true).' = array('."\n";
     }
 
     protected function getFileEnding()
