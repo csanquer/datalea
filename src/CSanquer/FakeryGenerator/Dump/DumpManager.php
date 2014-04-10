@@ -77,7 +77,9 @@ class DumpManager
                 $dumper = new JSONDumper();
                 break;
             case 'sql':
-                $dumper = new SQLDumper();
+                if (extension_loaded('PDO') && extension_loaded('pdo_sqlite')) {
+                    $dumper = new SQLDumper();
+                }
                 break;
             case 'php':
                 $dumper = new PHPDumper();
