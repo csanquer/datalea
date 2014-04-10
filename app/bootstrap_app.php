@@ -1,10 +1,20 @@
 <?php
 
+use Assetic\Asset\AssetCache;
+use Assetic\Cache\ConfigCache;
+use Assetic\Cache\FilesystemCache;
+use Assetic\Extension\Twig\TwigFormulaLoader;
+use Assetic\Factory\LazyAssetManager;
+use Assetic\Factory\Loader\CachedFormulaLoader;
 use Assetic\Filter\CssMinFilter;
 use Assetic\Filter\CssRewriteFilter;
 use Assetic\Filter\JSMinFilter;
 use Assetic\Filter\LessphpFilter;
 use Assetic\FilterManager;
+use CSanquer\FakeryGenerator\Config\ConfigSerializer;
+use CSanquer\FakeryGenerator\Config\FakerConfig;
+use CSanquer\FakeryGenerator\Dump\DumpManager;
+use CSanquer\Silex\Tools\Provider\SkeletonProvider;
 use Herrera\Wise\WiseServiceProvider;
 use Silex\Application;
 use Silex\Provider\FormServiceProvider;
@@ -17,18 +27,15 @@ use Silex\Provider\UrlGeneratorServiceProvider;
 use Silex\Provider\ValidatorServiceProvider;
 use Silex\Provider\WebProfilerServiceProvider;
 use SilexAssetic\AsseticServiceProvider;
-use Symfony\Component\ClassLoader\DebugClassLoader;
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Debug\ErrorHandler;
-use Symfony\Component\Debug\ExceptionHandler;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Translation\Loader\MoFileLoader;
 use Symfony\Component\Translation\Loader\PhpFileLoader;
 use Symfony\Component\Translation\Loader\PoFileLoader;
 use Symfony\Component\Translation\Loader\XliffFileLoader;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
 
-// get environment constants or set default
+//// get environment constants or set default
 if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }
@@ -45,19 +52,6 @@ if (!defined('UMASK')) {
     define('UMASK', 0002);
 }
 
-//Debugging
-if (SILEX_DEBUG) {
-    error_reporting(-1);
-//    error_reporting(E_ALL & E_STRICT);
-    DebugClassLoader::enable();
-    ErrorHandler::register();
-    if ('cli' !== php_sapi_name()) {
-        ExceptionHandler::register();
-    }
-} else {
-    ini_set('display_errors', 0);
-}
-
 /**
  * @var Application new Silex application
  */
@@ -65,45 +59,16 @@ $app = new Application();
 
 $fs = new Filesystem();
 
-// define default file write mode
-$app['umask'] = UMASK;
-$app['file_mode'] = 0777-$app['umask'];
-umask($app['umask']);
-
-// define environment variables
-$app['debug'] = (bool) SILEX_DEBUG;
-$app['env'] = SILEX_ENV;
-
-// define main paths
-$app['app_dir'] = realpath(__DIR__);
-$app['root_dir'] = realpath($app['app_dir'].DS.'..');
-$app['var_dir'] = $app['root_dir'].DS.'var';
-$app['config_dir'] = $app['app_dir'].DS.'config';
-$app['translations_dir'] = $app['app_dir'].DS.'translations';
-$app['web_dir'] = $app['root_dir'].DS.'web';
-$app['bin_dir'] = $app['root_dir'].DS.'bin';
-$app['log_dir'] = $app['var_dir'].DS.'logs';
-$app['cache_dir'] = $app['var_dir'].DS.'cache';
-
-//create cache and logs directories
-$cacheDirectories = array(
-    $app['log_dir'],
-    $app['cache_dir'],
-    $app['cache_dir'].DS.'config',
-    $app['cache_dir'].DS.'http',
-    $app['cache_dir'].DS.'twig',
-    $app['cache_dir'].DS.'profiler',
-    $app['cache_dir'].DS.'assetic'.DS.'formulae',
-    $app['cache_dir'].DS.'assetic'.DS.'twig',
+$app->register(
+    new SkeletonProvider(),
+    array(
+        'app_dir' => __DIR__,
+        'umask' => UMASK, 
+        'env' => SILEX_ENV,
+        'debug' => SILEX_DEBUG,
+        'cached_dirs' => array(),
+    )
 );
-
-if (!$fs->exists($cacheDirectories)) {
-    $fs->mkdir($cacheDirectories, $app['file_mode']);
-}
-
-foreach ($cacheDirectories as $dir) {
-    $fs->chmod($dir, $app['file_mode']);
-}
 
 // get configs
 $configFiles = array(
@@ -273,17 +238,17 @@ $app->register(new AsseticServiceProvider(), array(
         ));
 
 $app['assetic.lazy_asset_manager'] = $app->share(
-    $app->extend('assetic.lazy_asset_manager', function (Assetic\Factory\LazyAssetManager $am, $app) {
-        $am->setLoader('twig', new Assetic\Factory\Loader\CachedFormulaLoader(
-            new Assetic\Extension\Twig\TwigFormulaLoader($app['twig']), 
-            new Assetic\Cache\ConfigCache($app['cache_dir'].DS.'assetic'.DS.'twig')
+    $app->extend('assetic.lazy_asset_manager', function (LazyAssetManager $am, $app) {
+        $am->setLoader('twig', new CachedFormulaLoader(
+            new TwigFormulaLoader($app['twig']), 
+            new ConfigCache($app['cache_dir'].DS.'assetic'.DS.'twig')
         ));
         
         if ($app['assetic.options']['formulae_cache_dir'] !== null && $app['assetic.options']['debug'] !== true) {
             foreach ($am->getNames() as $name) {
-                $am->set($name, new \Assetic\Asset\AssetCache(
+                $am->set($name, new AssetCache(
                     $am->get($name),
-                    new \Assetic\Cache\FilesystemCache($app['assetic.options']['formulae_cache_dir'])
+                    new FilesystemCache($app['assetic.options']['formulae_cache_dir'])
                 ));
             }
         }
@@ -308,7 +273,7 @@ if ('dev' == SILEX_ENV) {
 
 //custom providers and services
 $app['fakery.faker.config'] = $app->share(function ($app) {
-    return new \CSanquer\FakeryGenerator\Config\FakerConfig(
+    return new FakerConfig(
         $app['root_dir'].'/src/CSanquer/FakeryGenerator/Resources/Config',
         'faker.yml',
         $app['cache_dir'],
@@ -317,7 +282,7 @@ $app['fakery.faker.config'] = $app->share(function ($app) {
 });
 
 $app['fakery.config_serializer'] = $app->share(function ($app) {
-    return new CSanquer\FakeryGenerator\Config\ConfigSerializer(
+    return new ConfigSerializer(
         $app['cache_dir'], 
         $app['root_dir'].'/src/CSanquer/FakeryGenerator/Resources/Config',
         $app['debug']
@@ -325,7 +290,7 @@ $app['fakery.config_serializer'] = $app->share(function ($app) {
 });
 
 $app['fakery.dumper_manager'] = $app->share(function ($app) {
-    return null;
+    return new DumpManager($app['fakery.config_serializer']);
 });
 
 return $app;

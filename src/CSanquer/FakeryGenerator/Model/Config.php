@@ -380,6 +380,21 @@ class Config extends ColumnContainer
     }
 
     /**
+     * create Faker Generator instance from Config
+     * 
+     * @return Generator
+     */
+    public function createFaker()
+    {
+        $faker = \Faker\Factory::create($this->getLocale());
+        if ($this->getSeed() !== null) {
+            $faker->seed($this->getSeed());
+        }
+        
+        return $faker;
+    }
+    
+    /**
      *
      * @param Generator $faker
      * @param array     $values (by reference)

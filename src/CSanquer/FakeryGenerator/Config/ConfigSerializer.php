@@ -70,7 +70,7 @@ class ConfigSerializer
         $format = in_array($format, ['json', 'xml']) ? $format : 'json';
 
         $serialized = $this->serializer->serialize($config, $format);
-        $filename = $dir.'/'.$config->getClassName(true).'_fakery_generator_config.'.$format;
+        $filename = $dir.'/'.$config->getClassName(true).'_fakery_generator_config_'.date('Y-m-d_H-i-s').'.'.$format;
         file_put_contents($filename, $serialized);
 
         return $filename;

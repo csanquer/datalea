@@ -2,6 +2,7 @@
 
 namespace CSanquer\FakeryGenerator\Command;
 
+use CSanquer\FakeryGenerator\Helper\Converter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -11,15 +12,15 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @author Charles Sanquer <charles.sanquer@gmail.com>
  *
  */
-class InfoProvidersCommand extends Command
+class InfoFormatsCommand extends Command
 {
     protected function configure()
     {
         $this
-            ->setName('fakery:info:providers')
-            ->setDescription('list available Faker providers')
+            ->setName('fakery:info:formats')
+            ->setDescription('list available output file formats')
             ->setHelp(<<<EOF
-The <info>%command.name%</info> list available Faker providers :
+The <info>%command.name%</info> list available output file formats :
 
   <info>%command.full_name%</info>
 
@@ -32,13 +33,11 @@ EOF
     {
         $app = $this->getApplication()->getSilex();
         
-        $fakerConfig = $app['fakery.faker.config'];
-        
-        $output->writeln('Available Faker Providers');
+        $output->writeln('Available output file formats');
         $output->writeln('');
         
-        foreach ($fakerConfig->getProviders() as $provider) {
-            $output->writeln('<info>'.$provider.'</info>');
+        foreach (\CSanquer\FakeryGenerator\Dump\DumpManager::getAvailableFormats() as $format => $label) {
+            $output->writeln('<info>'.$format.'</info>');
         }
     }
 }

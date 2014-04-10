@@ -50,7 +50,7 @@ class ConfigSerializerTest extends \PHPUnit_Framework_TestCase
         );
         
         $filename = $configSerializer->dump($config, self::$cacheDir, $format);
-        $this->assertEquals(self::$cacheDir.'/'.$config->getClassName(true).'_fakery_generator_config.'.$format, $filename);
+        $this->assertRegExp('#'.preg_quote(self::$cacheDir.'/'.$config->getClassName(true)).'_fakery_generator_config_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}\.'.$format.'#', $filename);
         $this->assertFileExists($filename);
         $this->assertFileEquals(self::$fixtures.'/ConfigSerializer/valid/'.$expected, $filename);
     }

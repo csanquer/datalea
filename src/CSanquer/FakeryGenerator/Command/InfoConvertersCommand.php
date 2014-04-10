@@ -2,6 +2,7 @@
 
 namespace CSanquer\FakeryGenerator\Command;
 
+use CSanquer\FakeryGenerator\Helper\Converter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -11,15 +12,15 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @author Charles Sanquer <charles.sanquer@gmail.com>
  *
  */
-class InfoProvidersCommand extends Command
+class InfoConvertersCommand extends Command
 {
     protected function configure()
     {
         $this
-            ->setName('fakery:info:providers')
-            ->setDescription('list available Faker providers')
+            ->setName('fakery:info:converters')
+            ->setDescription('list available columns converters')
             ->setHelp(<<<EOF
-The <info>%command.name%</info> list available Faker providers :
+The <info>%command.name%</info> list available columns converters :
 
   <info>%command.full_name%</info>
 
@@ -32,13 +33,11 @@ EOF
     {
         $app = $this->getApplication()->getSilex();
         
-        $fakerConfig = $app['fakery.faker.config'];
-        
-        $output->writeln('Available Faker Providers');
+        $output->writeln('Available columns converters');
         $output->writeln('');
         
-        foreach ($fakerConfig->getProviders() as $provider) {
-            $output->writeln('<info>'.$provider.'</info>');
+        foreach (Converter::getAvailableConvertMethods() as $converter) {
+            $output->writeln('<info>'.$converter.'</info>');
         }
     }
 }

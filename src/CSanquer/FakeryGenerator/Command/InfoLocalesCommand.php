@@ -36,7 +36,7 @@ EOF
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $app = $this->getApplication()->getSilexApplication();
+        $app = $this->getApplication()->getSilex();
         
         $fakerConfig = $app['fakery.faker.config'];
         

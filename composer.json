@@ -44,7 +44,7 @@
         "chh/cache-service-provider": "~1.0",
         "herrera-io/silex-wise": "~2.2",
         "herrera-io/json": "~1.0",
-        "csanquer/silex-tools": "~0.3",
+        "csanquer/silex-tools": "~0.4",
         "fzaninotto/faker": "dev-master",
         "csanquer/colibri-csv": "~1.0",
         "phpoffice/phpexcel": "~1.8",

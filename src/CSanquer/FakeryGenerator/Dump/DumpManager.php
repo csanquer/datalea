@@ -2,6 +2,10 @@
 
 namespace CSanquer\FakeryGenerator\Dump;
 
+use CSanquer\FakeryGenerator\Config\ConfigSerializer;
+use CSanquer\FakeryGenerator\Model\Config;
+use Symfony\Component\Filesystem\Filesystem;
+
 if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }
@@ -15,23 +19,17 @@ class DumpManager
 {
     /**
      *
-     * @var Config
+     * @var ConfigSerializer
      */
-    protected $config;
+    protected $configSerializer;
 
     /**
      *
-     * @var array
+     * @param ConfigSerializer $configSerializer
      */
-    protected $fakeData;
-
-    /**
-     *
-     * @param Config $config
-     */
-    public function __construct(Config $config)
+    public function __construct(ConfigSerializer $configSerializer)
     {
-        $this->config = $config;
+        $this->configSerializer = $configSerializer;
     }
 
     /**
@@ -55,100 +53,125 @@ class DumpManager
     }
 
     /**
-     *
-     * @return Config
+     * 
+     * @param string $format
+     * @return DumperInterface
      */
-    public function getConfig()
+    protected function dumperFactory($format)
     {
-        return $this->config;
+        $dumper = null;
+        switch ($format) {
+            case 'csv':
+                $dumper = new CSVDumper();
+                break;
+            case 'excel':
+                $dumper = new ExcelDumper();
+                break;
+            case 'yaml':
+                $dumper = new YAMLDumper();
+                break;
+            case 'xml':
+                $dumper = new XMLDumper();
+                break;
+            case 'json':
+                $dumper = new JSONDumper();
+                break;
+            case 'sql':
+                $dumper = new SQLDumper();
+                break;
+            case 'php':
+                $dumper = new PHPDumper();
+                break;
+            case 'perl':
+                $dumper = new PerlDumper();
+                break;
+            case 'ruby':
+                $dumper = new RubyDumper();
+                break;
+            case 'python':
+                $dumper = new PythonDumper();
+                break;
+        }
+        
+        return $dumper;
     }
-
+    
     /**
-     *
+     * 
      * @param Config $config
+     * @param boolean $zipped
+     * @param string   $outputDir
+     * @param \DateTime $date
      *
-     * @return Dumper
+     * @return array of filenames
      */
-    public function setConfig(Config $config)
+    public function dump(Config $config, $outputDir, $zipped = true, $date = 'now')
     {
-        $this->config = $config;
-
-        return $this;
-    }
-
-    /**
-     *
-     * @param string   $tmpDir
-     * @param DateTime $date
-     *
-     * @return string zip filename
-     *
-     * @throws RuntimeException
-     */
-    public function dump($tmpDir, $date = null)
-    {
-        $date = $date instanceof DateTime ? $date : new DateTime();
+        $date = $date instanceof \DateTime ? $date : new \DateTime($date);
 
         $fs = new Filesystem();
 
-        $workingDir = time().'_'.uniqid();
-        $workingPath = $tmpDir.DS.$workingDir;
-
-        if (!$fs->exists($workingPath)) {
-            $fs->mkdir($workingPath, 0777);
+        if (!$fs->exists($outputDir)) {
+            $fs->mkdir($outputDir, 0777);
         }
 
-        if (!$this->config->hasSeed()) {
-            $this->config->generateSeed();
-        }
-
-        $files = [];
-
-        $files[] = $this->saveConfigAsXML($workingPath);
-
-        foreach ($this->config->getFormats() as $format) {
-            switch ($format) {
-                case 'csv':
-                    $files[] = $this->dumpCSV($workingPath);
-                    break;
-                case 'excel':
-                    $files[] = $this->dumpExcel($workingPath);
-                    break;
-                case 'yaml':
-                    $files[] = $this->dumpYAML($workingPath);
-                    break;
-                case 'xml':
-                    $files[] = $this->dumpXML($workingPath);
-                    break;
-                case 'json':
-                    $files[] = $this->dumpJSON($workingPath);
-                    break;
-                case 'sql':
-                    $files[] = $this->dumpSQL($workingPath);
-                    break;
-                case 'php':
-                    $files[] = $this->dumpPHP($workingPath);
-                    break;
-                case 'perl':
-                    $files[] = $this->dumpPerl($workingPath);
-                    break;
-                case 'ruby':
-                    $files[] = $this->dumpRuby($workingPath);
-                    break;
-                case 'python':
-                    $files[] = $this->dumpPython($workingPath);
-                    break;
+        $outputDir = realpath($outputDir);
+        
+        $dumpers = [];
+        foreach ($config->getFormats() as $format) {
+            $dumper = $this->dumperFactory($format);
+            if ($dumper instanceof DumperInterface) {
+                $dumper->initialize($config, $outputDir);
+                $dumpers[$format] = $dumper;
             }
         }
-
-        $zipname = $tmpDir.DS.'archive_'.$workingDir.'.zip';
-        $zip = new ZipArchive();
-        if ($zip->open($zipname, ZipArchive::CREATE)!==TRUE) {
-            throw new RuntimeException;("cannot create zip archive $filename\n");
+        
+        $faker = $config->createFaker();
+        
+        for ($index = 1; $index <= $config->getFakeNumber(); $index++) {
+            //generate 1 row
+            $values = [];
+            $config->generateVariableValues($faker, $values);
+            $data = $config->generateColumnValues($values);
+            
+            //dump the row to each file
+            foreach ($dumpers as $dumper) {
+                if ($dumper instanceof DumperInterface) {
+                    $dumper->dumpRow($data);
+                }
+            }
+        }
+        
+        $files = [];
+        foreach ($dumpers as $dumper) {
+            if ($dumper instanceof DumperInterface) {
+                $files[$dumper->getExtension()] = $dumper->finalize();
+            }
+        }
+        
+        $files['config_json'] = $this->configSerializer->dump($config, $outputDir, 'json');
+        $files['config_xml'] = $this->configSerializer->dump($config, $outputDir, 'xml');
+        
+        if ($zipped) {
+            $zipfile = $this->zip('fakery_'.$config->getClassNameLastPart().'_'.$date->format('Y-m-d_H-i-s'), $files, $outputDir);
+            
+            $fs->remove($files);
+            $files = ['zip' => $zipfile];
+        }
+        
+        return $files;
+    }
+    
+    public function zip($basename, $files, $outputDir) 
+    {
+        $zipname = $outputDir.DS.$basename.'.zip';
+        $zip = new \ZipArchive();
+        if ($zip->open($zipname, \ZipArchive::CREATE)!==TRUE) {
+            throw new \RuntimeException;("cannot create zip archive $zipname\n");
         }
 
         foreach ($files as $file) {
-            $zip->addFile($file, 'datalea_'.$this->config->getClassNameLastPart().'_'.$date->format('Y-m-d_H-i-s').DS.basename($file));
+            $zip->addFile($file, $basename.DS.basename($file));
         }
         $zip->close();
 
