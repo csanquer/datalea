@@ -47,9 +47,9 @@ EOF
                 $output->writeln('<comment>'.$method['provider'].'</comment> ');
             }
             
-            if ($method['culture'] != $previousLocale) {
-                $previousLocale = $method['culture'];
-                $output->writeln('  <info>'.$method['culture'].'</info> ');
+            if ($method['locale'] != $previousLocale) {
+                $previousLocale = $method['locale'];
+                $output->writeln('  <info>'.$method['locale'].'</info> ');
             }
             $output->write('    '.$method['name']);
             

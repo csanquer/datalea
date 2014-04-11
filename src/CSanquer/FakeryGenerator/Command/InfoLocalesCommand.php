@@ -47,7 +47,7 @@ EOF
         $output->writeln('Available Faker locales');
         $output->writeln('');
         
-        foreach ($fakerConfig->getCultures() as $locale) {
+        foreach ($fakerConfig->getLocales() as $locale) {
             $output->writeln('<info>'.$locale.'</info> : '.\Locale::getDisplayName($locale));
         }
     }

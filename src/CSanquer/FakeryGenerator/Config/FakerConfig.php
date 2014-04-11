@@ -15,7 +15,7 @@ use Symfony\Component\Config\Resource\FileResource;
  */
 class FakerConfig
 {
-    CONST DEFAULT_CULTURE = 'en_US';
+    CONST DEFAULT_LOCALE = 'en_US';
 
     protected $configDirectories;
 
@@ -70,25 +70,25 @@ PHP;
     protected function parseRawConfig(array $rawConfig)
     {
         $parsedConfig = [
-            'cultures' => [],
+            'locales' => [],
             'providers' => [],
             'methods' => [],
         ];
 
-        if (isset($rawConfig['cultures'])) {
-            $parsedConfig['cultures'] = array_unique($rawConfig['cultures']);
-            sort($parsedConfig['cultures']);
+        if (isset($rawConfig['locales'])) {
+            $parsedConfig['locales'] = array_unique($rawConfig['locales']);
+            sort($parsedConfig['locales']);
         }
 
         if (isset($rawConfig['providers'])) {
-            foreach ($rawConfig['providers'] as $culture => $providers) {
+            foreach ($rawConfig['providers'] as $locale => $providers) {
                 foreach ($providers as $provider => $methods) {
                     $parsedConfig['providers'][] = $provider;
                     foreach ($methods as $method => $infos) {
                         $parsedConfig['methods'][$method] = [
                             'name' => $method,
                             'provider' => $provider,
-                            'culture' => $culture,
+                            'locale' => $locale,
                         ];
 
                         $parsedConfig['methods'][$method]['arguments'] = isset($infos['arguments']) ? $infos['arguments'] : [];
@@ -118,9 +118,9 @@ PHP;
      * 
      * @return array
      */
-    public function getCultures()
+    public function getLocales()
     {
-        return $this->config['cultures'];
+        return $this->config['locales'];
     }
 
     /**
@@ -145,27 +145,27 @@ PHP;
 
     /**
      * 
-     * @param string $culture
+     * @param string $locale
      * @param string $provider
      * @return array
      */
-    public function getMethods($culture = null, $provider = null)
+    public function getMethods($locale = null, $provider = null)
     {
-        $cultures = array_unique([$culture, self::DEFAULT_CULTURE]);
+        $locales = array_unique([$locale, self::DEFAULT_LOCALE]);
         
-        if (empty($culture) && empty($provider)) {
+        if (empty($locale) && empty($provider)) {
             $methods = $this->config['methods'];
-        } else if (empty($culture)) {
+        } else if (empty($locale)) {
             $methods = array_filter($this->config['methods'], function ($method) use ($provider) {
                 return $method['provider'] == $provider;
             });
         } elseif (empty($provider)) {
-            $methods = array_filter($this->config['methods'], function ($method) use ($cultures) {
-                return in_array($method['culture'], $cultures);
+            $methods = array_filter($this->config['methods'], function ($method) use ($locales) {
+                return in_array($method['locale'], $locales);
             });
         } else {
-            $methods = array_filter($this->config['methods'], function ($method) use ($cultures, $provider) {
-                return in_array($method['culture'], $cultures) && $method['provider'] == $provider;
+            $methods = array_filter($this->config['methods'], function ($method) use ($locales, $provider) {
+                return in_array($method['locale'], $locales) && $method['provider'] == $provider;
             });
         }
         
@@ -181,7 +181,7 @@ PHP;
     protected function sortMethods($methods)
     {
         foreach ($methods as $method) {
-            $locales[] = $method['culture'];
+            $locales[] = $method['locale'];
             $providers[] = $method['provider'];
             $names[] = $method['name'];
         }

@@ -1,5 +1,5 @@
 faker:
-    cultures:
+    locales:
         - bg_BG
         - cs_CZ
         - da_DK

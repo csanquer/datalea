@@ -2,10 +2,12 @@
 
 namespace CSanquer\FakeryGenerator\Model;
 
-use CSanquer\ColibriCsv\Dialect;
-use CSanquer\FakeryGenerator\Dump\DumpManager;
-use Faker\Generator;
-use Doctrine\Common\Inflector\Inflector;
+use \CSanquer\ColibriCsv\Dialect;
+use \CSanquer\FakeryGenerator\Config\FakerConfig;
+use \CSanquer\FakeryGenerator\Dump\DumpManager;
+use \Doctrine\Common\Inflector\Inflector;
+use \Faker\Factory;
+use \Faker\Generator;
 
 /**
  * Config
@@ -65,6 +67,7 @@ class Config extends ColumnContainer
     public function __construct()
     {
         parent::__construct([]);
+        $this->setLocale(FakerConfig::DEFAULT_LOCALE);
         $this->generateSeed();
         $this->setMaxTimestamp('now');
         $this->csvDialect = Dialect::createExcelDialect();
@@ -388,7 +391,7 @@ class Config extends ColumnContainer
      */
     public function createFaker()
     {
-        $faker = \Faker\Factory::create($this->getLocale());
+        $faker = Factory::create($this->getLocale());
         if ($this->getSeed() !== null) {
             $faker->seed($this->getSeed());
         }
