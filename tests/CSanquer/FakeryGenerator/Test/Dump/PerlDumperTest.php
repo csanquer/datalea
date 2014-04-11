@@ -18,10 +18,10 @@ class PerlDumperTest extends DumperTestCase
     /**
      * @dataProvider providerDump
      */
-    public function testDump(Config $config, $generatedValues, $expectedFile)
+    public function testDump(Config $config, $withDate, $generatedValues, $expectedFile)
     {
         $dumper = new PerlDumper();
-        $dumper->initialize($config, self::$cacheDir);
+        $dumper->initialize($config, self::$cacheDir, $withDate);
 
         foreach ($generatedValues as $row) {
             $dumper->dumpRow($row);
@@ -29,7 +29,8 @@ class PerlDumperTest extends DumperTestCase
         
         $filename = $dumper->finalize();
         $this->assertFileExists($filename);
-        $this->assertEquals(basename($expectedFile), basename($filename));
+        $ext = 'pl';
+        $this->assertRegExp('/'.basename($expectedFile,'.'.$ext).'_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}.'.$ext.'/', basename($filename));
         $this->assertFileEquals(self::$fixtures.'/'.$expectedFile, $filename);
     }
 
@@ -64,6 +65,7 @@ class PerlDumperTest extends DumperTestCase
             #data set #0
             [
                 $config1,
+                true,
                 [
                     [
                         'person' => [

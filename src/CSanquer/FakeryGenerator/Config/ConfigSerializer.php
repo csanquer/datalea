@@ -62,7 +62,6 @@ class ConfigSerializer
      * @param \CSanquer\FakeryGenerator\Model\Config $config
      * @param string                                 $dir
      * @param string                                 $format
-     *
      * @return string filename
      */
     public function dump(Config $config, $dir, $format = 'json')

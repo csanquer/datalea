@@ -16,8 +16,9 @@ interface DumperInterface
      *
      * @param \CSanquer\FakeryGenerator\Model\Config $config
      * @param string                                 $directory
+     * @param boolean $filenameWithDate default = false
      */
-    public function initialize(Config $config, $directory);
+    public function initialize(Config $config, $directory, $filenameWithDate = false);
 
     /**
      *

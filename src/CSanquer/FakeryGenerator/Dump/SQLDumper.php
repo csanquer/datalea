@@ -36,10 +36,10 @@ class SQLDumper extends AbstractStreamDumper
             'SET FOREIGN_KEY_CHECKS = 1;'."\n";
     }
     
-    public function initialize(Config $config, $directory)
+    public function initialize(Config $config, $directory, $filenameWithDate = false)
     {
         $this->hasHeader = false;
-        parent::initialize($config, $directory);
+        parent::initialize($config, $directory, $filenameWithDate);
         
         $this->pdo = new \PDO('sqlite::memory:');
     }

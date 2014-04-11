@@ -62,11 +62,22 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers CSanquer\FakeryGenerator\Model\Column::getConvertMethod
      * @covers CSanquer\FakeryGenerator\Model\Column::setConvertMethod
+     * @dataProvider providerGetSetConvertMethod
      */
-    public function testGetSetConvertMethod()
+    public function testGetSetConvertMethod($convertMethod, $expected)
     {
         $this->assertInstanceOf('\\CSanquer\\FakeryGenerator\\Model\\Column', $this->column->setConvertMethod('uppercase'));
         $this->assertEquals('uppercase', $this->column->getConvertMethod());
+    }
+    
+    public function providerGetSetConvertMethod()
+    {
+        return [
+            [null, null],
+            ['', null],
+            ['foobar', null],
+            ['uppercase', 'uppercase'],
+        ];
     }
 
     /**

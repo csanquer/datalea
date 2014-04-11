@@ -25,9 +25,9 @@ class CSVDumper extends AbstractDumper
      */
     protected $hasHeader;
 
-    public function initialize(Config $config, $directory)
+    public function initialize(Config $config, $directory, $filenameWithDate = false)
     {
-        $this->setFilename($config, $directory);
+        $this->setFilename($config, $directory, $filenameWithDate);
         $this->csvWriter = new CsvWriter($config->getCsvDialect() ?: Dialect::createExcelDialect());
         $this->csvWriter->open($this->filename);
         $this->hasHeader = false;

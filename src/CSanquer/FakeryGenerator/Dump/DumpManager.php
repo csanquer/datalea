@@ -103,14 +103,11 @@ class DumpManager
      * @param Config $config
      * @param boolean $zipped
      * @param string   $outputDir
-     * @param \DateTime $date
      *
      * @return array of filenames
      */
-    public function dump(Config $config, $outputDir, $zipped = true, $date = 'now')
+    public function dump(Config $config, $outputDir, $zipped = true)
     {
-        $date = $date instanceof \DateTime ? $date : new \DateTime($date);
-
         $fs = new Filesystem();
 
         if (!$fs->exists($outputDir)) {
@@ -119,11 +116,15 @@ class DumpManager
 
         $outputDir = realpath($outputDir);
         
+        $files = [];
+        $files['config_json'] = $this->configSerializer->dump($config, $outputDir, 'json');
+        $files['config_xml'] = $this->configSerializer->dump($config, $outputDir, 'xml');
+        
         $dumpers = [];
         foreach ($config->getFormats() as $format) {
             $dumper = $this->dumperFactory($format);
             if ($dumper instanceof DumperInterface) {
-                $dumper->initialize($config, $outputDir);
+                $dumper->initialize($config, $outputDir, !$zipped);
                 $dumpers[$format] = $dumper;
             }
         }
@@ -144,18 +145,14 @@ class DumpManager
             }
         }
         
-        $files = [];
         foreach ($dumpers as $dumper) {
             if ($dumper instanceof DumperInterface) {
                 $files[$dumper->getExtension()] = $dumper->finalize();
             }
         }
         
-        $files['config_json'] = $this->configSerializer->dump($config, $outputDir, 'json');
-        $files['config_xml'] = $this->configSerializer->dump($config, $outputDir, 'xml');
-        
         if ($zipped) {
-            $zipfile = $this->zip('fakery_'.$config->getClassNameLastPart().'_'.$date->format('Y-m-d_H-i-s'), $files, $outputDir);
+            $zipfile = $this->zip('fakery_'.$config->getClassNameLastPart().'_'.date('Y-m-d_H-i-s'), $files, $outputDir);
             
             $fs->remove($files);
             $files = ['zip' => $zipfile];
@@ -164,7 +161,7 @@ class DumpManager
         return $files;
     }
     
-    public function zip($basename, $files, $outputDir) 
+    protected function zip($basename, $files, $outputDir) 
     {
         $zipname = $outputDir.DS.$basename.'.zip';
         $zip = new \ZipArchive();

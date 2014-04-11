@@ -53,11 +53,9 @@
   <columns>
     <column name="person">
       <name><![CDATA[person]]></name>
-      <convert_method><![CDATA[]]></convert_method>
       <columns>
         <column name="name">
           <name><![CDATA[name]]></name>
-          <convert_method><![CDATA[]]></convert_method>
           <columns>
             <column name="firstname">
               <name><![CDATA[firstname]]></name>
@@ -76,7 +74,6 @@
         <column name="birthday">
           <name><![CDATA[birthday]]></name>
           <value><![CDATA[%birthday%]]></value>
-          <convert_method><![CDATA[]]></convert_method>
           <columns/>
         </column>
       </columns>
@@ -84,7 +81,6 @@
     <column name="email">
       <name><![CDATA[email]]></name>
       <value><![CDATA[%email%]]></value>
-      <convert_method><![CDATA[]]></convert_method>
       <columns/>
     </column>
   </columns>

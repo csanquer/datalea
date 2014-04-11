@@ -29,9 +29,9 @@ abstract class AbstractStreamDumper extends AbstractDumper
      */
     protected $first;
 
-    public function initialize(Config $config, $directory)
+    public function initialize(Config $config, $directory, $filenameWithDate = false)
     {
-        $this->setFilename($config, $directory);
+        $this->setFilename($config, $directory, $filenameWithDate);
         $this->fileHandler = fopen($this->filename, 'w');
 
         $this->first = true;

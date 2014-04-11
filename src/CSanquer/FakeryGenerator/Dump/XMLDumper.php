@@ -23,9 +23,9 @@ class XMLDumper extends AbstractDumper
      */
     protected $elementName;
 
-    public function initialize(Config $config, $directory)
+    public function initialize(Config $config, $directory, $filenameWithDate = false)
     {
-        $this->setFilename($config, $directory);
+        $this->setFilename($config, $directory, $filenameWithDate);
 
         $this->xml = new \XMLWriter();
         $this->xml->openUri($this->filename);

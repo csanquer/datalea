@@ -12,16 +12,28 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 abstract class AbstractDumper implements DumperInterface
 {
+    /**
+     *
+     * @var string
+     */
     protected $filename;
 
-    protected function setFilename(Config $config, $directory)
+    /**
+     * 
+     * @param \CSanquer\FakeryGenerator\Model\Config $config
+     * @param string $directory
+     * @param bool $filenameWithDate
+     */
+    protected function setFilename(Config $config, $directory, $filenameWithDate = false)
     {
         $fs = new Filesystem();
         if (!$fs->exists($directory)) {
             $fs->mkdir($directory);
         }
 
-        $this->filename = realpath($directory).DIRECTORY_SEPARATOR.$config->getClassName(true).'.'.$this->getExtension();
+        $this->filename = realpath($directory).DIRECTORY_SEPARATOR.
+            $config->getClassName(true).($filenameWithDate ? '_'.date('Y-m-d_H-i-s') : '').
+            '.'.$this->getExtension();
     }
 
     protected function convertRowAsFlat(array $row = array())

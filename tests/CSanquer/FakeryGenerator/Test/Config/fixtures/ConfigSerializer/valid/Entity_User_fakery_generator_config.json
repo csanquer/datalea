@@ -61,11 +61,9 @@
     "columns": {
         "person": {
             "name": "person",
-            "convert_method": "",
             "columns": {
                 "name": {
                     "name": "name",
-                    "convert_method": "",
                     "columns": {
                         "firstname": {
                             "name": "firstname",
@@ -88,7 +86,6 @@
                 "birthday": {
                     "name": "birthday",
                     "value": "%birthday%",
-                    "convert_method": "",
                     "columns": {
 
                     }
@@ -98,7 +95,6 @@
         "email": {
             "name": "email",
             "value": "%email%",
-            "convert_method": "",
             "columns": {
 
             }

@@ -17,9 +17,9 @@ class JSONDumper extends AbstractDumper
      */
     protected $data = [];
 
-    public function initialize(Config $config, $directory)
+    public function initialize(Config $config, $directory, $filenameWithDate = false)
     {
-        $this->setFilename($config, $directory);
+        $this->setFilename($config, $directory, $filenameWithDate);
     }
 
     public function dumpRow(array $row = array())

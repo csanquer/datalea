@@ -18,10 +18,10 @@ class ExcelDumperTest extends DumperTestCase
     /**
      * @dataProvider providerDump
      */
-    public function testDump(Config $config, $generatedValues, $expectedFile, $expected)
+    public function testDump(Config $config, $withDate, $generatedValues, $expectedFile, $expected)
     {
         $dumper = new ExcelDumper();
-        $dumper->initialize($config, self::$cacheDir);
+        $dumper->initialize($config, self::$cacheDir, $withDate);
 
         foreach ($generatedValues as $row) {
             $dumper->dumpRow($row);
@@ -29,7 +29,8 @@ class ExcelDumperTest extends DumperTestCase
         $filename = $dumper->finalize();
         
         $this->assertFileExists($filename);
-        $this->assertEquals(basename($expectedFile), basename($filename));
+        $ext = 'xlsx';
+        $this->assertRegExp('/'.basename($expectedFile,'.'.$ext).'_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}.'.$ext.'/', basename($filename));
         
         $reader = new \PHPExcel_Reader_Excel2007();
         $excel = $reader->load(self::$fixtures.'/'.$expectedFile);
@@ -69,6 +70,7 @@ class ExcelDumperTest extends DumperTestCase
             #data set #0
             [
                 $config1,
+                true,
                 [
                     [
                         'person' => [

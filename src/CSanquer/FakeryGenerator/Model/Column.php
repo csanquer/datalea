@@ -102,7 +102,7 @@ class Column extends ColumnContainer
      */
     public function setConvertMethod($convertMethod)
     {
-        $this->convertMethod = (string) $convertMethod;
+        $this->convertMethod =  in_array($convertMethod, Converter::getAvailableConvertMethods()) ? $convertMethod : null;
 
         return $this;
     }
