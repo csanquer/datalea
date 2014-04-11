@@ -4,6 +4,8 @@ namespace CSanquer\FakeryGenerator\Dump;
 
 use CSanquer\FakeryGenerator\Config\ConfigSerializer;
 use CSanquer\FakeryGenerator\Model\Config;
+use Symfony\Component\Console\Helper\HelperSet;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 if (!defined('DS')) {
@@ -103,10 +105,13 @@ class DumpManager
      * @param Config $config
      * @param boolean $zipped
      * @param string   $outputDir
-     *
+     * @param string $configFormat json, xml or all
+     * @param OutputInterface $output default = null
+     * @param HelperSet $helperSet default = null
+     * 
      * @return array of filenames
      */
-    public function dump(Config $config, $outputDir, $zipped = true)
+    public function dump(Config $config, $outputDir, $zipped = true, $configFormat = 'json', OutputInterface $output = null, HelperSet $helperSet = null)
     {
         $fs = new Filesystem();
 
@@ -117,43 +122,100 @@ class DumpManager
         $outputDir = realpath($outputDir);
         
         $files = [];
-        $files['config_json'] = $this->configSerializer->dump($config, $outputDir, 'json');
-        $files['config_xml'] = $this->configSerializer->dump($config, $outputDir, 'xml');
         
+        // dump current config
+        if ($configFormat == 'json' || $configFormat == 'all') {
+            if ($output) {
+                $output->writeln('Dumping Configuration as <comment>JSON</comment> ...');
+            }
+            
+            $files['config_json'] = $this->configSerializer->dump($config, $outputDir, 'json');
+        }
+        
+        if ($configFormat == 'xml' || $configFormat == 'all') {
+            if ($output) {
+                $output->writeln('Dumping Configuration as <comment>XML</comment> ...');
+            }
+            $files['config_xml'] = $this->configSerializer->dump($config, $outputDir, 'xml');
+        }
+        
+        // create and initilize dumpers
         $dumpers = [];
-        foreach ($config->getFormats() as $format) {
-            $dumper = $this->dumperFactory($format);
-            if ($dumper instanceof DumperInterface) {
-                $dumper->initialize($config, $outputDir, !$zipped);
-                $dumpers[$format] = $dumper;
+        
+        $formats = $config->getFormats();
+        if (count($formats)) {
+            if ($output) {
+                $output->writeln('Initializing files ...');
+            }
+            
+            foreach ($formats as $format) {
+                $dumper = $this->dumperFactory($format);
+                if ($dumper instanceof DumperInterface) {
+                    $dumper->initialize($config, $outputDir, !$zipped);
+                    $dumpers[$format] = $dumper;
+                }
+            }
+            
+            if ($output) {
+                $output->writeln('Formats : <comment>'.implode('</comment>, <comment>', array_keys($dumpers)).'</comment>');
             }
         }
         
-        $faker = $config->createFaker();
-        
-        for ($index = 1; $index <= $config->getFakeNumber(); $index++) {
-            //generate 1 row
-            $values = [];
-            $config->generateVariableValues($faker, $values);
-            $data = $config->generateColumnValues($values);
-            
-            //dump the row to each file
+        if (count($dumpers)) {
+            // generate random data and write row by row
+            $faker = $config->createFaker();
+
+            if ($helperSet && $output) {
+                $progress = $helperSet->get('progress');
+                $progress->start($output, $config->getFakeNumber());
+                $progress->setRedrawFrequency(floor($config->getFakeNumber()/100));
+                $progress->setBarCharacter('<comment>=</comment>');
+            }
+
+            if ($output) {
+                $output->writeln('Generating <info>'.$config->getFakeNumber().'</info> rows ...');
+            }
+
+            for ($index = 1; $index <= $config->getFakeNumber(); $index++) {
+                //generate 1 row
+                $values = [];
+                $config->generateVariableValues($faker, $values);
+                $data = $config->generateColumnValues($values);
+
+                //dump the row to each file
+                foreach ($dumpers as $dumper) {
+                    if ($dumper instanceof DumperInterface) {
+                        $dumper->dumpRow($data);
+                    }
+                }
+
+                if ($helperSet && $output) {
+                    $progress->advance();
+                }
+            }
+
+            if ($helperSet && $output) {
+                $progress->finish();
+            }
+
+            if ($output) {
+                $output->writeln('Finalizing files ...');
+            }
+
+            // finalize and save dumped files
             foreach ($dumpers as $dumper) {
                 if ($dumper instanceof DumperInterface) {
-                    $dumper->dumpRow($data);
+                    $files[$dumper->getExtension()] = $dumper->finalize();
                 }
             }
         }
         
-        foreach ($dumpers as $dumper) {
-            if ($dumper instanceof DumperInterface) {
-                $files[$dumper->getExtension()] = $dumper->finalize();
-            }
-        }
-        
+        // zip files if required
         if ($zipped) {
+            if ($output) {
+                $output->writeln('Compressing files into zip ...');
+            }
             $zipfile = $this->zip('fakery_'.$config->getClassNameLastPart().'_'.date('Y-m-d_H-i-s'), $files, $outputDir);
-            
             $fs->remove($files);
             $files = ['zip' => $zipfile];
         }

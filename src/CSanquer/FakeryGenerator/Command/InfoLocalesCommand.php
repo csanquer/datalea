@@ -47,8 +47,19 @@ EOF
         $output->writeln('Available Faker locales');
         $output->writeln('');
         
+        $locales = [];
         foreach ($fakerConfig->getLocales() as $locale) {
-            $output->writeln('<info>'.$locale.'</info> : '.\Locale::getDisplayName($locale));
+            $locales[] = [$locale, \Locale::getDisplayName($locale)];
         }
+        
+        $table = $this->getHelperSet()->get('table');
+        $table->setCellRowFormat('<comment>%s</comment>');
+        $table
+            ->setHeaders(array('Locale', 'Language'))
+            ->setRows($locales)
+        ;
+        $table->render($output);
+        
+        
     }
 }
