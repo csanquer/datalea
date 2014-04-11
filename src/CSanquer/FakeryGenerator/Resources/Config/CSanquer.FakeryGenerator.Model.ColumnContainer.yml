@@ -1,6 +1,7 @@
 CSanquer\FakeryGenerator\Model\ColumnContainer:
     exclusion_policy: ALL
     accessor_order: custom
+    access_type: public_method
     custom_accessor_order: [columns]
     properties:
         columns:

@@ -1,6 +1,7 @@
 CSanquer\FakeryGenerator\Model\Config:
     exclusion_policy: ALL
     accessor_order: custom
+    access_type: public_method
     custom_accessor_order: [className, locale, seed, maxTimestamp, fakeNumber, formats, csvDialect, variables, columns]
     callback_methods:
         post_deserialize: [updateVariableMaxTimestamp]

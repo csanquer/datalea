@@ -1,6 +1,7 @@
 CSanquer\ColibriCsv\Dialect:
     exclusion_policy: ALL
     accessor_order: alphabetical
+    access_type: public_method
     properties:
         translit:
             type: string

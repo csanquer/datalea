@@ -1,6 +1,7 @@
 CSanquer\FakeryGenerator\Model\Variable:
     exclusion_policy: ALL
     accessor_order: custom
+    access_type: public_method
     custom_accessor_order: [name, method, methodArguments, unique, optional]
     properties:
         name:
