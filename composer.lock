@@ -59,16 +59,16 @@
         },
         {
             "name": "csanquer/colibri-csv",
-            "version": "v1.0.6",
+            "version": "v1.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/csanquer/colibri-csv.git",
-                "reference": "fe8ff02440a5ee8a63bd8f6e48438184241008a2"
+                "reference": "a245103d38a68928889eab57084d22c22704cc5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/csanquer/colibri-csv/zipball/fe8ff02440a5ee8a63bd8f6e48438184241008a2",
-                "reference": "fe8ff02440a5ee8a63bd8f6e48438184241008a2",
+                "url": "https://api.github.com/repos/csanquer/colibri-csv/zipball/a245103d38a68928889eab57084d22c22704cc5c",
+                "reference": "a245103d38a68928889eab57084d22c22704cc5c",
                 "shasum": ""
             },
             "require": {
@@ -110,7 +110,7 @@
                 "reader",
                 "writer"
             ],
-            "time": "2014-03-06 16:42:41"
+            "time": "2014-04-13 09:52:46"
         },
         {
             "name": "csanquer/silex-tools",
@@ -512,7 +512,7 @@
                 {
                     "name": "Kevin Herrera",
                     "email": "kevin@herrera.io",
-                    "homepage": "http://kevin.herrera.io/"
+                    "homepage": "http://kevin.herrera.io"
                 }
             ],
             "description": "A library for simplifying JSON linting and validation.",
@@ -571,7 +571,7 @@
                 {
                     "name": "Kevin Herrera",
                     "email": "kevin@herrera.io",
-                    "homepage": "http://kevin.herrera.io/"
+                    "homepage": "http://kevin.herrera.io"
                 }
             ],
             "description": "A Silex service provider for Wise.",
@@ -630,7 +630,7 @@
                 {
                     "name": "Kevin Herrera",
                     "email": "kevin@herrera.io",
-                    "homepage": "http://kevin.herrera.io/"
+                    "homepage": "http://kevin.herrera.io"
                 }
             ],
             "description": "Symfony Config for everyone else.",
@@ -1649,9 +1649,7 @@
             "authors": [
                 {
                     "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
+                    "email": "fabien@symfony.com"
                 }
             ],
             "description": "A WebProfiler for Silex",
@@ -3366,7 +3364,7 @@
                     "role": "Lead Developer"
                 },
                 {
-                    "name": "Armin Ronacher2",
+                    "name": "Armin Ronacher",
                     "email": "armin.ronacher@active-4.com",
                     "role": "Project Founder"
                 },

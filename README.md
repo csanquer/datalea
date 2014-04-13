@@ -8,7 +8,7 @@ Fakery Generator - a Random Test Fixtures Data Generator
 [![Code Coverage](https://scrutinizer-ci.com/g/csanquer/fakery-generator/badges/coverage.png?s=7d035be3f60ced08ac77245c40354460aa6fe2ab)](https://scrutinizer-ci.com/g/csanquer/fakery-generator/)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/7a3e3061-48f2-4bee-8c2b-4da3b28db159/mini.png)](https://insight.sensiolabs.com/projects/7a3e3061-48f2-4bee-8c2b-4da3b28db159)
 
-[![Dependency Status](https://www.versioneye.com/user/projects/53184899ec13755bfa000652/badge.png)](https://www.versioneye.com/user/projects/53184899ec13755bfa000652)
+[![Dependency Status](https://www.versioneye.com/user/projects/5318488dec1375c0d5000837/badge.png)](https://www.versioneye.com/user/projects/5318488dec1375c0d5000837)
 [![Project Status](http://stillmaintained.com/csanquer/colibri-csv.png)](http://stillmaintained.com/csanquer/colibri-csv)
 [![License](https://poser.pugx.org/csanquer/fakery-generator/license.png)](https://packagist.org/packages/csanquer/fakery-generator)
 [![Daily Downloads](https://poser.pugx.org/csanquer/fakery-generator/d/daily.png)](https://packagist.org/packages/csanquer/fakery-generator)
