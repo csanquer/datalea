@@ -99,16 +99,22 @@ class DumpManager
     /**
      * 
      * @param Config $config
-     * @param boolean $zipped
      * @param string   $outputDir
+     * @param boolean $zipped
      * @param string $configFormat json, xml or all
      * @param OutputInterface $output default = null
      * @param HelperSet $helperSet default = null
      * 
      * @return array of filenames
      */
-    public function dump(Config $config, $outputDir, $zipped = true, $configFormat = 'json', OutputInterface $output = null, HelperSet $helperSet = null)
-    {
+    public function dump(
+        Config $config,
+        $outputDir,
+        $zipped = true, 
+        $configFormat = 'json',
+        OutputInterface $output = null,
+        HelperSet $helperSet = null
+    ) {
         $fs = new Filesystem();
 
         if (!$fs->exists($outputDir)) {
@@ -153,7 +159,11 @@ class DumpManager
             }
             
             if ($output) {
-                $output->writeln('Formats : <comment>'.implode('</comment>, <comment>', array_keys($dumpers)).'</comment>');
+                $output->writeln(
+                    'Formats : <comment>'.
+                    implode('</comment>, <comment>', array_keys($dumpers)).
+                    '</comment>'
+                );
             }
         }
         
@@ -164,7 +174,8 @@ class DumpManager
             if ($helperSet && $output) {
                 $progress = $helperSet->get('progress');
                 $progress->start($output, $config->getFakeNumber());
-                $progress->setRedrawFrequency(floor($config->getFakeNumber()/100));
+                $unit = floor($config->getFakeNumber()/100);
+                $progress->setRedrawFrequency($unit < 1 ? 1 : $unit);
                 $progress->setBarCharacter('<comment>=</comment>');
             }
 
@@ -185,12 +196,12 @@ class DumpManager
                     }
                 }
 
-                if ($helperSet && $output) {
+                if (isset($progress)) {
                     $progress->advance();
                 }
             }
 
-            if ($helperSet && $output) {
+            if (isset($progress)) {
                 $progress->finish();
             }
 
@@ -211,27 +222,40 @@ class DumpManager
             if ($output) {
                 $output->writeln('Compressing files into zip ...');
             }
-            $zipfile = $this->zip('fakery_'.$config->getClassNameLastPart().'_'.date('Y-m-d_H-i-s'), $files, $outputDir);
-            $fs->remove($files);
-            $files = ['zip' => $zipfile];
+            $zipfile = $this->zip(
+                'fakery_'.$config->getClassNameLastPart().'_'.date('Y-m-d_H-i-s'),
+                $files,
+                $outputDir
+            );
+            
+            if (!empty($zipfile)) {
+                $fs->remove($files);
+                $files = ['zip' => $zipfile];
+            }
         }
         
         return $files;
     }
     
+    /**
+     * zip files into a zip archive
+     * 
+     * @param string $basename
+     * @param array $files
+     * @param string $outputDir
+     * @return string
+     */
     protected function zip($basename, $files, $outputDir) 
     {
         $zipname = $outputDir.DIRECTORY_SEPARATOR.$basename.'.zip';
         $zip = new \ZipArchive();
-        if ($zip->open($zipname, \ZipArchive::CREATE)!==TRUE) {
-            throw new \RuntimeException("cannot create zip archive $zipname\n");
+        if ($zip->open($zipname, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) === true) {
+            foreach ($files as $file) {
+                $zip->addFile($file, $basename.DIRECTORY_SEPARATOR.basename($file));
+            }
+            $zip->close();
         }
-
-        foreach ($files as $file) {
-            $zip->addFile($file, $basename.DIRECTORY_SEPARATOR.basename($file));
-        }
-        $zip->close();
-
-        return $zipname;
+        
+        return file_exists($zipname) ? $zipname : null;
     }
 }
