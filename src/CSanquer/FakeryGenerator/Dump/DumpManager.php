@@ -8,10 +8,6 @@ use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
-if (!defined('DS')) {
-    define('DS', DIRECTORY_SEPARATOR);
-}
-
 /**
  * DumpManager
  *
@@ -225,14 +221,14 @@ class DumpManager
     
     protected function zip($basename, $files, $outputDir) 
     {
-        $zipname = $outputDir.DS.$basename.'.zip';
+        $zipname = $outputDir.DIRECTORY_SEPARATOR.$basename.'.zip';
         $zip = new \ZipArchive();
         if ($zip->open($zipname, \ZipArchive::CREATE)!==TRUE) {
-            throw new \RuntimeException;("cannot create zip archive $zipname\n");
+            throw new \RuntimeException("cannot create zip archive $zipname\n");
         }
 
         foreach ($files as $file) {
-            $zip->addFile($file, $basename.DS.basename($file));
+            $zip->addFile($file, $basename.DIRECTORY_SEPARATOR.basename($file));
         }
         $zip->close();
 

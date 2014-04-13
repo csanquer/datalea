@@ -36,7 +36,6 @@ class FakerConfigTest extends \PHPUnit_Framework_TestCase
         if ($fs->exists(self::$cacheDir)) {
             $fs->remove(self::$cacheDir);
         }
-        $fs->mkdir(self::$cacheDir);
 
         $this->config = new FakerConfig(self::$fixtures, 'faker.yml', self::$cacheDir, false);
     }
