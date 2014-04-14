@@ -97,7 +97,7 @@ EOF
         $serializer = $app['fakery.config_serializer'];
         $config = $serializer->load($configFile);
         
-        if (!$config instanceof Config) {
+        if (!$config instanceof Config || !$config->countColumns() || !count($config->getFormats())) {
             throw new \InvalidArgumentException('The file '.$configFile.' is not a valid Fakery generator config file.');
         }
         
