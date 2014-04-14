@@ -62,7 +62,7 @@ class DumpManagerTest extends DumperTestCase
         $stopwatch = new Stopwatch();
         
         $stopwatch->openSection();
-        $files = $this->dumpManager->dump($config, $outputDir, $zipped, $configFormat, $output, $progress, $stopwatch);
+        $files = $this->dumpManager->dump($config, $outputDir, $zipped, $configFormat, $stopwatch, $output, $progress);
         $stopwatch->stopSection('generate-test');
         
         $events = $stopwatch->getSectionEvents('generate-test');

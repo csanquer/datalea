@@ -1,0 +1,286 @@
+{
+    "class_name": "Entity\\User",
+    "locale": "en_US",
+    "seed": 132156,
+    "max_timestamp": "2014-04-14T10:57:17+0200",
+    "fake_number": 3,
+    "formats": [
+        "csv",
+        "excel",
+        "yaml",
+        "xml",
+        "json",
+        "sql",
+        "php",
+        "perl",
+        "ruby",
+        "python"
+    ],
+    "csv_dialect": {
+        "delimiter": ";",
+        "enclosing_mode": "minimal",
+        "enclosure": "\"",
+        "encoding": "CP1252",
+        "eol": "windows",
+        "escape": "\\",
+        "escape_double": true,
+        "force_encoding_detection": false,
+        "skip_empty_lines": false,
+        "translit": "translit",
+        "trim": false,
+        "use_bom": false
+    },
+    "variables": {
+        "firstname": {
+            "name": "firstname",
+            "method": "firstName",
+            "method_arguments": [
+
+            ],
+            "unique": false
+        },
+        "lastname": {
+            "name": "lastname",
+            "method": "lastName",
+            "method_arguments": [
+
+            ],
+            "unique": false
+        },
+        "emailDomain": {
+            "name": "emailDomain",
+            "method": "freeEmailDomain",
+            "method_arguments": [
+
+            ],
+            "unique": false
+        },
+        "birthday": {
+            "name": "birthday",
+            "method": "dateTimeBetween",
+            "method_arguments": [
+                "Y-m-d",
+                "1970-01-01",
+                "2014-01-01"
+            ],
+            "unique": false
+        },
+        "phonehome": {
+            "name": "phonehome",
+            "method": "phoneNumber",
+            "method_arguments": [
+
+            ],
+            "unique": false
+        },
+        "phonework": {
+            "name": "phonework",
+            "method": "phoneNumber",
+            "method_arguments": [
+
+            ],
+            "unique": false
+        },
+        "phonemobile": {
+            "name": "phonemobile",
+            "method": "phoneNumber",
+            "method_arguments": [
+
+            ],
+            "unique": false
+        },
+        "street1": {
+            "name": "street1",
+            "method": "streetAddress",
+            "method_arguments": [
+
+            ],
+            "unique": false
+        },
+        "city1": {
+            "name": "city1",
+            "method": "city",
+            "method_arguments": [
+
+            ],
+            "unique": false
+        },
+        "postalcode1": {
+            "name": "postalcode1",
+            "method": "postcode",
+            "method_arguments": [
+
+            ],
+            "unique": false
+        },
+        "country1": {
+            "name": "country1",
+            "method": "country",
+            "method_arguments": [
+
+            ],
+            "unique": false
+        },
+        "street2": {
+            "name": "street2",
+            "method": "streetAddress",
+            "method_arguments": [
+
+            ],
+            "unique": false
+        },
+        "city2": {
+            "name": "city2",
+            "method": "city",
+            "method_arguments": [
+
+            ],
+            "unique": false
+        },
+        "postalcode2": {
+            "name": "postalcode2",
+            "method": "postcode",
+            "method_arguments": [
+
+            ],
+            "unique": false
+        },
+        "country2": {
+            "name": "country2",
+            "method": "country",
+            "method_arguments": [
+
+            ],
+            "unique": false
+        }
+    },
+    "columns": {
+        "firstname": {
+            "name": "firstname",
+            "value": "%firstname%",
+            "convert_method": "capitalize",
+            "columns": {
+
+            }
+        },
+        "lastname": {
+            "name": "lastname",
+            "value": "%lastname%",
+            "convert_method": "capitalize",
+            "columns": {
+
+            }
+        },
+        "email": {
+            "name": "email",
+            "value": "%firstname%.%lastname%@%emailDomain%",
+            "convert_method": "lowercase",
+            "columns": {
+
+            }
+        },
+        "birthday": {
+            "name": "birthday",
+            "value": "%birthday%",
+            "columns": {
+
+            }
+        },
+        "address": {
+            "name": "address",
+            "columns": {
+                "home": {
+                    "name": "home",
+                    "columns": {
+                        "street": {
+                            "name": "street",
+                            "value": "%street1%",
+                            "convert_method": "capitalize",
+                            "columns": {
+
+                            }
+                        },
+                        "city": {
+                            "name": "city",
+                            "value": "%city1%",
+                            "convert_method": "capitalize",
+                            "columns": {
+
+                            }
+                        },
+                        "postalcode": {
+                            "name": "postalcode",
+                            "value": "%postalcode1%",
+                            "columns": {
+
+                            }
+                        },
+                        "country": {
+                            "name": "country",
+                            "value": "%country1%",
+                            "convert_method": "capitalize",
+                            "columns": {
+
+                            }
+                        }
+                    }
+                },
+                "work": {
+                    "name": "work",
+                    "columns": {
+                        "street": {
+                            "name": "street",
+                            "value": "%street2%",
+                            "convert_method": "capitalize",
+                            "columns": {
+
+                            }
+                        },
+                        "city": {
+                            "name": "city",
+                            "value": "%city2%",
+                            "convert_method": "capitalize",
+                            "columns": {
+
+                            }
+                        },
+                        "postalcode": {
+                            "name": "postalcode",
+                            "value": "%postalcode2%",
+                            "columns": {
+
+                            }
+                        },
+                        "country": {
+                            "name": "country",
+                            "value": "%country2%",
+                            "convert_method": "capitalize",
+                            "columns": {
+
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "phone": {
+            "name": "phone",
+            "columns": {
+                "home": {
+                    "name": "home",
+                    "value": "%phonehome%",
+                    "columns": {
+
+                    }
+                },
+                "mobile": {
+                    "name": "mobile",
+                    "value": "%phonemobile%",
+                    "columns": {
+
+                    }
+                }
+            }
+        }
+    }
+}

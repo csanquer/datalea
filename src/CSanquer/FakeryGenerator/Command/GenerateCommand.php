@@ -111,7 +111,6 @@ EOF
         
         if (is_numeric($fakeNumber)) {
             $config->setFakeNumber($fakeNumber);
-            
         }
         
         $dumpManager = $app['fakery.dumper_manager'];
@@ -120,9 +119,9 @@ EOF
             $outputDir,
             !$noZip,
             $outputConfigFormat,
+            $stopwatch,
             $output,
-            $this->getHelperSet()->get('progress'),
-            $stopwatch
+            $this->getHelperSet()->get('progress')
         );
         
         $stopwatch->stopSection('generate');

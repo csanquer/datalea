@@ -17,3 +17,5 @@ tests/CSanquer/FakeryGenerator/Test/Dump/tmp
 dump
 /*_fakery_generator_config_*.json
 /*_fakery_generator_config_*.xml
+tests/CSanquer/FakeryGenerator/Test/Command/dump
+tests/CSanquer/FakeryGenerator/Test/Command/tmp
