@@ -284,7 +284,7 @@ class VariableTest extends \PHPUnit_Framework_TestCase
                 // values
                 [],  
                 'name_prefix', // name 
-                'prefix', // method 
+                'title', // method 
                 // methodArguments 
                 [], 
                 // variables
