@@ -2,11 +2,15 @@
 
 namespace CSanquer\FakeryGenerator\Command;
 
+use CSanquer\FakeryGenerator\Date\DateIntervalExtended;
+use CSanquer\FakeryGenerator\Helper\Memory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Stopwatch\Stopwatch;
+use Symfony\Component\Stopwatch\StopwatchEvent;
 
 /**
  * GenerateCommand
@@ -58,7 +62,7 @@ EOF
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $stopwatch = new \Symfony\Component\Stopwatch\Stopwatch();
+        $stopwatch = new Stopwatch();
         
         $stopwatch->start('generate');
         
@@ -112,10 +116,12 @@ EOF
         $this->formatStopwatchEvent($event, $output);
     }
     
-    protected function formatStopwatchEvent(\Symfony\Component\Stopwatch\StopwatchEvent $event, OutputInterface $output) 
+    protected function formatStopwatchEvent(StopwatchEvent $event, OutputInterface $output) 
     {
+        $duration = new DateIntervalExtended('PT0S', $event->getDuration());
+        
         $output->writeln('');
-        $output->writeln('Duration : <comment>'.($event->getDuration()/1000).'</comment> s');
-        $output->writeln('Memory usage : <comment>'.round($event->getMemory()/(1024*1024), 5).'</comment> Mb');
+        $output->writeln('Duration : <comment>'.$duration->prettyFormat().'</comment>');
+        $output->writeln('Memory usage : <comment>'.Memory::convert($event->getMemory()).'</comment>');
     }
 }
