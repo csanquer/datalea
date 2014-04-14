@@ -1,6 +1,7 @@
 faker:
     locales:
         - bg_BG
+        - bn_BD
         - cs_CZ
         - da_DK
         - de_AT
@@ -17,12 +18,14 @@ faker:
         - es_PE
         - fi_FI
         - fr_BE
+        - fr_CA
         - fr_FR
         - hy_AM
         - is_IS
         - it_IT
         - ja_JP
         - lv_LV
+        - me_ME
         - nl_BE
         - nl_NL
         - pl_PL
@@ -39,6 +42,12 @@ faker:
         - zh_CN
 
     providers:
+        bn_BD:
+            Utils:
+                getBanglaNumber:
+                    arguments:
+                        number: 0
+                    example: '''০'''
         fr_FR:
             Address:
                 departmentName:
@@ -101,14 +110,6 @@ faker:
                     example: '''ナギサ'''
         ro_RO:
             Person:
-                prefixMale:
-                    example: '''ing.'''
-                prefixFemale:
-                    example: '''d-na.'''
-                firstNameMale:
-                    example: '''Adrian'''
-                firstNameFemale:
-                    example: '''Miruna'''
                 cnp:
                     arguments:
                         gender: ~
@@ -124,14 +125,28 @@ faker:
         # Default
         en_US:
             Person:
-                prefix:
+                title:
+                    example: '''Ms.'''
+                    arguments:
+                        gender: 'null|''male''|''female'''
+                titleMale:
+                    example: '''Mr.'''
+                titleFemale:
                     example: '''Ms.'''
                 suffix:
                     example: '''Jr.'''
                 name:
                     example: '''Dr. Zane Stroman'''
+                    arguments:
+                        gender: 'null|''male''|''female'''
                 firstName:
                     example: '''Maynard'''
+                    arguments:
+                        gender: 'null|''male''|''female'''
+                firstNameMale:
+                    example: '''Maynard'''
+                firstNameFemale:
+                    example: '''Rachel'''
                 lastName:
                     example: '''Zulauf'''
             Address:
@@ -177,6 +192,12 @@ faker:
                     example: '''Bogan-Treutel'''
                 companySuffix:
                     example: '''and Sons'''
+            Text:
+                realText:
+                    arguments:
+                        maxNbChars: 200
+                        indexSize: 2
+                    example: '''And yet I wish you could manage it?) ''And what are they made of?'' Alice asked in a shrill, passionate voice. ''Would YOU like cats if you were never even spoke to Time!'' ''Perhaps not,'' Alice replied.'''
             Payment:
                 creditCardType:
                     example: '''MasterCard'''
@@ -391,11 +412,22 @@ faker:
             Uuid:
                 uuid:
                     example: '''7e57d004-2b97-0e7a-b45f-5387367791cd'''
+            Barcode:
+                ean13:
+                    example: '''4006381333931'''
+                ean8:
+                    example: '''73513537'''
             File:
                 fileExtension:
                     example: '''avi'''
                 mimeType:
                     example: '''video/x-msvideo'''
+#                file:
+#                    arguments:
+#                        sourceDir: '''/tmp'''
+#                        targetDir: '''/tmp'''
+#                        absolutePath: true
+#                    example: '''/path/to/targetDir/13b73edae8443990be1aa8f1a483bc27.jpg'''
             Color:
                 hexcolor:
                     example: '''#fa3cc2'''

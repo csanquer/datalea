@@ -425,16 +425,20 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "a277bf23f9346e9edd704e01571fecd37af537d0"
+                "reference": "89345a3ccc366bc14e0a984a086cc66028bd6411"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/a277bf23f9346e9edd704e01571fecd37af537d0",
-                "reference": "a277bf23f9346e9edd704e01571fecd37af537d0",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/89345a3ccc366bc14e0a984a086cc66028bd6411",
+                "reference": "89345a3ccc366bc14e0a984a086cc66028bd6411",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "~1.5"
             },
             "type": "library",
             "extra": {
@@ -463,7 +467,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2014-04-04 08:07:01"
+            "time": "2014-04-14 12:22:41"
         },
         {
             "name": "herrera-io/json",
@@ -512,7 +516,7 @@
                 {
                     "name": "Kevin Herrera",
                     "email": "kevin@herrera.io",
-                    "homepage": "http://kevin.herrera.io"
+                    "homepage": "http://kevin.herrera.io/"
                 }
             ],
             "description": "A library for simplifying JSON linting and validation.",
@@ -571,7 +575,7 @@
                 {
                     "name": "Kevin Herrera",
                     "email": "kevin@herrera.io",
-                    "homepage": "http://kevin.herrera.io"
+                    "homepage": "http://kevin.herrera.io/"
                 }
             ],
             "description": "A Silex service provider for Wise.",
@@ -630,7 +634,7 @@
                 {
                     "name": "Kevin Herrera",
                     "email": "kevin@herrera.io",
-                    "homepage": "http://kevin.herrera.io"
+                    "homepage": "http://kevin.herrera.io/"
                 }
             ],
             "description": "Symfony Config for everyone else.",
@@ -1649,7 +1653,9 @@
             "authors": [
                 {
                     "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
                 }
             ],
             "description": "A WebProfiler for Silex",
@@ -3364,7 +3370,7 @@
                     "role": "Lead Developer"
                 },
                 {
-                    "name": "Armin Ronacher",
+                    "name": "Armin Ronacher2",
                     "email": "armin.ronacher@active-4.com",
                     "role": "Project Founder"
                 },
