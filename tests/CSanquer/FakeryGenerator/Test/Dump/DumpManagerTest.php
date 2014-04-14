@@ -7,9 +7,9 @@ use CSanquer\FakeryGenerator\Dump\DumpManager;
 use CSanquer\FakeryGenerator\Model\Column;
 use CSanquer\FakeryGenerator\Model\Config;
 use CSanquer\FakeryGenerator\Model\Variable;
-use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\ProgressHelper;
 use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 class DumpManagerTest extends DumperTestCase
 {
@@ -57,11 +57,21 @@ class DumpManagerTest extends DumperTestCase
     public function testDump($config, $zipped, $configFormat, $expectedOutput, $expectedFiles, $expectedFilesInZip)
     {
         $output = new BufferedOutput();
-        $helperSet = new HelperSet(['progress' => new ProgressHelper()]);
+        $progress = new ProgressHelper();
         $outputDir = static::$cacheDir.'/dump';
-
-        $files = $this->dumpManager->dump($config, $outputDir, $zipped, $configFormat, $output, $helperSet);
-
+        $stopwatch = new Stopwatch();
+        
+        $stopwatch->openSection();
+        $files = $this->dumpManager->dump($config, $outputDir, $zipped, $configFormat, $output, $progress, $stopwatch);
+        $stopwatch->stopSection('generate-test');
+        
+        $events = $stopwatch->getSectionEvents('generate-test');
+        
+        $keys = ['dumping_config', 'initializing_files', 'generating_rows', 'finalizing_files', 'compressing_files'];
+        foreach ($keys as $key) {
+            $this->assertArrayHasKey($key, $events);
+        }
+        
         $outputContent = $output->fetch();
 
         $this->assertCount(count($expectedFiles), $files);
@@ -120,6 +130,7 @@ Formats : php, json, xml, yaml, csv, sql, excel, perl, ruby, python
 Generating 10 rows ...
 \r  1/10 [==>-------------------------]  10%\r  2/10 [=====>----------------------]  20%\r  3/10 [========>-------------------]  30%\r  4/10 [===========>----------------]  40%\r  5/10 [==============>-------------]  50%\r  6/10 [================>-----------]  60%\r  7/10 [===================>--------]  70%\r  8/10 [======================>-----]  80%\r  9/10 [=========================>--]  90%\r 10/10 [============================] 100%
 Finalizing files ...
+\r  1/10 [==>-------------------------]  10%\r  2/10 [=====>----------------------]  20%\r  3/10 [========>-------------------]  30%\r  4/10 [===========>----------------]  40%\r  5/10 [==============>-------------]  50%\r  6/10 [================>-----------]  60%\r  7/10 [===================>--------]  70%\r  8/10 [======================>-----]  80%\r  9/10 [=========================>--]  90%\r 10/10 [============================] 100%
 Compressing files into zip ...
 ",
                 [

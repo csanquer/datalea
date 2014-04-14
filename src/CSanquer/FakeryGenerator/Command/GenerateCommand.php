@@ -4,6 +4,7 @@ namespace CSanquer\FakeryGenerator\Command;
 
 use CSanquer\FakeryGenerator\Date\DateIntervalExtended;
 use CSanquer\FakeryGenerator\Helper\Memory;
+use CSanquer\FakeryGenerator\Model\Config;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -53,7 +54,7 @@ To change copyied configuration file output format :
 EOF
             )
             ->addArgument('config', InputArgument::REQUIRED, 'fakery generator configuration file')
-            ->addArgument('output-dir', InputArgument::OPTIONAL, 'directory where to dump the configuration file', 'dump_'.uniqid().'_'.time())
+            ->addArgument('output-dir', InputArgument::OPTIONAL, 'directory where to dump the configuration file')
             ->addOption('no-zip', 'o', InputOption::VALUE_NONE, 'do not zip generated files')
             ->addOption('number', 'u', InputOption::VALUE_REQUIRED, 'override fake number rows to generate')
             ->addOption('config-format', 'f', InputOption::VALUE_REQUIRED, 'dump a new configuration file in the following format: json, xml, all, auto', 'auto')
@@ -63,8 +64,7 @@ EOF
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $stopwatch = new Stopwatch();
-        
-        $stopwatch->start('generate');
+        $stopwatch->openSection();
         
         $app = $this->getApplication()->getSilex();
         
@@ -91,13 +91,22 @@ EOF
         
         $noZip = $input->getOption('no-zip');
         $fakeNumber = $input->getOption('number');
+
+        $stopwatch->start('loading_config', 'generate_dumps');
         
         $serializer = $app['fakery.config_serializer'];
         $config = $serializer->load($configFile);
         
+        if (!$config instanceof Config) {
+            throw new \InvalidArgumentException('The file '.$configFile.' is not a valid Fakery generator config file.');
+        }
+        
+        $stopwatch->stop('loading_config');
+        
         $outputDir = $input->getArgument('output-dir');
-        if (file_exists($outputDir) && !is_dir($outputDir)) {
-            $outputDir = 'dump_'.uniqid().'_'.time();
+        
+        if (empty($outputDir) || (file_exists($outputDir) && !is_dir($outputDir))) {
+            $outputDir = 'dump/'.time().'_'.uniqid().'_'.$config->getClassName(true);
         }
         
         if (is_numeric($fakeNumber)) {
@@ -106,22 +115,48 @@ EOF
         }
         
         $dumpManager = $app['fakery.dumper_manager'];
-        $files = $dumpManager->dump($config, $outputDir, !$noZip, $outputConfigFormat, $output, $this->getHelperSet());
-        $event = $stopwatch->stop('generate');
+        $files = $dumpManager->dump(
+            $config,
+            $outputDir,
+            !$noZip,
+            $outputConfigFormat,
+            $output,
+            $this->getHelperSet()->get('progress'),
+            $stopwatch
+        );
+        
+        $stopwatch->stopSection('generate');
+        $events = $stopwatch->getSectionEvents('generate');
         
         foreach ($files as $file) {
             $output->writeln('<info>'.$file.'</info> generated');
         }
         
-        $this->formatStopwatchEvent($event, $output);
+        $output->writeln("\n".'Performance Summary :'."\n");
+        
+        $totalEvent = isset($events['__section__']) ? $events['__section__'] : null;
+        unset($events['__section__']);
+        
+        foreach ($events as $name => $event) {
+            $this->formatStopwatchEvent($name, $event, $output, false);
+        }
+        
+        $this->formatStopwatchEvent('total', $totalEvent, $output, true);
     }
     
-    protected function formatStopwatchEvent(StopwatchEvent $event, OutputInterface $output) 
+    protected function formatStopwatchEvent($eventName, StopwatchEvent $event, OutputInterface $output, $withMemoryUsage = false) 
     {
         $duration = new DateIntervalExtended('PT0S', $event->getDuration());
         
-        $output->writeln('');
-        $output->writeln('Duration : <comment>'.$duration->prettyFormat().'</comment>');
-        $output->writeln('Memory usage : <comment>'.Memory::convert($event->getMemory()).'</comment>');
+        if ($eventName == 'total') {
+            $output->write('<info>Total (Full processing)</info> : ');
+        } else {
+            $output->write($eventName.' : ');
+        }
+        
+        $output->writeln('<comment>'.$duration->prettyFormat().'</comment>');
+        if ($withMemoryUsage) {
+            $output->writeln('Memory usage : <comment>'.Memory::convert($event->getMemory()).'</comment>');
+        }
     }
 }

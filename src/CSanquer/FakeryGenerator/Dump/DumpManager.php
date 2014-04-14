@@ -5,8 +5,10 @@ namespace CSanquer\FakeryGenerator\Dump;
 use CSanquer\FakeryGenerator\Config\ConfigSerializer;
 use CSanquer\FakeryGenerator\Model\Config;
 use Symfony\Component\Console\Helper\HelperSet;
+use Symfony\Component\Console\Helper\ProgressHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 /**
  * DumpManager
@@ -102,8 +104,9 @@ class DumpManager
      * @param string   $outputDir
      * @param boolean $zipped
      * @param string $configFormat json, xml or all
+     * @param Stopwatch $stopwatch default = null
      * @param OutputInterface $output default = null
-     * @param HelperSet $helperSet default = null
+     * @param ProgressHelper $progress default = null
      * 
      * @return array of filenames
      */
@@ -112,11 +115,12 @@ class DumpManager
         $outputDir,
         $zipped = true, 
         $configFormat = 'json',
+        Stopwatch $stopwatch = null,
         OutputInterface $output = null,
-        HelperSet $helperSet = null
+        ProgressHelper $progress = null
     ) {
         $fs = new Filesystem();
-
+        
         if (!$fs->exists($outputDir)) {
             $fs->mkdir($outputDir, 0777);
         }
@@ -124,6 +128,10 @@ class DumpManager
         $outputDir = realpath($outputDir);
         
         $files = [];
+        
+        if ($stopwatch) {
+            $stopwatch->start('dumping_config', 'generate_dumps');
+        }
         
         // dump current config
         if ($configFormat == 'json' || $configFormat == 'all') {
@@ -139,6 +147,11 @@ class DumpManager
                 $output->writeln('Dumping Configuration as <comment>XML</comment> ...');
             }
             $files['config_xml'] = $this->configSerializer->dump($config, $outputDir, 'xml');
+        }
+        
+        if ($stopwatch) {
+            $stopwatch->stop('dumping_config');
+            $stopwatch->start('initializing_files', 'generate_dumps');
         }
         
         // create and initilize dumpers
@@ -167,12 +180,18 @@ class DumpManager
             }
         }
         
+        if ($stopwatch) {
+            $stopwatch->stop('initializing_files');
+        }
+        
         if (count($dumpers)) {
+            if ($stopwatch) {
+                $stopwatch->start('generating_rows', 'generate_dumps');
+            }
             // generate random data and write row by row
             $faker = $config->createFaker();
 
-            if ($helperSet && $output) {
-                $progress = $helperSet->get('progress');
+            if ($progress && $output) {
                 $progress->start($output, $config->getFakeNumber());
                 $unit = floor($config->getFakeNumber()/100);
                 $progress->setRedrawFrequency($unit < 1 ? 1 : $unit);
@@ -209,16 +228,39 @@ class DumpManager
                 $output->writeln('Finalizing files ...');
             }
 
+            if ($stopwatch) {
+                $stopwatch->stop('generating_rows');
+                $stopwatch->start('finalizing_files', 'generate_dumps');
+            }
+            
             // finalize and save dumped files
+            if ($progress && $output) {
+                $progress->start($output, count($dumpers));
+                $progress->setBarCharacter('<comment>=</comment>');
+            }
+            
             foreach ($dumpers as $dumper) {
-                if ($dumper instanceof DumperInterface) {
-                    $files[$dumper->getExtension()] = $dumper->finalize();
+                $files[$dumper->getExtension()] = $dumper->finalize();
+                if (isset($progress)) {
+                    $progress->advance();
                 }
+            }
+            
+            if (isset($progress)) {
+                $progress->finish();
+            }
+            
+            if ($stopwatch) {
+                $stopwatch->stop('finalizing_files');
             }
         }
         
         // zip files if required
         if ($zipped) {
+            if ($stopwatch) {
+                $stopwatch->start('compressing_files', 'generate_dumps');
+            }
+            
             if ($output) {
                 $output->writeln('Compressing files into zip ...');
             }
@@ -231,6 +273,10 @@ class DumpManager
             if (!empty($zipfile)) {
                 $fs->remove($files);
                 $files = ['zip' => $zipfile];
+            }
+            
+            if ($stopwatch) {
+                $stopwatch->stop('compressing_files');
             }
         }
         
