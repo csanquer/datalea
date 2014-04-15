@@ -11,7 +11,7 @@ use Symfony\Component\Filesystem\Filesystem;
  *
  * @author Charles Sanquer <charles.sanquer@gmail.com>
  */
-class DumpManager
+class DumpManager implements DumpManagerInterface
 {
     /**
      *
