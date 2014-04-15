@@ -5,11 +5,7 @@ if (!defined('DS')) {
 }
 
 use CSanquer\FakeryGenerator\Command\ConfigExampleCommand;
-use CSanquer\FakeryGenerator\Command\InfoConvertersCommand;
-use CSanquer\FakeryGenerator\Command\InfoFormatsCommand;
-use CSanquer\FakeryGenerator\Command\InfoLocalesCommand;
-use CSanquer\FakeryGenerator\Command\InfoMethodsCommand;
-use CSanquer\FakeryGenerator\Command\InfoProvidersCommand;
+use CSanquer\FakeryGenerator\Command\InfoCommand;
 use CSanquer\FakeryGenerator\Command\GenerateCommand;
 use CSanquer\Silex\Tools\Command\AsseticDumpCommand;
 use CSanquer\Silex\Tools\Command\CacheClearCommand;
@@ -36,11 +32,7 @@ $console = new ConsoleApplication($app, 'Fakery Generator Application', 'N/A');
 $console->add(new CacheClearCommand());
 $console->add(new AsseticDumpCommand());
 $console->add(new ServerRunCommand());
-$console->add(new InfoLocalesCommand());
-$console->add(new InfoProvidersCommand());
-$console->add(new InfoMethodsCommand());
-$console->add(new InfoConvertersCommand());
-$console->add(new InfoFormatsCommand());
+$console->add(new InfoCommand());
 $console->add(new ConfigExampleCommand());
 $console->add(new GenerateCommand());
 

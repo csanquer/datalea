@@ -18,6 +18,7 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class AbstractCommandTestCase extends \PHPUnit_Framework_TestCase
 {
+    protected static $configDir;
     protected static $fixtures;
     protected static $cacheDir;
     protected static $dumpDir;
@@ -31,9 +32,10 @@ class AbstractCommandTestCase extends \PHPUnit_Framework_TestCase
     
     public static function setUpBeforeClass()
     {
-        self::$fixtures = __DIR__.'/fixtures/';
-        self::$cacheDir = __DIR__.'/tmp';
-        self::$dumpDir = __DIR__.'/dump';
+        static::$fixtures = __DIR__.'/fixtures/';
+        static::$cacheDir = __DIR__.'/tmp';
+        static::$dumpDir = __DIR__.'/dump';
+        static::$configDir = __DIR__.'/../../../../../src/CSanquer/FakeryGenerator/Resources/Config';
     }
 
     protected function setUp()
@@ -42,29 +44,29 @@ class AbstractCommandTestCase extends \PHPUnit_Framework_TestCase
         chdir(__DIR__);
         
         $fs = new Filesystem();
-        if ($fs->exists(self::$cacheDir)) {
-            $fs->remove(self::$cacheDir);
+        if ($fs->exists(static::$cacheDir)) {
+            $fs->remove(static::$cacheDir);
         }
         
-        if ($fs->exists(self::$dumpDir)) {
-            $fs->remove(self::$dumpDir);
+        if ($fs->exists(static::$dumpDir)) {
+            $fs->remove(static::$dumpDir);
         }
         
         $app =  new Application();
         //custom providers and services
         $app['fakery.faker.config'] = $app->share(function ($app) {
             return new FakerConfig(
-                __DIR__.'/../../../../../src/CSanquer/FakeryGenerator/Resources/Config', 
+                static::$configDir, 
                 'faker.yml',
-                self::$cacheDir.'/cache/', 
+                static::$cacheDir.'/cache/', 
                 true
             );
         });
 
         $app['fakery.config_serializer'] = $app->share(function ($app) {
             return new ConfigSerializer(
-                self::$cacheDir.'/cache/', 
-                __DIR__.'/../../../../../src/CSanquer/FakeryGenerator/Resources/Config', 
+                static::$cacheDir.'/cache/', 
+                static::$configDir, 
                 true
             );
         });

@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+  <class_name><![CDATA[Entity\User]]></class_name>
+  <locale><![CDATA[en_US]]></locale>
+  <seed>17846134</seed>
+  <max_timestamp><![CDATA[2014-04-15T14:49:22+0200]]></max_timestamp>
+  <fake_number>100</fake_number>
+  <formats>
+    <format><![CDATA[csv]]></format>
+    <format><![CDATA[excel]]></format>
+    <format><![CDATA[yaml]]></format>
+    <format><![CDATA[xml]]></format>
+    <format><![CDATA[json]]></format>
+    <format><![CDATA[sql]]></format>
+    <format><![CDATA[php]]></format>
+    <format><![CDATA[perl]]></format>
+    <format><![CDATA[ruby]]></format>
+    <format><![CDATA[python]]></format>
+  </formats>
+  <csv_dialect>
+    <delimiter><![CDATA[;]]></delimiter>
+    <enclosing_mode><![CDATA[minimal]]></enclosing_mode>
+    <enclosure><![CDATA["]]></enclosure>
+    <encoding><![CDATA[CP1252]]></encoding>
+    <eol><![CDATA[windows]]></eol>
+    <escape><![CDATA[\]]></escape>
+    <escape_double>true</escape_double>
+    <force_encoding_detection>false</force_encoding_detection>
+    <skip_empty_lines>false</skip_empty_lines>
+    <translit><![CDATA[translit]]></translit>
+    <trim>false</trim>
+    <use_bom>false</use_bom>
+  </csv_dialect>
+  <variables>
+    <variable name="firstname">
+      <name><![CDATA[firstname]]></name>
+      <method><![CDATA[firstName]]></method>
+      <unique>false</unique>
+    </variable>
+    <variable name="lastname">
+      <name><![CDATA[lastname]]></name>
+      <method><![CDATA[lastName]]></method>
+      <unique>false</unique>
+    </variable>
+    <variable name="emailDomain">
+      <name><![CDATA[emailDomain]]></name>
+      <method><![CDATA[freeEmailDomain]]></method>
+      <unique>false</unique>
+    </variable>
+    <variable name="birthday">
+      <name><![CDATA[birthday]]></name>
+      <method><![CDATA[dateTimeBetween]]></method>
+      <method_arguments>
+        <method_argument><![CDATA[Y-m-d]]></method_argument>
+        <method_argument><![CDATA[1970-01-01]]></method_argument>
+        <method_argument><![CDATA[2014-01-01]]></method_argument>
+      </method_arguments>
+      <unique>false</unique>
+    </variable>
+    <variable name="phonehome">
+      <name><![CDATA[phonehome]]></name>
+      <method><![CDATA[phoneNumber]]></method>
+      <unique>false</unique>
+    </variable>
+    <variable name="phonework">
+      <name><![CDATA[phonework]]></name>
+      <method><![CDATA[phoneNumber]]></method>
+      <unique>false</unique>
+    </variable>
+    <variable name="phonemobile">
+      <name><![CDATA[phonemobile]]></name>
+      <method><![CDATA[phoneNumber]]></method>
+      <unique>false</unique>
+    </variable>
+    <variable name="street1">
+      <name><![CDATA[street1]]></name>
+      <method><![CDATA[streetAddress]]></method>
+      <unique>false</unique>
+    </variable>
+    <variable name="city1">
+      <name><![CDATA[city1]]></name>
+      <method><![CDATA[city]]></method>
+      <unique>false</unique>
+    </variable>
+    <variable name="postalcode1">
+      <name><![CDATA[postalcode1]]></name>
+      <method><![CDATA[postcode]]></method>
+      <unique>false</unique>
+    </variable>
+    <variable name="country1">
+      <name><![CDATA[country1]]></name>
+      <method><![CDATA[country]]></method>
+      <unique>false</unique>
+    </variable>
+    <variable name="street2">
+      <name><![CDATA[street2]]></name>
+      <method><![CDATA[streetAddress]]></method>
+      <unique>false</unique>
+    </variable>
+    <variable name="city2">
+      <name><![CDATA[city2]]></name>
+      <method><![CDATA[city]]></method>
+      <unique>false</unique>
+    </variable>
+    <variable name="postalcode2">
+      <name><![CDATA[postalcode2]]></name>
+      <method><![CDATA[postcode]]></method>
+      <unique>false</unique>
+    </variable>
+    <variable name="country2">
+      <name><![CDATA[country2]]></name>
+      <method><![CDATA[country]]></method>
+      <unique>false</unique>
+    </variable>
+  </variables>
+  <columns>
+    <column name="firstname">
+      <name><![CDATA[firstname]]></name>
+      <value><![CDATA[%firstname%]]></value>
+      <convert_method><![CDATA[capitalize]]></convert_method>
+      <columns/>
+    </column>
+    <column name="lastname">
+      <name><![CDATA[lastname]]></name>
+      <value><![CDATA[%lastname%]]></value>
+      <convert_method><![CDATA[capitalize]]></convert_method>
+      <columns/>
+    </column>
+    <column name="email">
+      <name><![CDATA[email]]></name>
+      <value><![CDATA[%firstname%.%lastname%@%emailDomain%]]></value>
+      <convert_method><![CDATA[lowercase]]></convert_method>
+      <columns/>
+    </column>
+    <column name="birthday">
+      <name><![CDATA[birthday]]></name>
+      <value><![CDATA[%birthday%]]></value>
+      <columns/>
+    </column>
+    <column name="address">
+      <name><![CDATA[address]]></name>
+      <columns>
+        <column name="home">
+          <name><![CDATA[home]]></name>
+          <columns>
+            <column name="street">
+              <name><![CDATA[street]]></name>
+              <value><![CDATA[%street1%]]></value>
+              <convert_method><![CDATA[capitalize]]></convert_method>
+              <columns/>
+            </column>
+            <column name="city">
+              <name><![CDATA[city]]></name>
+              <value><![CDATA[%city1%]]></value>
+              <convert_method><![CDATA[capitalize]]></convert_method>
+              <columns/>
+            </column>
+            <column name="postalcode">
+              <name><![CDATA[postalcode]]></name>
+              <value><![CDATA[%postalcode1%]]></value>
+              <columns/>
+            </column>
+            <column name="country">
+              <name><![CDATA[country]]></name>
+              <value><![CDATA[%country1%]]></value>
+              <convert_method><![CDATA[capitalize]]></convert_method>
+              <columns/>
+            </column>
+          </columns>
+        </column>
+        <column name="work">
+          <name><![CDATA[work]]></name>
+          <columns>
+            <column name="street">
+              <name><![CDATA[street]]></name>
+              <value><![CDATA[%street2%]]></value>
+              <convert_method><![CDATA[capitalize]]></convert_method>
+              <columns/>
+            </column>
+            <column name="city">
+              <name><![CDATA[city]]></name>
+              <value><![CDATA[%city2%]]></value>
+              <convert_method><![CDATA[capitalize]]></convert_method>
+              <columns/>
+            </column>
+            <column name="postalcode">
+              <name><![CDATA[postalcode]]></name>
+              <value><![CDATA[%postalcode2%]]></value>
+              <columns/>
+            </column>
+            <column name="country">
+              <name><![CDATA[country]]></name>
+              <value><![CDATA[%country2%]]></value>
+              <convert_method><![CDATA[capitalize]]></convert_method>
+              <columns/>
+            </column>
+          </columns>
+        </column>
+      </columns>
+    </column>
+    <column name="phone">
+      <name><![CDATA[phone]]></name>
+      <columns>
+        <column name="home">
+          <name><![CDATA[home]]></name>
+          <value><![CDATA[%phonehome%]]></value>
+          <columns/>
+        </column>
+        <column name="mobile">
+          <name><![CDATA[mobile]]></name>
+          <value><![CDATA[%phonemobile%]]></value>
+          <columns/>
+        </column>
+      </columns>
+    </column>
+  </columns>
+</config>

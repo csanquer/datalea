@@ -1,0 +1,41 @@
+faker: 
+    locales:
+        - en_US
+        - es_ES
+        - fr_FR
+        
+    providers:
+        fr_FR:
+            Address:
+                departmentName:
+                    example: '''Haut-Rhin'''
+                departmentNumber:
+                    example: '''2B'''
+            Company:
+                siret:
+                    arguments:
+                        sequential_digits: 2
+                    example: '''347 355 708 00224'''
+        en_US:
+            Person:
+                firstName:
+                    example: '''Maynard'''
+                lastName:
+                    example: '''Zulauf'''
+            Address:
+                buildingNumber:
+                    example: '''484'''
+                city:
+                    example: '''West Judge'''
+                streetName:
+                    example: '''Keegan Trail'''
+                postcode:
+                    example: '''17916'''
+                country:
+                    example: '''Falkland Islands (Malvinas)'''
+            DateTime:
+                dateTimeAD:
+                    arguments:
+                        format: '''Y-m-d H:i:s'''
+                        max: '''now'''
+                    example: '''1800-04-29 20:38:49'''

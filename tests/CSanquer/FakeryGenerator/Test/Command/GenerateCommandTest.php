@@ -26,7 +26,7 @@ class GenerateCommandTest extends AbstractCommandTestCase
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command' => $command->getName(), 
-            'config' => self::$fixtures.'Entity_User_fakery_generator_config_2014-04-14_10-57-17.json',
+            'config' => static::$fixtures.'Entity_User_fakery_generator_config_2014-04-14_10-57-17.json',
 //            'output-dir' => self::$dumpDir,
             '--no-zip' => $nozip,
             '--number' => $rows,
@@ -35,7 +35,7 @@ class GenerateCommandTest extends AbstractCommandTestCase
 
         $this->assertRegExp('/Generating '.$rows.' rows/', $commandTester->getDisplay());
         
-        $outputPattern = self::$dumpDir.'/.*fakery_User_.+\.zip generated';
+        $outputPattern = static::$dumpDir.'/.*fakery_User_.+\.zip generated';
         $this->assertRegExp('#'.$outputPattern.'#', $commandTester->getDisplay());
     }
     
@@ -52,7 +52,7 @@ class GenerateCommandTest extends AbstractCommandTestCase
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command' => $command->getName(), 
-            'config' => self::$fixtures.'config.yml',
+            'config' => static::$fixtures.'config.yml',
         ));
     }
     
@@ -69,7 +69,7 @@ class GenerateCommandTest extends AbstractCommandTestCase
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command' => $command->getName(), 
-            'config' => self::$fixtures.'foobar.json',
+            'config' => static::$fixtures.'foobar.json',
         ));
     }
     
@@ -86,7 +86,7 @@ class GenerateCommandTest extends AbstractCommandTestCase
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command' => $command->getName(), 
-            'config' => self::$fixtures.'noconfig.json',
+            'config' => static::$fixtures.'noconfig.json',
         ));
     }
     
@@ -103,7 +103,7 @@ class GenerateCommandTest extends AbstractCommandTestCase
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command' => $command->getName(), 
-            'config' => self::$fixtures.'Entity_User_fakery_generator_config_2014-04-14_10-57-17.json',
+            'config' => static::$fixtures.'Entity_User_fakery_generator_config_2014-04-14_10-57-17.json',
             '--config-format' => 'foobar',
         ));
     }
