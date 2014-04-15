@@ -4,11 +4,7 @@ namespace CSanquer\FakeryGenerator\Dump;
 
 use CSanquer\FakeryGenerator\Config\ConfigSerializer;
 use CSanquer\FakeryGenerator\Model\Config;
-use Symfony\Component\Console\Helper\HelperSet;
-use Symfony\Component\Console\Helper\ProgressHelper;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Stopwatch\Stopwatch;
 
 /**
  * DumpManager
@@ -104,9 +100,6 @@ class DumpManager
      * @param string   $outputDir
      * @param boolean $zipped
      * @param string $configFormat json, xml or all
-     * @param Stopwatch $stopwatch default = null
-     * @param OutputInterface $output default = null
-     * @param ProgressHelper $progress default = null
      * 
      * @return array of filenames
      */
@@ -114,55 +107,59 @@ class DumpManager
         Config $config,
         $outputDir,
         $zipped = true, 
-        $configFormat = 'json',
-        Stopwatch $stopwatch = null,
-        OutputInterface $output = null,
-        ProgressHelper $progress = null
+        $configFormat = 'json'
     ) {
         $fs = new Filesystem();
-        
         if (!$fs->exists($outputDir)) {
             $fs->mkdir($outputDir, 0777);
         }
 
         $outputDir = realpath($outputDir);
         
-        $files = [];
+        // dump config files
+        $files = $this->createConfigFiles(
+            $config, 
+            $outputDir, 
+            $configFormat  == 'all' ? ['json', 'xml'] : (array) $configFormat
+        );
         
-        if ($stopwatch) {
-            $stopwatch->start('dumping_config', 'generate_dumps');
+        // dump random data files
+        $dumpers = $this->createDumpers($config, $outputDir, $zipped);
+        if (count($dumpers)) {
+            $this->dumpRowsToAllFiles($config, $dumpers);
+            $files = array_merge($files, $this->finalizeAllDumps($dumpers));
         }
         
+        // zip files if required
+        if ($zipped) {
+            $files = $this->compressFiles($config, $files, $outputDir, $fs);
+        }
+        
+        return $files;
+    }
+
+    protected function createConfigFiles(Config $config, $outputDir, array $formats)
+    {
         // dump current config
-        if ($configFormat == 'json' || $configFormat == 'all') {
-            if ($output) {
-                $output->writeln('Dumping Configuration as <comment>JSON</comment> ...');
-            }
-            
-            $files['config_json'] = $this->configSerializer->dump($config, $outputDir, 'json');
+        $files = [];
+        foreach ($formats as $format) {
+            $files['config_'.$format] = $this->dumpConfigFile($config, $outputDir, $format);
         }
         
-        if ($configFormat == 'xml' || $configFormat == 'all') {
-            if ($output) {
-                $output->writeln('Dumping Configuration as <comment>XML</comment> ...');
-            }
-            $files['config_xml'] = $this->configSerializer->dump($config, $outputDir, 'xml');
-        }
-        
-        if ($stopwatch) {
-            $stopwatch->stop('dumping_config');
-            $stopwatch->start('initializing_files', 'generate_dumps');
-        }
-        
-        // create and initilize dumpers
+        return $files;
+    }
+    
+    protected function dumpConfigFile(Config $config, $outputDir, $format = 'json')
+    {
+        return $this->configSerializer->dump($config, $outputDir, $format);
+    }
+    
+    protected function createDumpers(Config $config, $outputDir, $zipped)
+    {
+        // create and initialize dumpers
         $dumpers = [];
-        
         $formats = $config->getFormats();
         if (count($formats)) {
-            if ($output) {
-                $output->writeln('Initializing files ...');
-            }
-            
             foreach ($formats as $format) {
                 $dumper = $this->dumperFactory($format);
                 if ($dumper instanceof DumperInterface) {
@@ -170,114 +167,61 @@ class DumpManager
                     $dumpers[$format] = $dumper;
                 }
             }
-            
-            if ($output) {
-                $output->writeln(
-                    'Formats : <comment>'.
-                    implode('</comment>, <comment>', array_keys($dumpers)).
-                    '</comment>'
-                );
-            }
         }
         
-        if ($stopwatch) {
-            $stopwatch->stop('initializing_files');
+        return $dumpers;
+    }
+    
+    protected function dumpRowsToAllFiles(Config $config, array $dumpers)
+    {
+        // generate random data and write row by row
+        $faker = $config->createFaker();
+        for ($index = 1; $index <= $config->getFakeNumber(); $index++) {
+            $this->generateAndDumpRows($faker, $config, $dumpers);
         }
-        
-        if (count($dumpers)) {
-            if ($stopwatch) {
-                $stopwatch->start('generating_rows', 'generate_dumps');
-            }
-            // generate random data and write row by row
-            $faker = $config->createFaker();
+    }
 
-            if ($progress && $output) {
-                $progress->start($output, $config->getFakeNumber());
-                $unit = floor($config->getFakeNumber()/100);
-                $progress->setRedrawFrequency($unit < 1 ? 1 : $unit);
-                $progress->setBarCharacter('<comment>=</comment>');
-            }
+    protected function generateAndDumpRows(\Faker\Generator $faker, Config $config, array $dumpers)
+    {
+        //generate 1 row
+        $values = [];
+        $config->generateVariableValues($faker, $values);
+        $data = $config->generateColumnValues($values);
 
-            if ($output) {
-                $output->writeln('Generating <info>'.$config->getFakeNumber().'</info> rows ...');
-            }
-
-            for ($index = 1; $index <= $config->getFakeNumber(); $index++) {
-                //generate 1 row
-                $values = [];
-                $config->generateVariableValues($faker, $values);
-                $data = $config->generateColumnValues($values);
-
-                //dump the row to each file
-                foreach ($dumpers as $dumper) {
-                    if ($dumper instanceof DumperInterface) {
-                        $dumper->dumpRow($data);
-                    }
-                }
-
-                if (isset($progress)) {
-                    $progress->advance();
-                }
-            }
-
-            if (isset($progress)) {
-                $progress->finish();
-            }
-
-            if ($output) {
-                $output->writeln('Finalizing files ...');
-            }
-
-            if ($stopwatch) {
-                $stopwatch->stop('generating_rows');
-                $stopwatch->start('finalizing_files', 'generate_dumps');
-            }
-            
-            // finalize and save dumped files
-            if ($progress && $output) {
-                $progress->start($output, count($dumpers));
-                $progress->setBarCharacter('<comment>=</comment>');
-            }
-            
-            foreach ($dumpers as $dumper) {
-                $files[$dumper->getExtension()] = $dumper->finalize();
-                if (isset($progress)) {
-                    $progress->advance();
-                }
-            }
-            
-            if (isset($progress)) {
-                $progress->finish();
-            }
-            
-            if ($stopwatch) {
-                $stopwatch->stop('finalizing_files');
+        //dump the row to each file
+        foreach ($dumpers as $dumper) {
+            if ($dumper instanceof DumperInterface) {
+                $dumper->dumpRow($data);
             }
         }
-        
-        // zip files if required
-        if ($zipped) {
-            if ($stopwatch) {
-                $stopwatch->start('compressing_files', 'generate_dumps');
-            }
-            
-            if ($output) {
-                $output->writeln('Compressing files into zip ...');
-            }
-            $zipfile = $this->zip(
-                'fakery_'.$config->getClassNameLastPart().'_'.date('Y-m-d_H-i-s'),
-                $files,
-                $outputDir
-            );
-            
-            if (!empty($zipfile)) {
-                $fs->remove($files);
-                $files = ['zip' => $zipfile];
-            }
-            
-            if ($stopwatch) {
-                $stopwatch->stop('compressing_files');
-            }
+    }
+    
+    protected function finalizeAllDumps(array $dumpers)
+    {
+        // finalize and save dumped files
+        foreach ($dumpers as $dumper) {
+            $files[$dumper->getExtension()] = $this->finalizeDump($dumper);
+        }
+
+        return $files;
+    }
+    
+    protected function finalizeDump(DumperInterface $dumper)
+    {
+        return $dumper->finalize();
+    }
+    
+    protected function compressFiles(Config $config, array $files, $outputDir, Filesystem $fs)
+    {
+        $zipfile = $this->zip(
+            'fakery_'.$config->getClassNameLastPart().'_'.date('Y-m-d_H-i-s'),
+            $files,
+            $outputDir
+        );
+
+        if (!empty($zipfile)) {
+            $fs->remove($files);
+            $files = ['zip' => $zipfile];
         }
         
         return $files;

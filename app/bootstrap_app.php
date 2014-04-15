@@ -13,6 +13,7 @@ use Assetic\Filter\LessphpFilter;
 use Assetic\FilterManager;
 use CSanquer\FakeryGenerator\Config\ConfigSerializer;
 use CSanquer\FakeryGenerator\Config\FakerConfig;
+use CSanquer\FakeryGenerator\Dump\ConsoleDumpManager;
 use CSanquer\FakeryGenerator\Dump\DumpManager;
 use CSanquer\Silex\Tools\Provider\SkeletonProvider;
 use Herrera\Wise\WiseServiceProvider;
@@ -291,6 +292,10 @@ $app['fakery.config_serializer'] = $app->share(function ($app) {
 
 $app['fakery.dumper_manager'] = $app->share(function ($app) {
     return new DumpManager($app['fakery.config_serializer']);
+});
+
+$app['fakery.console_dumper_manager'] = $app->share(function ($app) {
+    return new ConsoleDumpManager($app['fakery.config_serializer']);
 });
 
 return $app;

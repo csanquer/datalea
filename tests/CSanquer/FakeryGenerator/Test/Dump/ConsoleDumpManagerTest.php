@@ -3,6 +3,7 @@
 namespace CSanquer\FakeryGenerator\Test\Dump;
 
 use CSanquer\FakeryGenerator\Config\ConfigSerializer;
+use CSanquer\FakeryGenerator\Dump\ConsoleDumpManager;
 use CSanquer\FakeryGenerator\Dump\DumpManager;
 use CSanquer\FakeryGenerator\Model\Column;
 use CSanquer\FakeryGenerator\Model\Config;
@@ -11,8 +12,13 @@ use Symfony\Component\Console\Helper\ProgressHelper;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Stopwatch\Stopwatch;
 
-class DumpManagerTest extends AbstractDumpManagerTestCase
+class ConsoleDumpManagerTest extends AbstractDumpManagerTestCase
 {
+    /**
+     * @var ConsoleDumpManager
+     */
+    protected $dumpManager;
+    
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
@@ -21,7 +27,7 @@ class DumpManagerTest extends AbstractDumpManagerTestCase
     {
         parent::setUp();
 
-        $this->dumpManager = new DumpManager(new ConfigSerializer(
+        $this->dumpManager = new ConsoleDumpManager(new ConfigSerializer(
             self::$cacheDir.'/serializer', __DIR__.'/../../../../../src/CSanquer/FakeryGenerator/Resources/Config', true
         ));
     }
@@ -48,11 +54,28 @@ class DumpManagerTest extends AbstractDumpManagerTestCase
     /**
      * @dataProvider providerDump
      */
-    public function testDump($config, $zipped, $configFormat, $expectedFiles, $expectedFilesInZip)
+    public function testDump($config, $zipped, $configFormat, $expectedOutput, $expectedFiles, $expectedFilesInZip)
     {
+        $output = new BufferedOutput();
+        $progress = new ProgressHelper();
         $outputDir = static::$cacheDir.'/dump';
+        $stopwatch = new Stopwatch();
         
+        $stopwatch->openSection();
+        $this->dumpManager->setStopwatch($stopwatch);
+        $this->dumpManager->setOutput($output);
+        $this->dumpManager->setProgress($progress);
         $files = $this->dumpManager->dump($config, $outputDir, $zipped, $configFormat);
+        $stopwatch->stopSection('generate-test');
+        
+        $events = $stopwatch->getSectionEvents('generate-test');
+        
+        $keys = ['dumping_config', 'initializing_files', 'generating_rows', 'finalizing_files', 'compressing_files'];
+        foreach ($keys as $key) {
+            $this->assertArrayHasKey($key, $events);
+        }
+        
+        $outputContent = $output->fetch();
 
         $this->assertCount(count($expectedFiles), $files);
         foreach ($expectedFiles as $format => $pattern) {
@@ -66,6 +89,8 @@ class DumpManagerTest extends AbstractDumpManagerTestCase
                 $this->assertRegExp('#'.$pattern.'#', $zippedFiles[$format]);
             }
         }
+        
+        $this->assertEquals($expectedOutput, $outputContent);
     }
 
     public function providerDump()
@@ -101,6 +126,16 @@ class DumpManagerTest extends AbstractDumpManagerTestCase
                 $config1,
                 true,
                 'all',
+                "Dumping Configuration as JSON ...
+Dumping Configuration as XML ...
+Initializing files ...
+Formats : php, json, xml, yaml, csv, sql, excel, perl, ruby, python
+Generating 10 rows ...
+\r  1/10 [==>-------------------------]  10%\r  2/10 [=====>----------------------]  20%\r  3/10 [========>-------------------]  30%\r  4/10 [===========>----------------]  40%\r  5/10 [==============>-------------]  50%\r  6/10 [================>-----------]  60%\r  7/10 [===================>--------]  70%\r  8/10 [======================>-----]  80%\r  9/10 [=========================>--]  90%\r 10/10 [============================] 100%
+Finalizing files ...
+\r  1/10 [==>-------------------------]  10%\r  2/10 [=====>----------------------]  20%\r  3/10 [========>-------------------]  30%\r  4/10 [===========>----------------]  40%\r  5/10 [==============>-------------]  50%\r  6/10 [================>-----------]  60%\r  7/10 [===================>--------]  70%\r  8/10 [======================>-----]  80%\r  9/10 [=========================>--]  90%\r 10/10 [============================] 100%
+Compressing files into zip ...
+",
                 [
                     'zip' => 'fakery_User_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}\.zip',
                 ],

@@ -113,15 +113,15 @@ EOF
             $config->setFakeNumber($fakeNumber);
         }
         
-        $dumpManager = $app['fakery.dumper_manager'];
+        $dumpManager = $app['fakery.console_dumper_manager'];
+        $dumpManager->setStopwatch($stopwatch);
+        $dumpManager->setOutput($output);
+        $dumpManager->setProgress($this->getHelperSet()->get('progress'));
         $files = $dumpManager->dump(
             $config,
             $outputDir,
             !$noZip,
-            $outputConfigFormat,
-            $stopwatch,
-            $output,
-            $this->getHelperSet()->get('progress')
+            $outputConfigFormat
         );
         
         $stopwatch->stopSection('generate');

@@ -6,6 +6,7 @@ use CSanquer\FakeryGenerator\Command\GenerateCommand;
 use CSanquer\FakeryGenerator\Config\ConfigSerializer;
 use CSanquer\FakeryGenerator\Config\FakerConfig;
 use CSanquer\FakeryGenerator\Dump\DumpManager;
+use CSanquer\FakeryGenerator\Dump\ConsoleDumpManager;
 use CSanquer\Silex\Tools\ConsoleApplication;
 use Silex\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -73,6 +74,10 @@ class AbstractCommandTestCase extends \PHPUnit_Framework_TestCase
 
         $app['fakery.dumper_manager'] = $app->share(function ($app) {
             return new DumpManager($app['fakery.config_serializer']);
+        });
+        
+        $app['fakery.console_dumper_manager'] = $app->share(function ($app) {
+            return new ConsoleDumpManager($app['fakery.config_serializer']);
         });
         
         $this->silex = $app;
