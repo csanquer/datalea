@@ -18,10 +18,9 @@ Fakery Generator - a Random Test Fixtures Data Generator
 This project is a rewritten fork of [Spyrit's datalea](https://github.com/spyrit/datalea), I developed previously at Spyrit's.
 
 The project provide a CLI application to generate a set of random data files from a configuration file.
-
 A web interface is planned.
 
-The application is built with the PHP micro-framework [Silex](http://silex.sensiolabs.org/) and the famous [Francois Zaninotto's Faker Library](https://github.com/fzaninotto/faker).
+The application is built with the PHP micro-framework [Silex](http://silex.sensiolabs.org/) and the famous [Francois Zaninotto's Faker Library](https://github.com/fzaninotto/faker) for generating random data.
 
 Install and Usage
 -----------------

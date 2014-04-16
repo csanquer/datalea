@@ -14,7 +14,7 @@ cp app/config/parameters.yml.dist app/config/parameters.yml
     php composer.phar install
 ```
 
-* set your web server document root to `web` directory (see [Silex documentation](http://silex.sensiolabs.org/doc/web_servers.html))
+* set your web server document root to the `web` directory (see [Silex documentation](http://silex.sensiolabs.org/doc/web_servers.html))
 
 * clean cache
 
