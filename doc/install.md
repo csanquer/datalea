@@ -7,7 +7,7 @@ Fakery Generator - Installation
 cp app/config/parameters.yml.dist app/config/parameters.yml
 ```
 
-* get composer [http://getcomposer.org/](http://getcomposer.org/) and install dependencies
+* get [composer](http://getcomposer.org/) PHP Package manager and install dependencies
 
 ```bash
     curl -s https://getcomposer.org/installer | php
