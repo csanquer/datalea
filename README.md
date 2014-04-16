@@ -21,6 +21,8 @@ The project provide a CLI application to generate a set of random data files fro
 
 A web interface is planned.
 
+The application is built with the PHP micro-framework [Silex](http://silex.sensiolabs.org/) and the famous [Francois Zaninotto's Faker Library](https://github.com/fzaninotto/faker).
+
 Install and Usage
 -----------------
 
