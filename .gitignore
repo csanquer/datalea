@@ -19,3 +19,4 @@ dump
 /*_fakery_generator_config_*.xml
 tests/CSanquer/FakeryGenerator/Test/Command/dump
 tests/CSanquer/FakeryGenerator/Test/Command/tmp
+tests/CSanquer/FakeryGenerator/Test/Provider/tmp

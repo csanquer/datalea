@@ -98,14 +98,15 @@ EOF
         $config = $serializer->load($configFile);
         $config->setFakerConfig($app['fakery.faker.config']);
         
+        //Configuration file Validation
         $errors = $app['validator']->validate($config);
         if (count($errors) > 0) {
+            $flatErrors = [];
             foreach ($errors as $error) {
-                $output->writeln($error->getPropertyPath().' : <error>'.$error->getMessage().'</error>');
+                $flatErrors[] =  $error->getPropertyPath().' : '.$error->getMessage();
             }
-            $output->writeln('The config file is <error>not valid</error>');
             
-            return 1;
+            throw new \InvalidArgumentException('The config file '.$configFile.' is not a valid Fakery generator config file.'."\n\n".(implode("\n", $flatErrors)));
         }
         
         $stopwatch->stop('loading_config');

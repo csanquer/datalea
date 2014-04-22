@@ -77,18 +77,18 @@ class GenerateCommandTest extends AbstractCommandTestCase
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage is not a valid Fakery generator config file.
      */
-//    public function testExecuteFailedConfigNotValid()
-//    {
-//        $application = new ConsoleApplication($this->silex, 'Fakery Generator Test Application', 'N/A');
-//        $application->add(new GenerateCommand());
-//
-//        $command = $application->find('fakery:generate');
-//        $commandTester = new CommandTester($command);
-//        $commandTester->execute(array(
-//            'command' => $command->getName(), 
-//            'config' => static::$fixtures.'noconfig.json',
-//        ));
-//    }
+    public function testExecuteFailedConfigNotValid()
+    {
+        $application = new ConsoleApplication($this->silex, 'Fakery Generator Test Application', 'N/A');
+        $application->add(new GenerateCommand());
+
+        $command = $application->find('fakery:generate');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute(array(
+            'command' => $command->getName(), 
+            'config' => static::$fixtures.'not_valid_config.json',
+        ));
+    }
     
     /**
      * @expectedException \InvalidArgumentException
