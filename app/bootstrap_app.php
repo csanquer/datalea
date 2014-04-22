@@ -11,10 +11,6 @@ use Assetic\Filter\CssRewriteFilter;
 use Assetic\Filter\JSMinFilter;
 use Assetic\Filter\LessphpFilter;
 use Assetic\FilterManager;
-use CSanquer\FakeryGenerator\Config\ConfigSerializer;
-use CSanquer\FakeryGenerator\Config\FakerConfig;
-use CSanquer\FakeryGenerator\Dump\ConsoleDumpManager;
-use CSanquer\FakeryGenerator\Dump\DumpManager;
 use CSanquer\Silex\Tools\Provider\SkeletonProvider;
 use Herrera\Wise\WiseServiceProvider;
 use Silex\Application;
@@ -281,29 +277,6 @@ if ('dev' == SILEX_ENV) {
 }
 
 //custom providers and services
-$app['fakery.faker.config'] = $app->share(function ($app) {
-    return new FakerConfig(
-        $app['root_dir'].'/src/CSanquer/FakeryGenerator/Resources/Config',
-        'faker.yml',
-        $app['cache_dir'],
-        $app['debug']
-    );
-});
-
-$app['fakery.config_serializer'] = $app->share(function ($app) {
-    return new ConfigSerializer(
-        $app['cache_dir'], 
-        $app['root_dir'].'/src/CSanquer/FakeryGenerator/Resources/Config',
-        $app['debug']
-    );
-});
-
-$app['fakery.dumper_manager'] = $app->share(function ($app) {
-    return new DumpManager($app['fakery.config_serializer']);
-});
-
-$app['fakery.console_dumper_manager'] = $app->share(function ($app) {
-    return new ConsoleDumpManager($app['fakery.config_serializer']);
-});
+$app->register(new \CSanquer\FakeryGenerator\Provider\FakeryGeneratorProvider());
 
 return $app;

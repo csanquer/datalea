@@ -1,0 +1,154 @@
+CSanquer\FakeryGenerator\Model\Config:
+    properties:
+        locale:
+            - Locale: ~
+#            - Choice: 
+#                callback: getAvailableLocales
+        seed:
+            - Type:
+                type: integer
+            - Range:
+                min: 1
+
+        maxTimestamp:
+            - DateTime: ~
+            
+        className:
+            - Type:
+                type: string
+            - Length:
+                min: 2
+
+        formats:
+            - All:
+                - Choice: 
+                    callback: [ \CSanquer\FakeryGenerator\Dump\DumpManager, getAvailableFormatsForValidation]
+                
+        fakeNumber:
+            - Type:
+                type: integer
+
+        csvDialect:
+            - Valid: ~
+
+        variables:
+            - All:
+                - Type:
+                    type: CSanquer\FakeryGenerator\Model\Variable
+            - Valid: 
+                traverse: true
+                
+        columns:
+            - All:
+                - Type:
+                    type: CSanquer\FakeryGenerator\Model\Column
+            - Valid: 
+                traverse: true
+            
+        
+CSanquer\FakeryGenerator\Model\Column:
+    properties:
+        name:
+            - Type:
+                type: string
+            - Length:
+                min: 2
+
+#        value:
+
+        convertMethod:
+            - Type:
+                type: string
+            - Choice: 
+                callback: [\CSanquer\FakeryGenerator\Helper\Converter, getAvailableConvertMethods]
+            
+        columns:
+            - All:
+                - Type:
+                    type: CSanquer\FakeryGenerator\Model\Column
+            - Valid: 
+                traverse: true
+    
+
+CSanquer\FakeryGenerator\Model\Variable:
+    properties:
+        name:
+            - Type:
+                type: string
+            - Length:
+                min: 2
+
+        method:
+            - Type:
+                type: string
+#            - Choice: 
+#                callback: getAvailableMethods
+
+        methodArguments:
+            - Type:
+                type: array
+
+        unique:
+            - Type:
+                type: boolean
+        optional:
+            - Type:
+                type: string
+            - Range:
+                min: 0.0
+                max: 1.0
+
+        maxTimestamp:
+            - DateTime: ~
+    
+CSanquer\ColibriCsv\Dialect:
+    properties:
+        translit:
+            - Choice:
+                choices:  ['translit', 'ignore', null]
+
+        eol:
+            - Choice:
+                choices:  ["\n", "\r\n", "\r"]
+
+        encoding:
+            - Type:
+                type: string
+
+        enclosingMode:
+            - Choice:
+                choices: ['all', 'minimal', 'nonnumeric']
+
+        enclosure:
+            - Type:
+                type: string
+
+        escape:
+            - Type:
+                type: string
+
+        escapeDouble:
+            - Type:
+                type: boolean
+
+        delimiter:
+            - Type:
+                type: string
+
+        useBom:
+            - Type:
+                type: boolean
+
+        trim:
+            - Type:
+                type: boolean
+
+        forceEncodingDetection:
+            - Type:
+                type: boolean
+
+        skipEmptyLines:
+            - Type:
+                type: boolean
+
+        

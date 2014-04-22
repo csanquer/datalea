@@ -44,6 +44,25 @@ class DumpManagerTest extends AbstractDumpManagerTestCase
             'python' => 'Python',
             ], DumpManager::getAvailableFormats());
     }
+    
+    /**
+     * @covers CSanquer\FakeryGenerator\Dump\DumpManager::getAvailableFormatsForValidation
+     */
+    public function testGetAvailableFormatsForValidation()
+    {
+        $this->assertEquals([
+            'csv',
+            'excel',
+            'yaml',
+            'xml',
+            'json',
+            'sql',
+            'php',
+            'perl',
+            'ruby',
+            'python',
+            ], DumpManager::getAvailableFormatsForValidation());
+    }
 
     /**
      * @dataProvider providerDump

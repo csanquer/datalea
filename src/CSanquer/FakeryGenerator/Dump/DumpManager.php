@@ -47,6 +47,15 @@ class DumpManager implements DumpManagerInterface
             'python' => 'Python',
         ];
     }
+    
+    /**
+     *
+     * @return array
+     */
+    public static function getAvailableFormatsForValidation()
+    {
+        return array_keys(static::getAvailableFormats());
+    }
 
     /**
      * 

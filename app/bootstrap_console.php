@@ -7,6 +7,7 @@ if (!defined('DS')) {
 use CSanquer\FakeryGenerator\Command\ConfigExampleCommand;
 use CSanquer\FakeryGenerator\Command\InfoCommand;
 use CSanquer\FakeryGenerator\Command\GenerateCommand;
+use CSanquer\FakeryGenerator\Command\ValidateCommand;
 use CSanquer\Silex\Tools\Command\AsseticDumpCommand;
 use CSanquer\Silex\Tools\Command\CacheClearCommand;
 use CSanquer\Silex\Tools\Command\ServerRunCommand;
@@ -32,6 +33,7 @@ $console = new ConsoleApplication($app, 'Fakery Generator Application', 'N/A');
 $console->add(new CacheClearCommand());
 $console->add(new AsseticDumpCommand());
 $console->add(new ServerRunCommand());
+$console->add(new ValidateCommand());
 $console->add(new InfoCommand());
 $console->add(new ConfigExampleCommand());
 $console->add(new GenerateCommand());
