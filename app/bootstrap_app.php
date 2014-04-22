@@ -35,6 +35,9 @@ use Symfony\Component\Translation\Loader\PhpFileLoader;
 use Symfony\Component\Translation\Loader\PoFileLoader;
 use Symfony\Component\Translation\Loader\XliffFileLoader;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
+use Symfony\Component\Validator\Mapping\Cache\ApcCache;
+use Symfony\Component\Validator\Mapping\ClassMetadataFactory;
+use Symfony\Component\Validator\Mapping\Loader\YamlFilesLoader;
 
 //// get environment constants or set default
 if (!defined('DS')) {
@@ -116,28 +119,6 @@ $config = $rawConfig['parameters'];
  * add service providers
  */
 
-//add http cache
-//$app->register(new Silex\Provider\HttpCacheServiceProvider(), array(
-//    'http_cache.cache_dir' => $app['cache_dir'].DS.'http',
-//));
-
-//add url generator
-$app->register(new UrlGeneratorServiceProvider());
-
-//add symfony2 sessions
-$app->register(new SessionServiceProvider());
-
-//add symfony2 forms and validators
-$app->register(new ValidatorServiceProvider());
-
-//add service controller provider
-$app->register(new ServiceControllerServiceProvider());
-
-//symfony2 form provider, must be registered before twig
-$app->register(new FormServiceProvider(), array(
-    'form.secret' => $config['form_secret'],
-));
-
 //add symfony2 translation (needed for twig + forms)
 $app->register(new TranslationServiceProvider(), array(
     'locale_fallback' => empty($config['i18n.locale_fallback']) ? 'en' : $config['i18n.locale_fallback'],
@@ -186,6 +167,33 @@ $app['translator'] = $app->share($app->extend('translator', function($translator
     
     return $translator;
 }));
+
+//add http cache
+//$app->register(new Silex\Provider\HttpCacheServiceProvider(), array(
+//    'http_cache.cache_dir' => $app['cache_dir'].DS.'http',
+//));
+
+//add url generator
+$app->register(new UrlGeneratorServiceProvider());
+
+//add symfony2 sessions
+$app->register(new SessionServiceProvider());
+
+//add symfony2 forms and validators
+$app->register(new ValidatorServiceProvider());
+
+$app['validator.mapping.class_metadata_factory'] = new ClassMetadataFactory(
+    new YamlFilesLoader([$app['root_dir'].'/src/CSanquer/FakeryGenerator/Resources/Config/validation.yml']),
+    new ApcCache('fakery_generator')
+);
+
+//add service controller provider
+$app->register(new ServiceControllerServiceProvider());
+
+//symfony2 form provider, must be registered before twig
+$app->register(new FormServiceProvider(), array(
+    'form.secret' => $config['form_secret'],
+));
 
 // add twig templating
 $app->register(new TwigServiceProvider(), array(
