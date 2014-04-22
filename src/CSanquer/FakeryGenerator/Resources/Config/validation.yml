@@ -1,9 +1,10 @@
 CSanquer\FakeryGenerator\Model\Config:
+    constraints:
+        - Callback: [validateLocale]
     properties:
         locale:
             - Locale: ~
-#            - Choice: 
-#                callback: getAvailableLocales
+            
         seed:
             - Type:
                 type: integer
@@ -42,6 +43,9 @@ CSanquer\FakeryGenerator\Model\Config:
             - All:
                 - Type:
                     type: CSanquer\FakeryGenerator\Model\Column
+            - Count:
+                min: 1
+                minMessage: "You must specify at least one column"
             - Valid: 
                 traverse: true
             
@@ -71,6 +75,8 @@ CSanquer\FakeryGenerator\Model\Column:
     
 
 CSanquer\FakeryGenerator\Model\Variable:
+    constraints:
+        - Callback: [validateMethod]
     properties:
         name:
             - Type:
@@ -81,8 +87,6 @@ CSanquer\FakeryGenerator\Model\Variable:
         method:
             - Type:
                 type: string
-#            - Choice: 
-#                callback: getAvailableMethods
 
         methodArguments:
             - Type:

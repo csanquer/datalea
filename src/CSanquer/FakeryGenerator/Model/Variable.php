@@ -3,6 +3,8 @@
 namespace CSanquer\FakeryGenerator\Model;
 
 use \Faker\Generator;
+use \CSanquer\FakeryGenerator\Config\FakerConfig;
+use Symfony\Component\Validator\ExecutionContextInterface;
 
 /**
  * Variable
@@ -56,14 +58,29 @@ class Variable
 
     /**
      *
+     * @var FakerConfig
+     */
+    protected $fakerConfig;
+    
+    /**
+     *
      * @param string               $name
      * @param string               $method
      * @param array                $methodArguments
      * @param bool                 $unique
      * @param float|bool           $optional
      * @param \DateTime|int|string $maxTimestamp
+     * @param FakerConfig $fakerConfig
      */
-    public function __construct($name = null, $method = null, array $methodArguments = [], $unique = false, $optional = false, $maxTimestamp = 'now')
+    public function __construct(
+        $name = null,
+        $method = null,
+        array $methodArguments = [],
+        $unique = false,
+        $optional = false,
+        $maxTimestamp = 'now',
+        FakerConfig $fakerConfig = null
+    )
     {
         $this->setName($name);
         $this->setMethod($method);
@@ -71,8 +88,33 @@ class Variable
         $this->setUnique($unique);
         $this->setOptional($optional);
         $this->setMaxTimestamp($maxTimestamp);
+        
+        if ($fakerConfig) {
+            $this->setFakerConfig($fakerConfig);
+        }
     }
 
+    /**
+     * 
+     * @return FakerConfig
+     */
+    public function getFakerConfig()
+    {
+        return $this->fakerConfig;
+    }
+
+    /**
+     * 
+     * @param FakerConfig $fakerConfig
+     * @return Config
+     */
+    public function setFakerConfig(FakerConfig $fakerConfig)
+    {
+        $this->fakerConfig = $fakerConfig;
+        
+        return $this;
+    }
+    
     /**
      *
      * @return string
@@ -333,7 +375,8 @@ class Variable
                     }
 
                     if (empty($args[0])) {
-                        $args[0] = (new \DateTime($args[1]))->format(\DateTime::ISO8601).' -30 years';
+                        $date = new \DateTime($args[1]);
+                        $args[0] = $date->format(\DateTime::ISO8601).' -30 years';
                     }
 
                     ksort($args);
@@ -412,4 +455,15 @@ class Variable
         );
     }
 
+    public function validateMethod(ExecutionContextInterface $context)
+    {
+        if ($this->fakerConfig && !in_array($this->getMethod(), array_keys($this->fakerConfig->getMethods()))) {
+            $context->addViolationAt(
+                'method',
+                'This method \'{{ method }}\' is not available in Faker.',
+                ['{{ method }}' => $this->getMethod()],
+                null
+            );
+        }
+    }
 }

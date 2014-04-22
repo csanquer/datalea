@@ -2,15 +2,16 @@
 
 namespace CSanquer\FakeryGenerator\Test\Command;
 
-use CSanquer\FakeryGenerator\Command\GenerateCommand;
+use Silex\Application;
 use CSanquer\FakeryGenerator\Config\ConfigSerializer;
 use CSanquer\FakeryGenerator\Config\FakerConfig;
 use CSanquer\FakeryGenerator\Dump\DumpManager;
 use CSanquer\FakeryGenerator\Dump\ConsoleDumpManager;
-use CSanquer\Silex\Tools\ConsoleApplication;
-use Silex\Application;
-use Symfony\Component\Console\Tester\CommandTester;
+use Silex\Provider\ValidatorServiceProvider;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Validator\Mapping\Cache\ApcCache;
+use Symfony\Component\Validator\Mapping\ClassMetadataFactory;
+use Symfony\Component\Validator\Mapping\Loader\YamlFilesLoader;
 
 /**
  * AbstractCommandTestCase
@@ -19,6 +20,7 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class AbstractCommandTestCase extends \PHPUnit_Framework_TestCase
 {
+    protected static $originalConfigDir;
     protected static $configDir;
     protected static $fixtures;
     protected static $cacheDir;
@@ -37,6 +39,7 @@ class AbstractCommandTestCase extends \PHPUnit_Framework_TestCase
         static::$cacheDir = __DIR__.'/tmp';
         static::$dumpDir = __DIR__.'/dump';
         static::$configDir = __DIR__.'/../../../../../src/CSanquer/FakeryGenerator/Resources/Config';
+        static::$originalConfigDir = static::$configDir;
     }
 
     protected function setUp()
@@ -54,6 +57,13 @@ class AbstractCommandTestCase extends \PHPUnit_Framework_TestCase
         }
         
         $app =  new Application();
+        
+        $app->register(new ValidatorServiceProvider());
+
+        $app['validator.mapping.class_metadata_factory'] = new ClassMetadataFactory(
+            new YamlFilesLoader([static::$originalConfigDir.'/validation.yml'])
+        );
+        
         //custom providers and services
         $app['fakery.faker.config'] = $app->share(function ($app) {
             return new FakerConfig(

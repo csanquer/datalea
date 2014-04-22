@@ -96,9 +96,16 @@ EOF
         
         $serializer = $app['fakery.config_serializer'];
         $config = $serializer->load($configFile);
+        $config->setFakerConfig($app['fakery.faker.config']);
         
-        if (!$config instanceof Config || !$config->countColumns() || !count($config->getFormats())) {
-            throw new \InvalidArgumentException('The file '.$configFile.' is not a valid Fakery generator config file.');
+        $errors = $app['validator']->validate($config);
+        if (count($errors) > 0) {
+            foreach ($errors as $error) {
+                $output->writeln($error->getPropertyPath().' : <error>'.$error->getMessage().'</error>');
+            }
+            $output->writeln('The config file is <error>not valid</error>');
+            
+            return 1;
         }
         
         $stopwatch->stop('loading_config');

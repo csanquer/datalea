@@ -3,6 +3,8 @@
 namespace CSanquer\FakeryGenerator\Test\Model;
 
 use CSanquer\FakeryGenerator\Model\Variable;
+use \CSanquer\FakeryGenerator\Config\FakerConfig;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * VariableTest
@@ -13,28 +15,34 @@ use CSanquer\FakeryGenerator\Model\Variable;
  */
 class VariableTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Variable
      */
     protected $variable;
 
     /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
+     * @var FakerConfig
      */
+    protected $fakerConfig;
+    
+    protected static $fixtures;
+    protected static $cacheDir;
+
+    public static function setUpBeforeClass()
+    {
+        self::$fixtures = __DIR__.'/../Config/fixtures/';
+        self::$cacheDir = __DIR__.'/../Config/tmp';
+    }
+    
     protected function setUp()
     {
-        $this->variable = new Variable();
-    }
+        $fs = new Filesystem();
+        if ($fs->exists(self::$cacheDir)) {
+            $fs->remove(self::$cacheDir);
+        }
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-        
+        $this->fakerConfig = new FakerConfig(self::$fixtures, 'faker.yml', self::$cacheDir, false);
+        $this->variable = new Variable();
     }
 
     public function testConstruct()
@@ -45,6 +53,26 @@ class VariableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([1], $variable->getMethodArguments());
         $this->assertEquals(true, $variable->isUnique());
         $this->assertEquals(0.5, $variable->getOptional());
+        $this->assertNull($variable->getFakerConfig());
+        
+        $variable2 = new Variable('firstname', 'firstName', [1], true, true, 'now', $this->fakerConfig);
+        $this->assertEquals('firstname', $variable2->getName());
+        $this->assertEquals('firstName', $variable2->getMethod());
+        $this->assertEquals([1], $variable2->getMethodArguments());
+        $this->assertEquals(true, $variable2->isUnique());
+        $this->assertEquals(0.5, $variable2->getOptional());
+        $this->assertInstanceOf('\\CSanquer\\FakeryGenerator\\Config\\FakerConfig', $variable2->getFakerConfig());
+    }
+    
+    /**
+     * @covers CSanquer\FakeryGenerator\Model\Variable::getFakerConfig
+     * @covers CSanquer\FakeryGenerator\Model\Variable::setFakerConfig
+     */
+    public function testGetSetFakerConfig()
+    {
+        $this->assertNull($this->variable->getFakerConfig());
+        $this->assertInstanceOf('\\CSanquer\\FakeryGenerator\\Model\\Variable', $this->variable->setFakerConfig($this->fakerConfig));
+        $this->assertInstanceOf('\\CSanquer\\FakeryGenerator\\Config\\FakerConfig', $this->variable->getFakerConfig());
     }
     
     /**

@@ -46,17 +46,18 @@ EOF
         
         $serializer = $app['fakery.config_serializer'];
         $config = $serializer->load($configFile);
-
-        
+        $config->setFakerConfig($app['fakery.faker.config']);
         
         $errors = $app['validator']->validate($config);
         if (count($errors) > 0) {
-            $output->writeln('The config file is <error>not valid</error>'."\n");
             foreach ($errors as $error) {
-                $output->writeln('<error>'.$error->getPropertyPath().' : '.$error->getMessage().'</error>');
+                $output->writeln($error->getPropertyPath().' : <error>'.$error->getMessage().'</error>');
             }
-        } else {
-            $output->writeln('The config file is <info>valid</info>');
+            $output->writeln('The config file is <error>not valid</error>');
+            
+            return 1;
         }
+        
+        $output->writeln('The config file is <info>valid</info>');
     }
 }

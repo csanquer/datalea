@@ -8,6 +8,7 @@ use \CSanquer\FakeryGenerator\Dump\DumpManager;
 use \Doctrine\Common\Inflector\Inflector;
 use \Faker\Factory;
 use \Faker\Generator;
+use Symfony\Component\Validator\ExecutionContextInterface;
 
 /**
  * Config
@@ -64,15 +65,61 @@ class Config extends ColumnContainer
      */
     protected $csvDialect;
 
-    public function __construct()
+    /**
+     *
+     * @var FakerConfig
+     */
+    protected $fakerConfig;
+    
+    /**
+     * 
+     * @param FakerConfig $fakerConfig
+     */
+    public function __construct(FakerConfig $fakerConfig = null)
     {
         parent::__construct([]);
         $this->setLocale(FakerConfig::DEFAULT_LOCALE);
         $this->generateSeed();
         $this->setMaxTimestamp('now');
         $this->csvDialect = Dialect::createExcelDialect();
+        
+        if ($fakerConfig) {
+            $this->setFakerConfig($fakerConfig);
+        }
+    }
+    
+    /**
+     * 
+     * @return FakerConfig
+     */
+    public function getFakerConfig()
+    {
+        return $this->fakerConfig;
     }
 
+    /**
+     * 
+     * @param FakerConfig $fakerConfig
+     * @return Config
+     */
+    public function setFakerConfig(FakerConfig $fakerConfig)
+    {
+        $this->fakerConfig = $fakerConfig;
+        $this->updateVariableFakerConfig();
+        
+        return $this;
+    }
+
+    /**
+     * update all variable Max timestamp with the current config max timestamp
+     */
+    public function updateVariableFakerConfig()
+    {
+        foreach ($this->variables as $variable) {
+            $variable->setFakerConfig($this->fakerConfig);
+        }
+    }
+    
     /**
      *
      * @return string
@@ -350,7 +397,10 @@ class Config extends ColumnContainer
 
         $this->variables[$name] = $variable;
         $this->variables[$name]->setMaxTimestamp($this->maxTimestamp);
-
+        if ($this->fakerConfig) {
+            $this->variables[$name]->setFakerConfig($this->fakerConfig);
+        }
+                
         return $this;
     }
 
@@ -423,5 +473,17 @@ class Config extends ColumnContainer
         }
 
         return $data;
+    }
+    
+    public function validateLocale(ExecutionContextInterface $context)
+    {
+        if ($this->fakerConfig && !in_array($this->getLocale(), $this->fakerConfig->getLocales())) {
+            $context->addViolationAt(
+                'locale',
+                'This locale \'{{ locale }}\' is not available in Faker.',
+                ['{{ locale }}' => $this->getLocale()],
+                null
+            );
+        }
     }
 }
