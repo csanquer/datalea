@@ -233,8 +233,11 @@ class Variable
         }
 
         if (is_numeric($optional)) {
-            if ($optional > 1.0) {
-                $optional = 1.0;
+            if ($optional > 1) {
+                $optional = 1;
+            }
+            if ($optional < 0) {
+                $optional = 0;
             }
             $this->optional = (float) $optional;
         }

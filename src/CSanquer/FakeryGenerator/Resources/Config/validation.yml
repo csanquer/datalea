@@ -97,7 +97,7 @@ CSanquer\FakeryGenerator\Model\Variable:
                 type: boolean
         optional:
             - Type:
-                type: string
+                type: float
             - Range:
                 min: 0.0
                 max: 1.0

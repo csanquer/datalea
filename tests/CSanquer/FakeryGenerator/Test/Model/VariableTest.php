@@ -210,11 +210,15 @@ class VariableTest extends \PHPUnit_Framework_TestCase
         return [
             [0, 0.0, 'float'],
             [1, 1.0, 'float'],
+            [-10.2, 0.0, 'float'],
+            [50.5, 1.0, 'float'],
             ['50.5', 1.0, 'float'],
             [null, null, 'null'],
             ['', null, 'null'],
             [true, 0.5, 'float'],
             [false, null, 'null'],
+            ['foobar', null, 'null'],
+            ['test', null, 'null'],
         ];
     }
 
