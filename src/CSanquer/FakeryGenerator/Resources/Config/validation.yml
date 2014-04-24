@@ -4,12 +4,14 @@ CSanquer\FakeryGenerator\Model\Config:
     properties:
         locale:
             - Locale: ~
+            - NotBlank: ~
             
         seed:
             - Type:
                 type: integer
             - Range:
                 min: 1
+            - NotBlank: ~
 
         maxTimestamp:
             - DateTime: ~
@@ -19,15 +21,20 @@ CSanquer\FakeryGenerator\Model\Config:
                 type: string
             - Length:
                 min: 2
+            - NotBlank: ~
 
         formats:
             - All:
                 - Choice: 
                     callback: [ \CSanquer\FakeryGenerator\Dump\DumpManager, getAvailableFormatsForValidation]
+            - Count:
+                min: 1
+                minMessage: "You must specify at least one file format."
                 
         fakeNumber:
             - Type:
                 type: integer
+            - NotBlank: ~
 
         csvDialect:
             - Valid: ~
@@ -45,7 +52,7 @@ CSanquer\FakeryGenerator\Model\Config:
                     type: CSanquer\FakeryGenerator\Model\Column
             - Count:
                 min: 1
-                minMessage: "You must specify at least one column"
+                minMessage: "You must specify at least one column."
             - Valid: 
                 traverse: true
             
@@ -57,9 +64,12 @@ CSanquer\FakeryGenerator\Model\Column:
                 type: string
             - Length:
                 min: 2
+            - NotBlank: ~
 
-#        value:
-
+        value:
+            - Type:
+                type: scalar
+                
         convertMethod:
             - Type:
                 type: string
@@ -83,10 +93,12 @@ CSanquer\FakeryGenerator\Model\Variable:
                 type: string
             - Length:
                 min: 2
+            - NotBlank: ~
 
         method:
             - Type:
                 type: string
+            - NotBlank: ~
 
         methodArguments:
             - Type:
@@ -126,10 +138,12 @@ CSanquer\ColibriCsv\Dialect:
         enclosure:
             - Type:
                 type: string
+            - NotBlank: ~
 
         escape:
             - Type:
                 type: string
+            - NotBlank: ~
 
         escapeDouble:
             - Type:
@@ -138,6 +152,7 @@ CSanquer\ColibriCsv\Dialect:
         delimiter:
             - Type:
                 type: string
+            - NotBlank: ~
 
         useBom:
             - Type:
